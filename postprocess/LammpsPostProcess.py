@@ -171,7 +171,7 @@ class WriteDataFile:
         (zlo,zhi,junk)=self.box.BoxBounds[2,:]
         sfile=open(outpt,'w')
         sfile.write('LAMMPS Description\n\n%s atoms\n\n%s atom types\n\n\
-                     %15.14e %15.14e xlo xhi xy\n%15.14e %15.14e ylo yhi\n%15.14e %15.14e zlo zhi\n\nMasses\n\n'\
+                     %15.14e %15.14e xlo xhi\n%15.14e %15.14e ylo yhi\n%15.14e %15.14e zlo zhi\n\nMasses\n\n'\
                      %(natom,ntype,float(xlo),float(xhi),float(ylo),float(yhi),float(zlo),float(zhi)))
 
         for typee in set(self.atom.type):
