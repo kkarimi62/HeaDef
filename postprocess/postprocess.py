@@ -17,7 +17,7 @@ if __name__ == '__main__':
 	nruns	 = range(1)
 	jobname  = 'HeaNiCoCrTakeOneOut' 
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../testRuns/lammpsRuns/HeaNiCoCr' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/HeaNiCoCr' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:59:59'
 	mem = '8gb'
