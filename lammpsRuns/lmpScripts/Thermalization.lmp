@@ -1,0 +1,38 @@
+
+
+# -------------------------------------- General Variables --------------------------------------#
+variable                  t_eq      equal     6000         # Equlibration time
+variable                  dt        equal     0.001         # Time step
+variable                  damp_t    equal     200*${dt}     # Thermostat damping
+variable                  damp_p    equal     5000*${dt}    # Barostat damping
+
+# --------------------------------------- Atomic Setup ------------------------------------------#
+
+units                     metal
+atom_style                atomic
+read_data                 Minimized_NiCoCr.dat
+
+
+# -------------------------------- EAM Interatomic Potential ------------------------------------#
+
+neigh_modify              delay   0
+pair_style                eam/alloy
+pair_coeff                * * NiCoCr.lammps.eam Ni Co Cr
+  
+# ----------------------------------- NVT Equilibration -----------------------------------------#
+
+velocity                  all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
+ 
+thermo                    100
+thermo_style              custom    step temp etotal pe press vol
+fix                      f1        all        npt temp   $T  $T  ${damp_t}  aniso 0.0 0.0 ${damp_p} fixedpoint 0.0 0.0 0.0
+
+dump                      mydump all custom 2000 equilibrium.dump id type x y z
+run                       ${t_eq}
+
+unfix                     f1
+reset_timestep            0
+# -------------------------------------- Write Data ----------------------------------------------#
+
+write_data                Equilibrated_$T.dat  
+  
