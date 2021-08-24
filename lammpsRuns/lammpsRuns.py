@@ -47,7 +47,7 @@ if __name__ == '__main__':
 	natom = 1000 #50000  
 #	Tfinal = 3000 #--- melt. temp.	 
 #	ntypes = 5
-        cutoff = 3.58
+        cutoff = 3.52 #3.58
     #   cutoffs = np.linspace((1.0-0.5)*cutoff,(1+0.5)*cutoff,nruns)
 #	rho = 0.1
 	#---
