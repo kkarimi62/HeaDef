@@ -22,7 +22,7 @@ def makeOAR( EXEC_DIR, node, core, time, PYFIL ):
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi':
             for script in [ 'file.in', 'filee.in','mini.lmp']: #,'Thermalization.lmp', 'vsgc.lmp']:
-                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natom %s "%(nThreads*nNode, EXEC, script, OUT_PATH,cutoff, natom)
+                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natoms %s "%(nThreads*nNode, EXEC, script, OUT_PATH,cutoff, natom)
 	someFile.close()										  
 
 
