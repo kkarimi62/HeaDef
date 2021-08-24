@@ -232,6 +232,10 @@ class Atoms:
             self.szz = kwargs['szz']
         if 'sxy' in kwargs:
             self.sxy = kwargs['sxy']
+        if 'sxz' in kwargs:
+            self.sxz = kwargs['sxz']
+        if 'syz' in kwargs:
+            self.syz = kwargs['syz']
         if 'StructureType' in kwargs:
             self.StructureType = kwargs['StructureType']
         if 'd2min' in kwargs:
@@ -256,6 +260,8 @@ class Atoms:
             self.VoronoiIndex9=kwargs['VoronoiIndex9']
         if 'AtomicVolume' in kwargs:
             self.AtomicVolume=kwargs['AtomicVolume']
+        if 'rad' in kwargs:
+            self.rad=kwargs['rad']
         
 ############################################################
 #######  class with simulation cell attributes 

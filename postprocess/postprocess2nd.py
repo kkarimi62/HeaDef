@@ -15,17 +15,18 @@ if __name__ == '__main__':
 	import os
 #
 	nruns	 = range(1)
-	jobname  = 'testTakeOneOut'#'HeaNiCoCrTakeOneOut' 
+	jobname  = 'HeaNiCoCrTakeOneOut' 
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/test'#HeaNiCoCr' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/HeaNiCoCr' #--- source
+	readPath2nd = os.getcwd() + '/../lammpsRuns/HeaNiCoCr/HeaNiCoCrTakeOneOutRlxd' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:59:59'
 	mem = '8gb'
 	partition = 'single' #'cpu2019' #'bigmem' #'single' #'parallel' #'single'
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=0" 
+	argv2nd = "path2nd=%s"%(readPath2nd) #--- don't change!
 	PYFILdic = { 
-		0:'pressFluc.ipynb',
+		0:'pressFluc2nd.ipynb',
 		}
 	keyno = 0
 #---
@@ -42,7 +43,7 @@ if __name__ == '__main__':
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
 		os.system( 'cp LammpsPostProcess.py OvitosCna.py %s' % ( writPath ) ) #--- cp python module
-		makeOAR( writPath, 1, 1, durtn, PYFIL, argv+"/Run%s"%counter, argv2nd) # --- make oar script
+		makeOAR( writPath, 1, 1, durtn, PYFIL, argv+"/Run%s"%counter, argv2nd+"/Run%s"%counter) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh .env %s; cp %s/%s %s' % ( writPath, EXEC_DIR, PYFIL, writPath ) ) # --- create folder & mv oar scrip & cp executable
 		os.system( 'sbatch --partition=%s --mem=%s --time=%s --job-name %s.%s --output %s.%s.out --error %s.%s.err \
 						    --chdir %s -c %s -n %s %s/oarScript.sh'\
