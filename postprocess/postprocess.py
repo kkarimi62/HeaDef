@@ -23,6 +23,7 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = 'single' #'cpu2019' #'bigmem' #'single' #'parallel' #'single'
 	argv = "path=%s"%(readPath) #--- don't change! 
+	SingleHea = True #--- remove atoms from a single realization
 	argv2nd = "indx=0" 
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
@@ -36,13 +37,15 @@ if __name__ == '__main__':
 	if DeleteExistingFolder:
 		os.system( 'rm -rf %s' % jobname ) # --- rm existing
 	# --- loop for submitting multiple jobs
-	counter = 0
+	counter = init = 0
 	for counter in nruns:
+		if not SingleHea:
+			init = counter
 		print(' i = %s' % counter)
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
 		os.system( 'cp LammpsPostProcess.py OvitosCna.py %s' % ( writPath ) ) #--- cp python module
-		makeOAR( writPath, 1, 1, durtn, PYFIL, argv+"/Run%s"%counter, argv2nd) # --- make oar script
+		makeOAR( writPath, 1, 1, durtn, PYFIL, argv+"/Run%s"%init, argv2nd) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh .env %s; cp %s/%s %s' % ( writPath, EXEC_DIR, PYFIL, writPath ) ) # --- create folder & mv oar scrip & cp executable
 		os.system( 'sbatch --partition=%s --mem=%s --time=%s --job-name %s.%s --output %s.%s.out --error %s.%s.err \
 						    --chdir %s -c %s -n %s %s/oarScript.sh'\
