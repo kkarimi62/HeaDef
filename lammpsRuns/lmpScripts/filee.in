@@ -4,13 +4,20 @@ boundary        p p p
 
 read_data initial.data
 
+#--- get number of atoms
+compute 1	all atoms
+variable	natoms	equal	${c_1}
+variable	natoms2	equal	${c_1}/3
+variable	natoms3	equal	${natoms2}
+
+
 group kind1 type 1
-set group kind1 type/subset 2 24000 12345
+set group kind1 type/subset 2 ${natoms2} 12345
 
 group kind2 type 2
 group remain1 subtract all  kind2 
 
-set group remain1 type/subset 3 24000 74
+set group remain1 type/subset 3 ${natoms3} 74
 group kind3 type 3
 
 mass 1 58.693 # Ni

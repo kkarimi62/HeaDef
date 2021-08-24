@@ -22,7 +22,7 @@ def makeOAR( EXEC_DIR, node, core, time, PYFIL ):
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi':
             for script in [ 'file.in', 'filee.in','mini.lmp']: #,'Thermalization.lmp', 'vsgc.lmp']:
-                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s"%(nThreads*nNode, EXEC, script, OUT_PATH)
+                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natom %s "%(nThreads*nNode, EXEC, script, OUT_PATH,cutoff, natom)
 	someFile.close()										  
 
 
@@ -44,10 +44,10 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-#	natom = 50000  
+	natom = 50000  
 #	Tfinal = 3000 #--- melt. temp.	 
 #	ntypes = 5
- #       cutoff = 3.58
+        cutoff = 3.58
     #   cutoffs = np.linspace((1.0-0.5)*cutoff,(1+0.5)*cutoff,nruns)
 #	rho = 0.1
 	#---
