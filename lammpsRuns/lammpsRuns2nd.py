@@ -31,10 +31,10 @@ if __name__ == '__main__':
         import numpy as np
 
 	nruns	 = 1
-	nThreads = 9
+	nThreads = 1 #9
 	nNode	 = 1
-	jobname  = 'HeaNiCoCrTakeOneOutRlxd2nd'
-        sourcePath = os.getcwd() + '/../postprocess/HeaNiCoCrTakeOneOut' #--- must be different than sourcePath
+	jobname  = 'testTakeOneOutRlxd'
+        sourcePath = os.getcwd() + '/../postprocess/testTakeOneOut' #--- must be different than sourcePath
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
