@@ -262,7 +262,13 @@ class Atoms:
             self.AtomicVolume=kwargs['AtomicVolume']
         if 'rad' in kwargs:
             self.rad=kwargs['rad']
-        
+
+    def __getitem__(self,key):
+        return self.__dict__[key]
+
+#     def ____setattr__(self,key,val):
+#         print('self.%s=%s'%(key,val))
+#         self.__dict__[key] = val
 ############################################################
 #######  class with simulation cell attributes 
 ############################################################    
