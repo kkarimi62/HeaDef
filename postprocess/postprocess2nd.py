@@ -14,17 +14,16 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv,argv2nd):
 if __name__ == '__main__':
 	import os
 #
-	nruns	 = range(1)
-	jobname  = 'HeaNiCoCrTakeOneOut' 
+	nruns	 = range(32)
+	jobname  = 'testTakeOneOutRlxd' 
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/HeaNiCoCr' #--- source
-	readPath2nd = os.getcwd() + '/../lammpsRuns/HeaNiCoCr/HeaNiCoCrTakeOneOutRlxd' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/HeaNiCoCr/testTakeOneOutRlxd' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
-	durtn = '00:59:59'
+	durtn = '00:14:59'
 	mem = '8gb'
 	partition = 'single' #'cpu2019' #'bigmem' #'single' #'parallel' #'single'
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "path2nd=%s"%(readPath2nd) #--- don't change!
+	argv2nd = "indx=0"
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
