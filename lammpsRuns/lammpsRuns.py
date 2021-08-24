@@ -31,9 +31,9 @@ if __name__ == '__main__':
         import numpy as np
 
 	nruns	 = 1
-	nThreads = 9
+	nThreads = 1 #9
 	nNode	 = 1
-	jobname  = 'HeaNiCoCr'
+	jobname  = 'test'
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
@@ -44,7 +44,7 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-	natom = 50000  
+	natom = 1000 #50000  
 #	Tfinal = 3000 #--- melt. temp.	 
 #	ntypes = 5
         cutoff = 3.58
