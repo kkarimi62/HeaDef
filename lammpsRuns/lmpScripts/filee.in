@@ -23,4 +23,4 @@ mass 1 58.693 # Ni
 mass 2 58.933195 # Co
 mass 3 51.9961 # Cr
 
-write_data NiCoCr.dat
+write_data data.txt

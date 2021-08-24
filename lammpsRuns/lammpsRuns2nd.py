@@ -22,7 +22,7 @@ def makeOAR( EXEC_DIR, node, core, time, PYFIL,  ):
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi':
             for script in [ 'mini2nd.lmp']: 
-                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var DataFile %s"%(nThreads*nNode, EXEC, script, OUT_PATH, 'data.txt')
+                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s"%(nThreads*nNode, EXEC, script, OUT_PATH)
 	someFile.close()										  
 
 
