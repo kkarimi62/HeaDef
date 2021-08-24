@@ -21,7 +21,7 @@ def makeOAR( EXEC_DIR, node, core, time, PYFIL,  ):
 #	 print >> someFile, "$EXEC_DIR/%s < in.txt -var OUT_PATH %s -var MEAM_library_DIR %s"%( EXEC, OUT_PATH, MEAM_library_DIR )
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi':
-            for script in [ 'mini.lmp']: 
+            for script in [ 'mini2nd.lmp']: 
                 print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var DataFile %s"%(nThreads*nNode, EXEC, script, OUT_PATH, 'data.txt')
 	someFile.close()										  
 
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 			path=os.getcwd() + '/%s' % ( jobname)
 			os.system( 'cp %s/%s %s' % ( EXEC_DIR, EXEC, path ) ) # --- create folder & mv oar scrip & cp executable
 		#---
-		os.system( 'cp %s/file.in %s/filee.in %s/mini.lmp %s/Thermalization.lmp %s/vsgc.lmp %s/NiCoCr.lammps.eam  %s' %(SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,MEAM_library_DIR, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+		os.system( 'cp %s/file.in %s/filee.in %s/mini2nd.lmp %s/Thermalization.lmp %s/vsgc.lmp %s/NiCoCr.lammps.eam  %s' %(SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,MEAM_library_DIR, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		os.system( 'cp %s/Run%s/data.txt %s' %(sourcePath, irun, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		#---
 		makeOAR( path, 1, nThreads, durtn, PYFIL ) # --- make oar script
