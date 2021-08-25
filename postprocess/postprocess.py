@@ -14,8 +14,8 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv,argv2nd):
 if __name__ == '__main__':
 	import os
 #
-	nruns	 = range(32)
-	jobname  = 'testTakeOneOut'#'HeaNiCoCrTakeOneOut' 
+	nruns	 = range(1)
+	jobname  = 'testTakeOneOutFreeze'#'HeaNiCoCrTakeOneOut' 
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + '/../lammpsRuns/test'#HeaNiCoCr' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
@@ -23,8 +23,8 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = 'single' #'cpu2019' #'bigmem' #'single' #'parallel' #'single'
 	argv = "path=%s"%(readPath) #--- don't change! 
-	SingleHea = True #--- remove atoms from a single realization
 	argv2nd = "indx=0" 
+	SingleHea = True #--- remove atoms from a single realization
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
 		}
