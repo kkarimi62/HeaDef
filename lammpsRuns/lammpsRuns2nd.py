@@ -66,7 +66,7 @@ if __name__ == '__main__':
 			path=os.getcwd() + '/%s' % ( jobname)
 			os.system( 'cp %s/%s %s' % ( EXEC_DIR, EXEC, path ) ) # --- create folder & mv oar scrip & cp executable
 		#---
-		os.system( 'cp %s/file.in %s/filee.in %s/mini2nd.lmp %s/Thermalization.lmp %s/vsgc.lmp %s/NiCoCr.lammps.eam  %s' %(SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,SCRPT_DIR,MEAM_library_DIR, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+		os.system( 'cp %s/%s %s/NiCoCr.lammps.eam  %s' %(SCRPT_DIR,script,MEAM_library_DIR, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		os.system( 'cp %s/Run%s/data.txt %s' %(sourcePath, irun, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		#---
 		makeOAR( path, 1, nThreads, durtn, PYFIL ) # --- make oar script
