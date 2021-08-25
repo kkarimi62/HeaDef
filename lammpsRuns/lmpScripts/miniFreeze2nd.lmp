@@ -17,7 +17,7 @@ read_data                 data.txt
 
 neigh_modify              delay   0
 pair_style                eam/alloy
-pair_coeff                * * NiCoCr.lammps.eam Ni Co Cr Cr
+pair_coeff                * * NiCoCr.lammps.eam Ni Co Cr
 
 #-----------------------------
 #--- compute & dump variables
@@ -34,9 +34,16 @@ thermo                    100
 #fix                       p1        all        box/relax   aniso 0.0 vmax 0.001
 #minimize                  1e-25     1e-25      5000      20000
 
-group		freeze type 4
-fix         set_force freeze setforce 0.0 0.0 0.0
-velocity    freeze set 0.0 0.0 0.0 #--- set velocity
+#--- include a new script file defining relevant groups
+include scriptGroup
+
+#region freeReg sphere	${xc} ${yc} ${zc} ${radius}
+#group freeGr 	region freeReg
+#group frozGr subtract all freeGr
+
+#group		freeze type 4
+fix         set_force frozGr setforce 0.0 0.0 0.0
+velocity    frozGr set 0.0 0.0 0.0 #--- set velocity
 
 minimize 				  0.0 1.0e-8 100000 100000
 #unfix                     p1

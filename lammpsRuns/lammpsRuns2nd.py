@@ -46,12 +46,8 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-#	natom = 50000  
-#	Tfinal = 3000 #--- melt. temp.	 
-#	ntypes = 5
- #       cutoff = 3.58
-    #   cutoffs = np.linspace((1.0-0.5)*cutoff,(1+0.5)*cutoff,nruns)
-#	rho = 0.1
+	${xc} ${yc} ${zc} ${radius}
+
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
@@ -67,7 +63,7 @@ if __name__ == '__main__':
 			os.system( 'cp %s/%s %s' % ( EXEC_DIR, EXEC, path ) ) # --- create folder & mv oar scrip & cp executable
 		#---
 		os.system( 'cp %s/%s %s/NiCoCr.lammps.eam  %s' %(SCRPT_DIR,script,MEAM_library_DIR, writPath) ) #--- lammps script: periodic x, pxx, vy, load
-		os.system( 'cp %s/Run%s/data.txt %s' %(sourcePath, irun, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+		os.system( 'cp %s/Run%s/*.txt %s' %(sourcePath, irun, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		#---
 		makeOAR( path, 1, nThreads, durtn, PYFIL ) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh %s' % ( writPath) ) # --- create folder & mv oar scrip & cp executable
