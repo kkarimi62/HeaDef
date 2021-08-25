@@ -17,7 +17,7 @@ read_data                 data.txt
 
 neigh_modify              delay   0
 pair_style                eam/alloy
-pair_coeff                * * NiCoCr.lammps.eam Ni Co Cr
+pair_coeff                * * NiCoCr.lammps.eam Ni Co Cr Cr
 
 #-----------------------------
 #--- compute & dump variables
