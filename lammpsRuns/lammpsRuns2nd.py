@@ -21,8 +21,8 @@ def makeOAR( EXEC_DIR, node, core, time, PYFIL,  ):
 #	 print >> someFile, "$EXEC_DIR/%s < in.txt -var OUT_PATH %s -var MEAM_library_DIR %s"%( EXEC, OUT_PATH, MEAM_library_DIR )
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi':
-            for script in [ 'mini2nd.lmp']: 
-                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s"%(nThreads*nNode, EXEC, script, OUT_PATH)
+            
+		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s"%(nThreads*nNode, EXEC, script, OUT_PATH)
 	someFile.close()										  
 
 
@@ -33,13 +33,14 @@ if __name__ == '__main__':
 	nruns	 = 32
 	nThreads = 1 #9
 	nNode	 = 1
-	jobname  = 'testTakeOneOutRlxd'
-        sourcePath = os.getcwd() + '/../postprocess/testTakeOneOut' #--- must be different than sourcePath
+	jobname  = 'testTakeOneOutRlxdFreeze'
+        sourcePath = os.getcwd() + '/../postprocess/testTakeOneOutFreeze' #--- must be different than sourcePath
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	PYFIL = '/home/kamran.karimi1/Project/git/CrystalPlasticity/py'
 	EXEC = 'lmp_mpi' #'lmp_serial'
+	script = [ 'mini2nd.lmp', 'miniFreeze2nd.lmp'][1] 
 	durtn = '00:14:59' #'167:59:59'
 	SCRATCH = None
 	mem = '8gb'
