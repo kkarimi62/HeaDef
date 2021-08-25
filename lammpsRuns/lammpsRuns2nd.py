@@ -45,8 +45,6 @@ if __name__ == '__main__':
 	SCRATCH = None
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
-	#--- sim. parameters
-	${xc} ${yc} ${zc} ${radius}
 
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
