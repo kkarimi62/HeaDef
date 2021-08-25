@@ -35,7 +35,7 @@ thermo                    100
 #minimize                  1e-25     1e-25      5000      20000
 
 #--- include a new script file defining relevant groups
-include ./scriptGroup.txt
+include ./ScriptGroup.txt
 
 #region freeReg sphere	${xc} ${yc} ${zc} ${radius}
 #group freeGr 	region freeReg
