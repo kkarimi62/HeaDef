@@ -14,7 +14,7 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv,argv2nd):
 if __name__ == '__main__':
 	import os
 #
-	nruns	 = range(1)
+	nruns	 = range(16)
 	jobname  = 'HeaNiCoCrNatom10KTakeOneOutFreeze'#'HeaNiCoCrTakeOneOut' 
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + '/../lammpsRuns/HeaNiCoCrNatom10K'#HeaNiCoCr' #--- source
