@@ -31,20 +31,20 @@ if __name__ == '__main__':
         import numpy as np
 
 	nruns	 = 1
-	nThreads = 1 #9
+	nThreads = 9
 	nNode	 = 1
-	jobname  = 'test'
+	jobname  = 'HeaNiCoCrNatom10K'
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	PYFIL = '/home/kamran.karimi1/Project/git/CrystalPlasticity/py'
 	EXEC = 'lmp_mpi' #'lmp_serial'
-	durtn = '00:59:59' #'167:59:59'
+	durtn = '23:59:59' #'167:59:59'
 	SCRATCH = None
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-	natom = 1000 #50000  
+	natom = 10000 #50000  
 #	Tfinal = 3000 #--- melt. temp.	 
 #	ntypes = 5
         cutoff = 3.52 #3.58
