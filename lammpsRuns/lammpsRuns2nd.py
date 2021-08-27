@@ -30,7 +30,7 @@ if __name__ == '__main__':
 	import os
         import numpy as np
 
-	nruns	 = 1
+	nruns	 = 16
 	nThreads = 9
 	nNode	 = 1
 	jobname  = 'HeaNiCoCrNatom10KTakeOneOutFreezeFract0Rlxd'
