@@ -14,10 +14,10 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv,argv2nd):
 if __name__ == '__main__':
 	import os
 #
-	nruns	 = range(32)
-	jobname  = 'testTakeOneOutRlxd' 
+	nruns	 = range(1)
+	jobname  = 'HeaNiCoCrNatom10KTakeOneOutFreezeFract0Rlxd' 
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/testTakeOneOutRlxd' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/HeaNiCoCrNatom10KTakeOneOutFreezeFract0Rlxd' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:14:59'
 	mem = '8gb'
