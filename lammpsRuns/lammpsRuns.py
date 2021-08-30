@@ -33,7 +33,7 @@ if __name__ == '__main__':
 	nruns	 = 1
 	nThreads = 9
 	nNode	 = 1
-	jobname  = 'HeaNiCoCrNatom100K'
+	jobname  = ['HeaNiCoCrNatom100K','NiNatom100K'][1]
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
