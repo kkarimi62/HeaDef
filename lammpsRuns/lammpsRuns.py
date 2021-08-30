@@ -50,6 +50,7 @@ if __name__ == '__main__':
         cutoff = 3.52 #3.58
     #   cutoffs = np.linspace((1.0-0.5)*cutoff,(1+0.5)*cutoff,nruns)
 #	rho = 0.1
+	#--- update filee.in 
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
