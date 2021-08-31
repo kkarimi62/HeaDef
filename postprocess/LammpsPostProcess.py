@@ -161,7 +161,7 @@ class WriteDataFile:
         self.atom = atomm
         self.box = boxx
         self.Mass = mass
-        assert len(set(atomm.type)) == len(mass), 'wrong atom types!'
+#        assert len(set(atomm.type)) == len(mass), 'wrong atom types!'
         
     def Write(self, outpt ):
         natom = len(self.atom.x)
