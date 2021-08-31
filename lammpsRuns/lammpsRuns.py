@@ -23,7 +23,7 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['HeaNiCoCrNatom100K','NiNatom100K'][1]
+	jobname  = ['HeaNiCoCrNatom100K','NiNatom10K'][1]
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#

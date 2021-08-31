@@ -1,13 +1,3 @@
-# -------------------------------------- General Variables --------------------------------------#
-variable                  rnd       equal     round(random(0,999999,12))
-variable                  T         equal     650           # Temperature
-variable                  t_eq      equal     10000         # Equlibration time
-variable                  dt        equal     0.001         # Time step
-variable                  damp_t    equal     200*${dt}     # Thermostat damping
-variable                  damp_p    equal     5000*${dt}    # Barostat damping
-
-# --------------------------------------- Atomic Setup ------------------------------------------#
-
 units                     metal
 atom_style                atomic
 read_data                 data.txt

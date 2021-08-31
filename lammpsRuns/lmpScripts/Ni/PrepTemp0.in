@@ -45,7 +45,7 @@ undump		1
 
 # -------------------------------------- Minimization -------------------------------------------#
 thermo                    1000
-fix                       p1        all        box/relax   aniso 0.0 vmax 0.001 #--- equilibrate at p=0 
+fix                       p1        all        box/relax   iso 1.0e-3 #vmax 0.001 #--- equilibrate at p=0 
 minimize 				  0.0 1.0e-8 100000 100000
 unfix                     p1
 
