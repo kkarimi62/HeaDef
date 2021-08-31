@@ -15,9 +15,9 @@ if __name__ == '__main__':
 	import os
 #
 	nruns	 = range(1)
-	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','HeaNiCoCrTakeOneOut', 'NiNatom1KTakeOneOut'][2]
+	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','HeaNiCoCrTakeOneOut', 'NiNatom100KTakeOneOut'][2]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/NiNatom1K'#HeaNiCoCr' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/NiNatom100K'#HeaNiCoCr' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:14:59'
 	mem = '8gb'
