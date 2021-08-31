@@ -1,4 +1,4 @@
-def makeOAR( EXEC_DIR, node, core, time, PYFIL,  ):
+def makeOAR( EXEC_DIR, node, core, time ):
 	someFile = open( 'oarScript.sh', 'w' )
 	print >> someFile, '#!/bin/bash\n'
 	print >> someFile, 'EXEC_DIR=%s\n' %( EXEC_DIR )
@@ -59,7 +59,7 @@ if __name__ == '__main__':
 		os.system( 'cp %s/%s %s/lmpScript.txt' %( SCRPT_DIR, LmpScript, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		os.system( 'cp %s/Run%s/*.txt %s' %(sourcePath, irun, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		#---
-		makeOAR( path, 1, nThreads, durtn, PYFIL ) # --- make oar script
+		makeOAR( path, 1, nThreads, durtn) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh %s' % ( writPath) ) # --- create folder & mv oar scrip & cp executable
 		os.system( 'sbatch --partition=%s --mem=%s --time=%s --job-name %s.%s --output %s.%s.out --error %s.%s.err \
 						    --chdir %s -c %s -n %s %s/oarScript.sh >> jobID.txt'\
