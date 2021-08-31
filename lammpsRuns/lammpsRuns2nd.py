@@ -33,14 +33,14 @@ if __name__ == '__main__':
 	nruns	 = 16
 	nThreads = 9
 	nNode	 = 1
-	jobname  = 'HeaNiCoCrNatom10KTakeOneOutFreezeFract0Rlxd'
-	sourcePath = os.getcwd() + '/../postprocess/HeaNiCoCrNatom10KTakeOneOutFreezeFract0' #--- must be different than sourcePath
+	jobname  = 'NiNatom100KTakeOneOutRlxd'
+	sourcePath = os.getcwd() + '/../postprocess/NiNatom100KTakeOneOut' #--- must be different than sourcePath
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	PYFIL = '/home/kamran.karimi1/Project/git/CrystalPlasticity/py'
 	EXEC = 'lmp_mpi' #'lmp_serial'
-	script = [ 'mini2nd.lmp', 'miniFreeze2nd.lmp'][1] 
+	script = [ 'mini2nd.lmp', 'miniFreeze2nd.lmp'][0] 
 	durtn = '23:59:59' #'167:59:59'
 	SCRATCH = None
 	mem = '8gb'
