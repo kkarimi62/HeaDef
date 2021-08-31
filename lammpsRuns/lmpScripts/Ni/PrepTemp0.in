@@ -6,14 +6,14 @@ boundary        p p p
 #--- define variables
 variable 	a      			equal   ${cutoff}   #--- lattice constant
 variable    volume          equal   ${natoms}*${a}^3.0/4.0 #--- natom * vol. of the voronoi cell
-variable    lx              equal   ${volume}^(1.0/3.0)/${a}
+variable    lx              equal   floor(${volume}^(1.0/3.0)/${a})
 
 # ---------- Create Atoms ---------------------
 ## define crystal structure and lattice constant a0
 ## define direction vectors, i.e., set x=[100], y=[010], z=[001] and origin point.
 #
 lattice    fcc ${a} orient    x 1 0 0 orient y 0 1 0 orient z 0 0 1 &   
-        origin 0.1 0.1 0.1
+           origin 0.1 0.1 0.1
 region    mybox block 0 ${lx} 0 ${lx} 0 ${lx}   ## define box sizes along x, y, z (in the unit of a0)
 create_box      3 mybox              ## create the simulation box, allowing a max of three species
 create_atoms    1 box               ## create type-1 metal atoms in the box
@@ -36,8 +36,7 @@ undump		1
 # -------------------------------------- Minimization -------------------------------------------#
 thermo                    1000
 fix                       p1        all        box/relax   iso 1.0e-3 #vmax 0.001 #--- equilibrate at p=0 
-minimize 				  0.0 1.0e-12 100000 100000
-#minimize 1e-25 1e-25 100000 100000                         ## minimization parameter setup, see manual for more detail
+minimize 				  0.0 1.0e-08 100000 100000
 unfix                     p1
 
 write_data                Minimized_NiCoCr.dat
