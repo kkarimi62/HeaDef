@@ -10,7 +10,6 @@ def makeOAR( EXEC_DIR, node, core, time):
 	if SCRATCH:
 		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 	if EXEC == 'lmp_mpi':
-            
 		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natoms %s -var PathEam %s"%(nThreads*nNode, EXEC, lmpScript, OUT_PATH,cutoff, natom, MEAM_library_DIR )
 	someFile.close()										  
 
@@ -32,18 +31,14 @@ if __name__ == '__main__':
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	LmpScript = ['Ni/PrepTemp0.in'][0]
 	#
-	EXEC = 'lmp_mpi' #'lmp_serial'
-	durtn = '23:59:59' #'167:59:59'
+	EXEC = ['lmp_mpi', 'lmp_serial'][0]
+	durtn = ['23:59:59', '167:59:59'][0]
 	SCRATCH = None
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-	natom = 10000 #0 #50000  
-#	Tfinal = 3000 #--- melt. temp.	 
-#	ntypes = 5
-        cutoff = 3.52 #3.58
-    #   cutoffs = np.linspace((1.0-0.5)*cutoff,(1+0.5)*cutoff,nruns)
-#	rho = 0.1
+	natom = [1000,10000][0] 
+        cutoff = 3.52
 
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
