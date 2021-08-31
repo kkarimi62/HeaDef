@@ -47,7 +47,7 @@ undump		1
 thermo                    1000
 fix                       p1        all        box/relax   iso 1.0e-3 #vmax 0.001 #--- equilibrate at p=0 
 #minimize 				  0.0 1.0e-12 100000 100000
-minimize 1e-25 1e-25 5000 10000                         ## minimization parameter setup, see manual for more detail
+minimize 1e-25 1e-25 100000 100000                         ## minimization parameter setup, see manual for more detail
 unfix                     p1
 
 write_data                Minimized_NiCoCr.dat
