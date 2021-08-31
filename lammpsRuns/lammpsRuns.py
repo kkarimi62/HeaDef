@@ -18,11 +18,9 @@ def makeOAR( EXEC_DIR, node, core, time, PYFIL ):
 	OUT_PATH = '.'
 	if SCRATCH:
 		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
-#	 print >> someFile, "$EXEC_DIR/%s < in.txt -var OUT_PATH %s -var MEAM_library_DIR %s"%( EXEC, OUT_PATH, MEAM_library_DIR )
-#	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi':
             for script in [ 'file.in', 'filee.in','mini.lmp']: #,'Thermalization.lmp', 'vsgc.lmp']:
-                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natoms %s "%(nThreads*nNode, EXEC, script, OUT_PATH,cutoff, natom)
+                print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natoms %s -var PathEam %s"%(nThreads*nNode, EXEC, script, OUT_PATH,cutoff, natom, '%s/%s'%(MEAM_library_DIR,'Ni_u3.eam'))
 	someFile.close()										  
 
 
@@ -33,9 +31,10 @@ if __name__ == '__main__':
 	nruns	 = 1
 	nThreads = 9
 	nNode	 = 1
-	jobname  = ['HeaNiCoCrNatom100K','NiNatom100K'][1]
+	jobname  = ['HeaNiCoCrNatom100K','NiNatom10K'][1]
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
-	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
+#	MEAM_library_DIR='/home/kamran.karimi1/Project/git/CrystalPlasticity/testRuns/dataFiles' #--- meam potential parameters
+	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	PYFIL = '/home/kamran.karimi1/Project/git/CrystalPlasticity/py'
 	EXEC = 'lmp_mpi' #'lmp_serial'
@@ -44,7 +43,7 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-	natom = 100000 #50000  
+	natom = 10000 #0 #50000  
 #	Tfinal = 3000 #--- melt. temp.	 
 #	ntypes = 5
         cutoff = 3.52 #3.58
