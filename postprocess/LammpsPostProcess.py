@@ -174,7 +174,7 @@ class WriteDataFile:
                      %15.14e %15.14e xlo xhi\n%15.14e %15.14e ylo yhi\n%15.14e %15.14e zlo zhi\n\nMasses\n\n'\
                      %(natom,ntype,float(xlo),float(xhi),float(ylo),float(yhi),float(zlo),float(zhi)))
 
-        for typee in set(self.atom.type):
+        for typee in self.Mass: #set(self.atom.type):
             sfile.write('%s %s\n'%(int(typee),self.Mass[typee]))
             
         sfile.write('\nAtoms #molecule-tag atom-type x y z\n\n')
