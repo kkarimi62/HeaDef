@@ -1,0 +1,60 @@
+ # ---------- Initialize Simulation --------------------- 
+units		metal
+atom_style      atomic
+boundary        p p p
+
+#--- define variables
+variable 	a      			equal   ${cutoff}   #--- lattice constant
+variable    volume          equal   ${natoms}*${a}^3.0/4.0 #--- natom * vol. of the voronoi cell
+variable    lx              equal   ${volume}^(1.0/3.0)
+
+# ---------- Create Atoms --------------------- 
+region 			mybox block 0.0 ${lx} 0.0 ${lx} 0.0 ${lx}
+lattice	fcc $a 
+create_box      3 mybox #--- create the simulation box, allowing a max of three species
+create_atoms	1 region mybox
+
+#--- set number of atoms in each species
+variable	natom	equal	"atoms"
+variable	natom2	equal	floor(${natom}/3)
+variable	natom3	equal	floor(${natom2})
+#
+#group kind1 type 1
+#set group kind1 type/subset 2 ${natom2} 12345
+#
+#group kind2 type 2
+#group remain1 subtract all  kind2 
+#
+#set group remain1 type/subset 3 ${natom3} 74
+#group kind3 type 3
+
+# ---------- Define Interatomic Potential --------------------- 
+pair_style                eam #/alloy
+pair_coeff                * * ${PathEam}/Ni_u3.eam
+neighbor    0.3 bin                #--- define parameters for neighbor list
+neigh_modify    delay 5            #--- define parameters for neighbor list
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        1 all custom 1 ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+run	0
+undump		1
+
+# -------------------------------------- Minimization -------------------------------------------#
+thermo                    1#00
+fix                       p1        all        box/relax   aniso 0.0 vmax 0.001 #--- equilibrate at p=0 
+minimize 				  0.0 1.0e-8 100000 100000
+unfix                     p1
+
+write_data                Minimized_NiCoCr.dat
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+dump        1 all custom 1 ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes append yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+run	0
