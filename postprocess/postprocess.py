@@ -14,14 +14,14 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv,argv2nd):
 if __name__ == '__main__':
 	import os
 #
-	nruns	 = range(16)
-	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','HeaNiCoCrTakeOneOut', 'NiNatom100KTakeOneOut'][2]
+	nruns	 = range(1)
+	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','HeaNiCoCrTakeOneOut', 'NiNatom1KTakeOneOut'][2]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/NiNatom100K'#HeaNiCoCr' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/NiNatom1K'#HeaNiCoCr' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:14:59'
 	mem = '8gb'
-	partition = 'single' #'cpu2019' #'bigmem' #'single' #'parallel' #'single'
+	partition = ['cpu2019','bigmem','parallel','single'][3]
 	argv = "path=%s"%(readPath) #--- don't change! 
 	argv2nd = "fract=0.2" 
 	SingleHea = True #--- remove atoms from a single realization
