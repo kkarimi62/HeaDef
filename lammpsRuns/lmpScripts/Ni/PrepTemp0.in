@@ -7,6 +7,18 @@ boundary        p p p
 variable 	a      			equal   ${cutoff}   #--- lattice constant
 variable    volume          equal   ${natoms}*${a}^3.0/4.0 #--- natom * vol. of the voronoi cell
 variable    lx              equal   ${volume}^(1.0/3.0)
+variable	nl				equal	${natoms}^{1.0/3.0}
+
+# ---------- Create Atoms ---------------------
+## define crystal structure and lattice constant a0
+## define direction vectors, i.e., set x=[100], y=[010], z=[001] and origin point.
+#
+lattice    fcc ${a} orient    x 1 0 0 orient y 0 1 0 orient z 0 0 1 &   
+        origin 0.1 0.1 0.1
+region    mybox block 0 nl 0 nl 0 nl   ## define box sizes along x, y, z (in the unit of a0)
+create_box      3 mybox              ## create the simulation box, allowing a max of three species
+create_atoms    1 box               ## create type-1 metal atoms in the box
+
 
 # ---------- Create Atoms --------------------- 
 region 			mybox block 0.0 ${lx} 0.0 ${lx} 0.0 ${lx}
