@@ -1,0 +1,45 @@
+# ---------- Initialize Simulation ---------------------
+clear
+units metal                       ## use metal unit system - see lammps manual
+boundary p p p                    ## make simulation box periodic along all directions
+atom_style atomic                 ## default atom style for metals
+
+# ---------- Create Atoms ---------------------
+## define crystal structure and lattice constant a0
+## define direction vectors, i.e., set x=[100], y=[010], z=[001] and origin point.
+
+lattice    fcc 3.52 orient    x 1 0 0 orient y 0 1 0 orient z 0 0 1 &   
+        origin 0.1 0.1 0.1
+       
+region    box block 0 10 0 10 0 10   ## define box sizes along x, y, z (in the unit of a0)
+create_box      3 box              ## create the simulation box, allowing a max of three species
+create_atoms    1 box               ## create type-1 metal atoms in the box
+
+# ---------- Define Interatomic Potential ---------------------
+pair_style    eam                       ## set interatomic potential style to be EAM
+#pair_coeff    * * Ni_u3.eam           ## read in interatomic potential file
+pair_coeff                * * ${PathEam}/Ni_u3.eam
+neighbor    0.3 bin                ## define parameters for neighbor list
+neigh_modify    delay 5               ## define parameters for neighbor list
+ 
+# ---------- Define Settings ---------------------
+compute eng all pe/atom                                 ## compute potential energy for each atom
+compute eatoms all reduce sum c_eng                     ## compute total energy for whole system
+
+# ---------- Run Minimization ---------------------
+reset_timestep 0                                        ## reset timestep
+dump   1 all atom 50 dump_NiFCC_Or1.atom                ## output final configuration into dump_NiFCC_Or1.atom
+thermo 10                                               ## set thermo-properties output on screen every 10 timestep
+thermo_style custom step pe lx ly lz press pxx pyy pzz c_eatoms ## timestep(step), potential energy(pe), box dimension (Lx/Ly/Lz),pressure(press) etc. output on screen
+min_style cg                                            ## minimization (using CG method)
+minimize 1e-25 1e-25 5000 10000                         ## minimization parameter setup, see manual for more detail
+
+variable natoms equal "count(all)"                      ## set variable "natoms" to count number of atoms in system
+variable teng equal "c_eatoms"                          ## set variable "teng" to store total energy of whole system
+variable ecoh equal "v_teng/v_natoms"                   ## define cohesive energy as total energy divided by total atom number
+
+print "Total energy (eV) = ${teng};"
+print "Number of atoms = ${natoms};"
+print "Cohesive energy (eV) = ${ecoh};"
+
+print "All done!"
