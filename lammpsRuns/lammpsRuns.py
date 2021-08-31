@@ -10,7 +10,7 @@ def makeOAR( EXEC_DIR, node, core, time):
 	if SCRATCH:
 		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 	if EXEC == 'lmp_mpi':
-		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natoms %s -var PathEam %s"%(nThreads*nNode, EXEC, 'lmpScript', OUT_PATH,cutoff, natom, MEAM_library_DIR )
+		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var cutoff %s -var natoms %s -var PathEam %s"%(nThreads*nNode, EXEC, 'lmpScript.txt', OUT_PATH,cutoff, natom, MEAM_library_DIR )
 	someFile.close()										  
 
 
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['HeaNiCoCrNatom100K','NiNatom10K'][1]
+	jobname  = ['HeaNiCoCrNatom100K','NiNatom1K'][1]
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
