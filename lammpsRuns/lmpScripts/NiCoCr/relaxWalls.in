@@ -5,7 +5,7 @@ read_data                 data.txt
 
 # ---------- Define Interatomic Potential --------------------- 
 pair_style                eam/alloy
-pair_coeff                * * ${PathEam}/NiCoCr.lammps.eam
+pair_coeff                * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
 neighbor    0.3 bin                #--- define parameters for neighbor list
 neigh_modify    delay 5            #--- define parameters for neighbor list
 
