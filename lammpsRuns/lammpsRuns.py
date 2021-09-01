@@ -23,13 +23,13 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['HeaNiCoCrNatom100K','NiNatom100K'][1]
+	jobname  = ['NiCoCrNatom1K','NiNatom100K'][0]
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
-	LmpScript = ['Ni/PrepTemp0.in','Ni/junk.txt'][0]
+	LmpScript = ['Ni/PrepTemp0.in','Ni/junk.txt','NiCoCr/PrepTemp0.in'][0]
 	#
 	EXEC = ['lmp_mpi', 'lmp_serial'][0]
 	durtn = ['23:59:59', '167:59:59'][0]
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-	natom = [1000,10000,100000][2] 
+	natom = [1000,10000,100000][0] 
         cutoff = 3.52
 
 	#---
