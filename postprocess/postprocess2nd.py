@@ -15,13 +15,13 @@ if __name__ == '__main__':
 	import os
 #
 	nruns	 = range(16)
-	jobname  = 'HeaNiCoCrNatom10KTakeOneOutFreezeFract7Rlxd' 
+	jobname  = 'NiCoCrNatom100KTakeOneOutRlxd' 
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/HeaNiCoCrNatom10KTakeOneOutFreezeFract7Rlxd' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/NiCoCrNatom100KTakeOneOutRlxd' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:29:59'
 	mem = '8gb'
-	partition = 'single' #'cpu2019' #'bigmem' #'single' #'parallel' #'single'
+	partition = ['single','cpu2019','bigmem','parallel'][0] 
 	argv = "path=%s"%(readPath) #--- don't change! 
 	argv2nd = "indx=0"
 	PYFILdic = { 
