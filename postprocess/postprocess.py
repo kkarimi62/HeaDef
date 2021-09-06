@@ -14,8 +14,8 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv,argv2nd):
 if __name__ == '__main__':
 	import os
 #
-	nruns	 = range(16)
-	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','NiCoCrNatom100KTakeOneOut', 'NiNatom100KTakeOneOut','NiNatom100KReplaceCr'][3]
+	nruns	 = range(1)
+	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','NiCoCrNatom100KTakeOneOut', 'NiNatom100KTakeOneOut','NiNatom100KReplaceCr','NiNatom100KReplaceCo'][4]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + '/../lammpsRuns/NiNatom100K' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
