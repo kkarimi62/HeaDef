@@ -26,8 +26,8 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = 'NiCoCrNatom100KTakeOneOutRlxd'
-	sourcePath = os.getcwd() + '/../postprocess/NiCoCrNatom100KTakeOneOut' #--- must be different than sourcePath
+	jobname  = 'NiNatom100KReplaceCrRlxd'
+	sourcePath = os.getcwd() + '/../postprocess/NiNatom100KReplaceCr' #--- must be different than sourcePath
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
