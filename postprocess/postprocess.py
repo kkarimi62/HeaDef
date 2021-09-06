@@ -17,7 +17,7 @@ if __name__ == '__main__':
 	nruns	 = range(16)
 	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','NiCoCrNatom100KTakeOneOut', 'NiNatom100KTakeOneOut','NiNatom100KReplaceCr'][3]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/NiCoCrNatom100K' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/NiNatom100K' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:14:59'
 	mem = '8gb'
