@@ -21,13 +21,13 @@ if __name__ == '__main__':
 	import os
         import numpy as np
 
-	nruns	 = 16
+	nruns	 = 1
 	#
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = 'NiNatom100KReplaceCrRlxd'
-	sourcePath = os.getcwd() + '/../postprocess/NiNatom100KReplaceCr' #--- must be different than sourcePath
+	jobname  = 'NiNatom100KReplaceCoRlxd'
+	sourcePath = os.getcwd() + '/../postprocess/NiNatom100KReplaceCo' #--- must be different than sourcePath
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
