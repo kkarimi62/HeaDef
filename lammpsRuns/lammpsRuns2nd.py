@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in'][2] #--- [pbc, rigid walls,] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
-	durtn = '23:59:59' #'167:59:59'
+	durtn = '00:59:59' #'167:59:59'
 	SCRATCH = None
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
