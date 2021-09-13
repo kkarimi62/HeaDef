@@ -13,7 +13,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi':
             
-		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var PathEam %s"%(nThreads*nNode, EXEC, 'lmpScript.txt', OUT_PATH, MEAM_library_DIR)
+		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, EXEC, 'lmpScript.txt', OUT_PATH, MEAM_library_DIR, Variables)
 	someFile.close()										  
 
 
@@ -38,6 +38,7 @@ if __name__ == '__main__':
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
 	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp'][3] #--- [pbc, rigid walls,] 
+	Variables = [' -var T 1300'][0] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '00:59:59' #'167:59:59'

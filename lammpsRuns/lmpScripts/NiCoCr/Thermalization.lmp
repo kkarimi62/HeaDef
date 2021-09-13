@@ -26,7 +26,7 @@ velocity                  all       create     $T     97364  mom    yes  rot  ye
  
 thermo                    100
 thermo_style              custom    step temp etotal pe press vol
-fix                      f1        all        npt temp   $T  $T  ${damp_t}  aniso 0.0 0.0 ${damp_p} fixedpoint 0.0 0.0 0.0
+fix                      f1        all        npt temp   $T  $T  ${damp_t}  iso 1.0e-03 1.0e-03 ${damp_p} fixedpoint 0.0 0.0 0.0
 
 dump                      mydump all custom 2000 equilibrium.dump id type x y z
 run                       ${t_eq}
