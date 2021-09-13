@@ -31,7 +31,7 @@ if __name__ == '__main__':
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	LmpScript = ['Ni/PrepTemp0.in','Ni/junk.txt','NiCoCr/PrepTemp0.in'][2]
 	#
-	EXEC = ['lmp_mpi', 'lmp_serial'][1]
+	EXEC = ['lmp_mpi', 'lmp_serial'][0]
 	durtn = ['00:59:59', '167:59:59'][0]
 	SCRATCH = None
 	mem = '8gb'
