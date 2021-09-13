@@ -29,6 +29,8 @@ if __name__ == '__main__':
 	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom1KTemp1300'][1]
 	sourcePath = os.getcwd() +\
 				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom1K'][1] #--- must be different than sourcePath
+        #
+        sourceFiles = ['data.txt']#,'ScriptGroup.txt']
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
@@ -58,7 +60,8 @@ if __name__ == '__main__':
 			os.system( 'cp %s/%s %s' % ( EXEC_DIR, EXEC, path ) ) # --- create folder & mv oar scrip & cp executable
 		#---
 		os.system( 'cp %s/%s %s/lmpScript.txt' %( SCRPT_DIR, LmpScript, writPath) ) #--- lammps script: periodic x, pxx, vy, load
-		os.system( 'cp %s/Run%s/*.txt %s' %(sourcePath, irun, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+                for sf in sourceFiles:
+        		os.system( 'cp %s/Run%s/%s %s' %(sourcePath, irun, sf, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		#---
 		makeOAR( path, 1, nThreads, durtn) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh %s' % ( writPath) ) # --- create folder & mv oar scrip & cp executable
