@@ -11,8 +11,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 #	 print >> someFile, "$EXEC_DIR/%s < in.txt -var OUT_PATH %s -var MEAM_library_DIR %s"%( EXEC, OUT_PATH, MEAM_library_DIR )
 #	cutoff = 1.0 / rho ** (1.0/3.0)
-	if EXEC == 'lmp_mpi':
-            
+	if EXEC == 'lmp_mpi' or EXEC == 'lmp_serial':
 		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, EXEC, 'lmpScript.txt', OUT_PATH, MEAM_library_DIR, Variables)
 	someFile.close()										  
 
@@ -44,7 +43,7 @@ if __name__ == '__main__':
 	durtn = '00:59:59' #'167:59:59'
 	SCRATCH = None
 	mem = '8gb'
-	partition = ['gpu-v100','parallel','cpu2019','single'][1]
+	partition = ['gpu-v100','parallel','cpu2019','single'][3]
 
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
