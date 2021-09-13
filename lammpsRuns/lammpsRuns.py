@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = 9
+	nThreads = 1
 	nNode	 = 1
 	#
 	jobname  = ['NiCoCrNatom1K','NiCoCrNatom100K','NiNatom100K'][0]
@@ -31,11 +31,11 @@ if __name__ == '__main__':
         SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	LmpScript = ['Ni/PrepTemp0.in','Ni/junk.txt','NiCoCr/PrepTemp0.in'][2]
 	#
-	EXEC = ['lmp_mpi', 'lmp_serial'][0]
+	EXEC = ['lmp_mpi', 'lmp_serial'][1]
 	durtn = ['00:59:59', '167:59:59'][0]
 	SCRATCH = None
 	mem = '8gb'
-	partition = ['gpu-v100','parallel','cpu2019','single'][1]
+	partition = ['gpu-v100','parallel','cpu2019','single'][3]
 	#--- sim. parameters
 	natom = [1000,10000,100000][0] 
         cutoff = 3.52
