@@ -20,10 +20,10 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = 1
+	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiCoCrNatom1K','NiCoCrNatom100K','NiNatom100K'][0]
+	jobname  = ['NiCoCrNatom1K','NiCoCrNatom100K','NiNatom100K'][1]
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
@@ -35,9 +35,9 @@ if __name__ == '__main__':
 	durtn = ['00:59:59', '167:59:59'][0]
 	SCRATCH = None
 	mem = '8gb'
-	partition = ['gpu-v100','parallel','cpu2019','single'][3]
+	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#--- sim. parameters
-	natom = [1000,10000,100000][0] 
+	natom = [1000,10000,100000][2] 
         cutoff = 3.52
 
 	#---
