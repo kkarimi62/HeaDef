@@ -22,14 +22,14 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = 1
+	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom1KTemp1300'][1]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp1300'][1]
 	sourcePath = os.getcwd() +\
-				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom1K'][1] #--- must be different than sourcePath
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K'][1] #--- must be different than sourcePath
         #
-        sourceFiles = ['data.txt']#,'ScriptGroup.txt']
+        sourceFiles = ['data.txt']#,'ScriptGroup.txt'] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
@@ -40,10 +40,10 @@ if __name__ == '__main__':
 	Variables = [' -var T 1300'][0] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
-	durtn = '00:59:59' #'167:59:59'
+	durtn = '01:59:59' #'167:59:59'
 	SCRATCH = None
 	mem = '8gb'
-	partition = ['gpu-v100','parallel','cpu2019','single'][3]
+	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
