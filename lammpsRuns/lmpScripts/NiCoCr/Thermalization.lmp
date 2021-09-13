@@ -29,7 +29,14 @@ thermo                    100
 thermo_style              custom    step temp etotal pe press vol
 fix                      f1        all        npt temp   $T  $T  ${damp_t}  iso 1.0e-03 1.0e-03 ${damp_p} fixedpoint 0.0 0.0 0.0
 
-dump                      mydump all custom ${nevery} equilibrium.dump id type x y z
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        1 all custom ${nevery} ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+#dump                      mydump all custom ${nevery} equilibrium.dump id type x y z
 run                       ${t_eq}
 
 unfix                     f1
