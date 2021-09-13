@@ -25,7 +25,7 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp1300'][1]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300'][1]
 	sourcePath = os.getcwd() +\
 				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K'][1] #--- must be different than sourcePath
         #
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
 	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp'][3] #--- [pbc, rigid walls,] 
-	Variables = [' -var T 1300'][0] 
+	Variables = [' -var T 300'][0] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '01:59:59' #'167:59:59'
