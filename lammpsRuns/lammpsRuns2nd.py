@@ -23,18 +23,19 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = 9
+	nThreads = 1
 	nNode	 = 1
 	#
-	jobname  = 'NiNatom100KReplaceCoRlxd'
-	sourcePath = os.getcwd() + '/../postprocess/NiNatom100KReplaceCo' #--- must be different than sourcePath
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom1KTemp1300'][1]
+	sourcePath = os.getcwd() +\
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom1K'][1] #--- must be different than sourcePath
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in'][2] #--- [pbc, rigid walls,] 
+	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp'][3] #--- [pbc, rigid walls,] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '00:59:59' #'167:59:59'

@@ -10,7 +10,7 @@ variable                  damp_p    equal     5000*${dt}    # Barostat damping
 
 units                     metal
 atom_style                atomic
-read_data                 Minimized_NiCoCr.dat
+read_data                 data.txt #Minimized_NiCoCr.dat
 
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
