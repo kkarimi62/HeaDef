@@ -19,7 +19,7 @@
   variable        dt        equal     0.0025         # Time step
   variable        damp_t    equal     200*${dt}      # Thermostat damping
   variable        damp_p    equal     2500*${dt}     # Barostat damping
-  variable		  DataFile	equal	  "Equilibrated_${T}.dat"	
+#  variable		  DataFile	equal	  "Equilibrated_${T}.dat"	
 #----------------------------------------------------------------------------------------#
 
   units           metal

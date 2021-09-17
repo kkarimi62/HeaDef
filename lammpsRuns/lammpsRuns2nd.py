@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
 	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp'][4] #--- [pbc, rigid walls,] 
-	Variables = [' -var T 300'][0] 
+	Variables = [' -var T 300 -var DataFile Equilibrated_300.dat'][0] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '01:59:59' #'167:59:59'
