@@ -25,18 +25,18 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300'][1]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed' ][2]
 	sourcePath = os.getcwd() +\
-				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K'][1] #--- must be different than sourcePath
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','NiCoCrNatom100KTemp300'][2] #--- must be different than sourcePath
         #
-        sourceFiles = ['data.txt']#,'ScriptGroup.txt'] #--- to be copied from the above directory
+        sourceFiles = ['Equilibrated_300.dat']#'data.txt']#,'ScriptGroup.txt'] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp'][3] #--- [pbc, rigid walls,] 
+	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp'][4] #--- [pbc, rigid walls,] 
 	Variables = [' -var T 300'][0] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
