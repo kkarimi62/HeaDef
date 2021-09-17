@@ -27,7 +27,7 @@ if __name__ == '__main__':
 	#
 	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed' ][2]
 	sourcePath = os.getcwd() +\
-				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','NiCoCrNatom100KTemp300'][2] #--- must be different than sourcePath
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300'][2] #--- must be different than sourcePath
         #
         sourceFiles = ['Equilibrated_300.dat']#'data.txt']#,'ScriptGroup.txt'] #--- to be copied from the above directory
 	#
