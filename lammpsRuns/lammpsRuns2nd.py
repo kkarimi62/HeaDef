@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = 9
+	nThreads = 1#9
 	nNode	 = 1
 	#
 	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl' ][3]
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 	Variables = [' -var T 300 -var DataFile Equilibrated_300.dat',''][1] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
-	durtn = '01:59:59' #'167:59:59'
+	durtn = '00:59:59' #'167:59:59'
 	SCRATCH = None
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
