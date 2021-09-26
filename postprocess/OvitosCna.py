@@ -12,7 +12,7 @@ import pdb
 InputFile = sys.argv[1] 
 OutputFile = sys.argv[2]
 nevery = int(sys.argv[3])
-AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis 1:g(r) 2:d2min 3:voronoi analysis
+AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis 1:g(r) 2:d2min 3:voronoi analysis 4:displacements
 if AnalysisType == 3:
     radii=list(map(float,sys.argv[5:]))
 
@@ -46,19 +46,27 @@ if AnalysisType == 3:
     #atypes = pipeline.source.particle_properties.particle_type.type_list
     type_property = pipeline.source.particle_properties.particle_type
 #     print(radii)
+    use_radii = True
     for t in type_property.type_list:
 #         print(t.id)
         t.radius = radii[t.id-1]
+        if radii[t.id-1] == 0.0:
+            use_radii = False
     # Set up the Voronoi analysis modifier.
     voro = md.VoronoiAnalysisModifier(
                                     compute_indices = True,
-                                    use_radii = True,
+                                    use_radii = use_radii,
                                     edge_count = 9, # Length after which Voronoi index vectors are truncated
                                     edge_threshold = 0.1
                                     )
     pipeline.modifiers.append(voro)
 
     
+if AnalysisType == 4:
+    disp = md.CalculateDisplacementsModifier()
+    disp.reference.load(InputFile)
+    pipeline.modifiers.append(disp)
+
 
 
 for frame in range(0,pipeline.source.num_frames,nevery):
@@ -114,6 +122,16 @@ if AnalysisType == 3:
                     multiple_frames=True 
                   )   
 
+if AnalysisType == 4:
+    io.export_file( pipeline, OutputFile, "lammps_dump",\
+                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
+                               "Displacement.X","Displacement.Y","Displacement.Z"],
+                     start_frame = 0,
+                     end_frame = pipeline.source.num_frames,
+                     every_nth_frame = nevery,
+                     multiple_frames=True )
+
+    
 # Export the computed RDF data to a text file.
 
 '''

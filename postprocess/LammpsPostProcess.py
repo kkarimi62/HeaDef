@@ -42,7 +42,7 @@ def GetOrthogonalBasis( CellVector ):
     
     return np.c_[a0, a1_perp, a2], [l0, l1, l2]
 
-def GetCubicGrid( CellOrigin, CellVector, dmean, margin  ):
+def GetCubicGrid( CellOrigin, CellVector, dmean, margin, odd=True  ):
 
     CellVectorOrtho, VectorNorm = GetOrthogonalBasis( CellVector )
     
@@ -50,16 +50,18 @@ def GetCubicGrid( CellOrigin, CellVector, dmean, margin  ):
 
 
     [nx, ny, nz] = list(map( int, (np.array(VectorNorm)+2*margin) / dmean ))
-    if nx%2 == 0:
-        nx += 1
-    if ny%2 == 0:
-        ny += 1
-    if nz%2 == 0:
-        nz += 1
+#    print('nx=',nx)
+    if odd:
+        if nx%2 == 0:
+            nx += 1
+        if ny%2 == 0:
+            ny += 1
+        if nz%2 == 0:
+            nz += 1
     
-    x = np.linspace( CellOrigin[0] - margin, CellOrigin[0] + VectorNorm[ 0 ] + margin, nx,endpoint=True)
-    y = np.linspace( CellOrigin[1] - margin, CellOrigin[1] + VectorNorm[ 1 ] + margin, ny,endpoint=True)
-    z = np.linspace( CellOrigin[2] - margin, CellOrigin[2] + VectorNorm[ 2 ] + margin, nz,endpoint=True)
+    x = np.linspace( CellOrigin[0] - margin, CellOrigin[0] + VectorNorm[ 0 ] + margin, nx+1,endpoint=True)
+    y = np.linspace( CellOrigin[1] - margin, CellOrigin[1] + VectorNorm[ 1 ] + margin, ny+1,endpoint=True)
+    z = np.linspace( CellOrigin[2] - margin, CellOrigin[2] + VectorNorm[ 2 ] + margin, nz+1,endpoint=True)
 
     return (x, y, z), np.meshgrid(x, y,z)
 
@@ -262,7 +264,13 @@ class Atoms:
             self.AtomicVolume=kwargs['AtomicVolume']
         if 'rad' in kwargs:
             self.rad=kwargs['rad']
-
+        if 'ux' in kwargs:
+            self.ux = kwargs['ux']
+        if 'uy' in kwargs:
+            self.uy = kwargs['uy']
+        if 'uz' in kwargs:
+            self.uz = kwargs['uz']
+            
     def __getitem__(self,key):
         return self.__dict__[key]
 
@@ -280,6 +288,7 @@ class Box:
             self.CellOrigin = kwargs['CellOrigin']
         if 'CellVector' in kwargs:
             self.CellVector = kwargs['CellVector']
+        self.BasisVectors(**kwargs)
 	#--- 2nd constructor
      
     def BasisVectors( self, **kwargs ):
@@ -306,7 +315,10 @@ class Box:
 
         self.CellOrigin = np.array( [ xlo, ylo, zlo ] )
         self.CellVector = np.c_[ CellVector0, CellVector1, CellVector2 ] 
-        
+
+    def SetBoxBounds( self, **kwargs ):
+        self.BoxBounds = np.c_[self.CellOrigin, self.CellOrigin + np.matmul(self.CellVector, np.array([1,1,1])), np.array([0,0,0])]
+
 
 class Wrap():
 ###########################################################
