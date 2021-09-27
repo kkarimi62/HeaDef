@@ -12,8 +12,8 @@ pair_coeff                * * ${PathEam}/Ni_u3.eam
 
 # -------------------------------------- Minimization -------------------------------------------#
 
-region up block INF INF 115 INF INF INF
-region down block INF INF INF 5 INF INF
+region up block 140 INF 115 INF INF INF
+region down block INF 5 INF 5 INF INF
 group upp region up
 group downn region down
 
