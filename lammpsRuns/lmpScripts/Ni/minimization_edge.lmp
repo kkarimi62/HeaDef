@@ -1,6 +1,6 @@
 units                     metal
 atom_style                atomic
-boundary                  p s p
+boundary                  s s p
 read_data                 data.lmp
 
 
