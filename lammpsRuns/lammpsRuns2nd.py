@@ -36,7 +36,7 @@ if __name__ == '__main__':
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','Ni/minimization_edge.lmp'][6] #--- [pbc, rigid walls,] 
+	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','NiCoCr/minimization_edge.lmp'][6] #--- [pbc, rigid walls,] 
 	Variables = [' -var T 300 -var DataFile Equilibrated_300.dat',''][1] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
