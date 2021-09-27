@@ -1,6 +1,6 @@
 units                     metal
 atom_style                atomic
-boundary                  p s p
+boundary                  s s p
 read_data                 data.lmp
 
 
@@ -13,14 +13,22 @@ pair_coeff                * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
 # -------------------------------------- Minimization -------------------------------------------#
 
 region up block INF INF 115 INF INF INF
-region down block INF INF INF 4 INF INF
+region down block INF INF INF 5 INF INF
+region right block 140 INF INF INF INF INF
+region left block INF 5 INF INF INF INF
 group upp region up
 group downn region down
+group lg region left
+group rg region right
 
 fix 1 upp setforce 0.0 0.0 0.0
 fix 2 downn setforce 0.0 0.0 0.0
+fix 11 lg setforce 0.0 0.0 0.0
+fix 22 rg setforce 0.0 0.0 0.0
 velocity upp set 0 0 0
 velocity downn set 0 0 0
+velocity lg set 0 0 0
+velocity rg set 0 0 0
 
 #-----------------------------
 #--- compute & dump variables
@@ -34,7 +42,7 @@ undump		1
 # -------------------------------------- Minimization -------------------------------------------#
 
 thermo                    100
-minimize 				  0.0 1.0e-8 100000 100000
+minimize 				  0.0 1.0e-4 100000 100000
 
 #-----------------------------
 #--- compute & dump variables
