@@ -12,15 +12,23 @@ pair_coeff                * * ${PathEam}/Ni_u3.eam
 
 # -------------------------------------- Minimization -------------------------------------------#
 
-region up block 140 INF 115 INF INF INF
-region down block INF 5 INF 5 INF INF
+region up block INF INF 115 INF INF INF
+region down block INF INF INF 5 INF INF
+region right block 140 INF INF INF INF INF
+region left block INF 5 INF INF INF INF
 group upp region up
 group downn region down
+group lg region left
+group rg region right
 
 fix 1 upp setforce 0.0 0.0 0.0
 fix 2 downn setforce 0.0 0.0 0.0
+fix 11 lg setforce 0.0 0.0 0.0
+fix 22 rg setforce 0.0 0.0 0.0
 velocity upp set 0 0 0
 velocity downn set 0 0 0
+velocity lg set 0 0 0
+velocity rg set 0 0 0
 
 #-----------------------------
 #--- compute & dump variables
