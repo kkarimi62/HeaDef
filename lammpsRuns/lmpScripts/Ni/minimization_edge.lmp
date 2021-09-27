@@ -1,6 +1,6 @@
 units                     metal
 atom_style                atomic
-#boundary                  p s p
+boundary                  p s p
 read_data                 data.lmp
 
 
@@ -12,15 +12,15 @@ pair_coeff                * * ${PathEam}/Ni_u3.eam
 
 # -------------------------------------- Minimization -------------------------------------------#
 
-#region up block INF INF 115 INF INF INF
-#region down block INF INF INF 4 INF INF
-#group upp region up
-#group downn region down
+region up block INF INF 115 INF INF INF
+region down block INF INF INF 5 INF INF
+group upp region up
+group downn region down
 
-#fix 1 upp setforce 0.0 0.0 0.0
-#fix 2 downn setforce 0.0 0.0 0.0
-#velocity upp set 0 0 0
-#velocity downn set 0 0 0
+fix 1 upp setforce 0.0 0.0 0.0
+fix 2 downn setforce 0.0 0.0 0.0
+velocity upp set 0 0 0
+velocity downn set 0 0 0
 
 #-----------------------------
 #--- compute & dump variables
