@@ -12,15 +12,21 @@ pair_coeff                * * ${PathEam}/Ni_u3.eam
 
 # -------------------------------------- Minimization -------------------------------------------#
 
-region up block INF INF 115 INF INF INF
-region down block INF INF INF 5 INF INF
-region right block 140 INF INF INF INF INF
-region left block INF 5 INF INF INF INF
+#--- fix buffer zone
+variable xxlo	equal xlo+${buff}
+variable xxhi	equal xhi-${buff}
+variable yylo	equal ylo+${buff}
+variable yyhi	equal yhi-${buff}
+#
+region up block INF INF v_yyhi INF INF INF
+region down block INF INF INF v_yylo INF INF
+region right block v_xxhi INF INF INF INF INF
+region left block INF v_xxlo INF INF INF INF
 group upp region up
 group downn region down
 group lg region left
 group rg region right
-
+#
 fix 1 upp setforce 0.0 0.0 0.0
 fix 2 downn setforce 0.0 0.0 0.0
 fix 11 lg setforce 0.0 0.0 0.0

@@ -1,7 +1,7 @@
 units                     metal
 atom_style                atomic
 boundary                  s s p
-read_data                 data.lmp
+read_data                 data.txt
 
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
