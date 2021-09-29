@@ -12,15 +12,24 @@ pair_coeff                * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
 
 # -------------------------------------- Minimization -------------------------------------------#
 
-region up block INF INF 115 INF INF INF
-region down block INF INF INF 5 INF INF
-region right block 140 INF INF INF INF INF
-region left block INF 5 INF INF INF INF
+#--- fix buffer zone
+variable xxlo	equal xlo
+variable x0		equal v_xxlo+${buff}
+#
+variable xxhi	equal xhi 
+variable x1		equal v_xxhi-${buff}
+#
+variable yylo	equal ylo
+variable y0	equal v_yylo+${buff}
+
+variable yyhi	equal yhi
+variable y1		equal v_yyhi-${buff}
+#
 group upp region up
 group downn region down
 group lg region left
 group rg region right
-
+#
 fix 1 upp setforce 0.0 0.0 0.0
 fix 2 downn setforce 0.0 0.0 0.0
 fix 11 lg setforce 0.0 0.0 0.0
