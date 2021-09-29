@@ -25,18 +25,18 @@ if __name__ == '__main__':
 	nThreads = 1#9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl' ][5]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl' ][4]
 	sourcePath = os.getcwd() +\
-				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K'][5] #--- must be different than sourcePath
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K'][4] #--- must be different than sourcePath
         #
-        sourceFiles = [['Equilibrated_300.dat'],['data.txt','ScriptGroup.txt'],['data.txt'],['data.lmp']][3] #--- to be copied from the above directory
+        sourceFiles = [['Equilibrated_300.dat'],['data.txt','ScriptGroup.txt'],['data.txt']][2] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','NiCoCr/minimization_edge.lmp'][6] #--- [pbc, rigid walls,] 
+	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','NiCoCr/minimization_edge.lmp'][5] #--- [pbc, rigid walls,] 
 	Variables = [' -var T 300 -var DataFile Equilibrated_300.dat',''][1] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
