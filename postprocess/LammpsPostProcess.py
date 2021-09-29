@@ -131,6 +131,44 @@ class ReadDumpFile:
         cols = slist.readline().split()[2:]
 
         return np.array([slist.readline().split() for i in range( nrows )]), CellVector, itime, cols
+    
+    def ReadData( self, ncount = 1, columns = {} ):
+        itime = 0
+        slist = open( self.path )    
+        #
+        [slist.readline() for i in range(2)]
+        #
+        natom = int(slist.readline().split()[0])
+        ntype = int(slist.readline().split()[0])
+        #
+        slist.readline()
+        #
+        cell_vector = np.array([slist.readline().split()[0:2] for i in range( 3 )])
+        #
+        [slist.readline() for i in range(7)]
+        #       
+        sarr = np.array([slist.readline().split() for i in range( natom )]) #--- get coord
+
+        #--- insert in a data frame
+        self.coord_atoms_broken[ itime ] = pd.DataFrame( np.c_[sarr].astype('float'), columns = ['id','type','x','y','z'] )
+
+        #--- cast id and type to 'int'
+        self.coord_atoms_broken[ itime ]['id'] = list(map(int,self.coord_atoms_broken[ itime ]['id'].tolist()))[:]
+        self.coord_atoms_broken[ itime ]['type'] = list(map(int,self.coord_atoms_broken[ itime ]['type'].tolist()))[:]
+
+        #--- sort
+        self.coord_atoms_broken[ itime ].sort_values( by = 'id', inplace = True )
+
+        #--- reset index
+        self.coord_atoms_broken[ itime ].reset_index( drop=True, inplace=True )
+                
+        #---
+        if len(columns) > 0: #--- change column name
+            self.coord_atoms_broken[ itime ].rename(index=str, columns=columns, inplace = True )
+
+        self.BoxBounds[ itime ] = cell_vector
+#         print(self.coord_atoms_broken[ itime ])
+
 
 ############################################################
 #######  class WriteDumpFile writes LAMMPS dump files 
@@ -284,11 +322,11 @@ class Box:
     def __init__( self, **kwargs ):
         if 'BoxBounds' in kwargs:
             self.BoxBounds = kwargs['BoxBounds']
+            self.BasisVectors(**kwargs)
         if 'CellOrigin' in kwargs:
             self.CellOrigin = kwargs['CellOrigin']
         if 'CellVector' in kwargs:
             self.CellVector = kwargs['CellVector']
-        self.BasisVectors(**kwargs)
 	#--- 2nd constructor
      
     def BasisVectors( self, **kwargs ):
