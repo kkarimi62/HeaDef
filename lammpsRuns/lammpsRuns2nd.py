@@ -25,9 +25,9 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl' ][4]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl', 'NiCoCrNatom1000KEdgeDisl' ][6]
 	sourcePath = os.getcwd() +\
-				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K'][4] #--- must be different than sourcePath
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K', '/../postprocess/NiCoCrNatom1000K'][6] #--- must be different than sourcePath
         #
         sourceFiles = [['Equilibrated_300.dat'],['data.txt','ScriptGroup.txt'],['data.txt']][2] #--- to be copied from the above directory
 	#
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','NiCoCr/minimization_edge.lmp'][5] #--- [pbc, rigid walls,] 
+	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','NiCoCr/minimization_edge.lmp'][6] #--- [pbc, rigid walls,] 
 	Variables = [' -var T 300 -var DataFile Equilibrated_300.dat',' -var buff 6.0 -var nevery 10'][1] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
