@@ -25,19 +25,19 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl', 'NiCoCrNatom1000KEdgeDisl', 'NiCoCrNatom100KTemp1300Annealed' ][-1]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl', 'NiCoCrNatom1000KEdgeDisl', 'NiCoCrNatom200KTemp600' ][-1]
 	sourcePath = os.getcwd() +\
-				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K', '/../postprocess/NiCoCrNatom1000K', '/NiCoCrNatom100KTemp1300'][-1] #--- must be different than sourcePath
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K', '/../postprocess/NiCoCrNatom1000K', '/NiCoCrNatom200K'][-1] #--- must be different than sourcePath
         #
-        sourceFiles = [['Equilibrated_1300.dat'],['data.txt','ScriptGroup.txt'],['data.txt']][0] #--- to be copied from the above directory
+        sourceFiles = [['Equilibrated_1300.dat'],['data.txt','ScriptGroup.txt'],['data.txt']][-1] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','NiCoCr/minimization_edge.lmp'][4] #--- [pbc, rigid walls,] 
-	Variables = [' -var T 1300 -var DataFile Equilibrated_1300.dat',' -var buff 6.0 -var nevery 10'][0] 
+	LmpScript = ['Ni/relax.in', 'Ni/relaxWalls.in', 'NiCoCr/relax.in','NiCoCr/Thermalization.lmp', 'NiCoCr/vsgc.lmp', 'Ni/minimization_edge.lmp','NiCoCr/minimization_edge.lmp'][3] #--- [pbc, rigid walls,] 
+	Variables = [' -var T 600 -var DataFile Equilibrated_600.dat',' -var buff 6.0 -var nevery 10'][0] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '23:59:59' #'167:59:59'
