@@ -25,9 +25,9 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl', 'NiCoCrNatom1000KEdgeDisl', 'NiCoCrNatom200KTemp600Annealed' ][-1]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiCoCrNatom100KTemp300Annealed', 'NiCoCrT0EdgeDisl', 'NiNatom1KEdgeDisl','NiCoCrNatom1KEdgeDisl', 'NiCoCrNatom1000KEdgeDisl', 'NiCoCrNatom400KTemp600Annealed' ][-1]
 	sourcePath = os.getcwd() +\
-				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K', '/../postprocess/NiCoCrNatom1000K', '/NiCoCrNatom200KTemp600'][-1] #--- must be different than sourcePath
+				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1K','/../postprocess/NiCoCrNatom1K', '/../postprocess/NiCoCrNatom1000K', '/NiCoCrNatom400KTemp600'][-1] #--- must be different than sourcePath
         #
         sourceFiles = [['Equilibrated_600.dat'],['data.txt','ScriptGroup.txt'],['data.txt']][0] #--- to be copied from the above directory
 	#
