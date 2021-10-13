@@ -55,7 +55,15 @@
   thermo          10
   thermo_style    custom step temp atoms pe press  lx ly lz f_mc[1] f_mc[2] f_mc[3] f_mc[4]
   thermo_modify   flush yes
-  dump            mydump all custom 1000 Swapped_${T}.dump id type x y z
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        11 all custom 1000 ${OUT_PATH}/Swapped_${T}.dump id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 11 flush yes format line "%d %d %5.4e %5.4e %5.4e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+#  dump            mydump all custom 1000 Swapped_${T}.dump id type x y z
 #  restart         ${t_sw}       Swap_$TK.restart 
   run             ${t_sw}
   
