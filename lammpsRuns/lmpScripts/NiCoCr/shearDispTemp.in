@@ -15,8 +15,8 @@ variable Nevery  	equal	ceil(${Nstep}/100)
 units			metal
 atom_style      atomic
 boundary    	p p p
-change_box		all	triclinic
 read_data		${DataFile} 
+change_box		all	triclinic
 
 #--- get number of atoms
 variable	natom	equal	"atoms"
