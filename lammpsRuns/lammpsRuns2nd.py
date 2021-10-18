@@ -25,7 +25,7 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiNatom1KT0EdgeDisl', 'NiCoCrNatom1000KEdgeDisl', 'NiCoCrNatom200KTemp600Annealed', 'NiCoCrNatom100KTemp300Gdot4' ][-1]
+	jobname  = ['NiNatom100KReplaceCoRlxd','NiCoCrNatom100KTemp300', 'NiNatom1KT0EdgeDisl', 'NiCoCrNatom1000KEdgeDisl', 'NiCoCrNatom200KTemp600Annealed', 'NiCoCrNatom100KTemp300Gdot4' ][2]
 	sourcePath = os.getcwd() +\
 				['/../postprocess/NiCoCrNatom1K','/NiCoCrNatom100K','/NiCoCrNatom100KTemp300','/junk','/../postprocess/NiNatom1KEdgeDisl','/../postprocess/NiCoCrNatom1K', '/../postprocess/NiCoCrNatom1000K', '/NiCoCrNatom200KTemp600'][4] #--- must be different than sourcePath
         #
