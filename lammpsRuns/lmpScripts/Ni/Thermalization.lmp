@@ -1,0 +1,47 @@
+
+
+# -------------------------------------- General Variables --------------------------------------#
+variable                  t_eq      equal     6000         # Equlibration time
+variable				  nevery	equal	  200
+variable                  dt        equal     0.001         # Time step
+variable                  damp_t    equal     200*${dt}     # Thermostat damping
+variable                  damp_p    equal     5000*${dt}    # Barostat damping
+
+# --------------------------------------- Atomic Setup ------------------------------------------#
+
+units                     metal
+atom_style                atomic
+read_data                 data.txt #Minimized_NiCoCr.dat
+
+
+# -------------------------------- EAM Interatomic Potential ------------------------------------#
+
+pair_style                eam #/alloy
+pair_coeff                * * ${PathEam}/Ni_u3.eam
+neighbor    0.3 bin                #--- define parameters for neighbor list
+neigh_modify    delay 5            #--- define parameters for neighbor list
+  
+# ----------------------------------- NVT Equilibration -----------------------------------------#
+
+velocity                  all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
+ 
+thermo                    100
+thermo_style              custom    step temp etotal pe press vol
+fix                      f1        all        nvt temp   $T  $T  ${damp_t}  #iso 1.0e-03 1.0e-03 ${damp_p} fixedpoint 0.0 0.0 0.0
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        1 all custom ${nevery} ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+#dump                      mydump all custom ${nevery} equilibrium.dump id type x y z
+run                       ${t_eq}
+
+unfix                     f1
+reset_timestep            0
+# -------------------------------------- Write Data ----------------------------------------------#
+
+write_data                Equilibrated_$T.dat  
+  
