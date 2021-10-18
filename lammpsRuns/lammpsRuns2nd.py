@@ -39,7 +39,7 @@ if __name__ == '__main__':
 	Alloy = {1:'Ni', 2:'NiCoCr'}[1]
 	#
 	LmpScript = '%s/'%Alloy+{1:'relax.in', 2:'relaxWalls.in', 3:'Thermalization.lmp', 4:'vsgc.lmp', 5:'minimization_edge.lmp', 6:'shearDispTemp.in', 7:'Thermalization_edge.lmp'}[5] #--- [pbc, rigid walls,] 
-	Variables = [6:' -var T 300 -var DataFile Equilibrated_300.dat',5:' -var buff 6.0 -var nevery 10', 7:' -var buff 6.0 -var T 300 -var DataFile data_minimized.txt'}[5] 
+	Variables = {6:' -var T 300 -var DataFile Equilibrated_300.dat',5:' -var buff 6.0 -var nevery 10', 7:' -var buff 6.0 -var T 300 -var DataFile data_minimized.txt'}[5] 
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '23:59:59'
