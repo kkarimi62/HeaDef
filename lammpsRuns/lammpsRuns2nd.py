@@ -19,7 +19,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 
 if __name__ == '__main__':
 	import os
-        import numpy as np
+	import numpy as np
 
 	nruns	 = 1
 	#
