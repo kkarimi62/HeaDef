@@ -45,7 +45,7 @@ if __name__ == '__main__':
 	#--- different scripts in a pipeline
 	indices = [5,7]
 	Pipeline = list(map(lambda x:'%s/'%Alloy+LmpScript[x],indices))
-	Variables = list(map(lambda x:Variable[x], indices)))
+	Variables = list(map(lambda x:Variable[x], indices))
 	#
 	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '23:59:59'
