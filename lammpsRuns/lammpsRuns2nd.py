@@ -39,14 +39,23 @@ if __name__ == '__main__':
 	#
 	Alloy = {1:'Ni', 2:'NiCoCr'}[1]
 	#
-	LmpScript = {1:'relax.in', 2:'relaxWalls.in', 3:'Thermalization.lmp', 4:'vsgc.lmp', 5:'minimization_edge.lmp', 6:'shearDispTemp.in', 7:'Thermalization_edge.lmp'} #--- [pbc, rigid walls,] 
+	LmpScript = { 	1:'relax.in', 
+					2:'relaxWalls.in', 
+					3:'Thermalization.lmp', 
+					4:'vsgc.lmp', 
+					5:'minimization_edge.lmp', 
+					6:'shearDispTemp.in', 
+					7:'Thermalization_edge.lmp',
+					8:'shearDispTemp_edge.in',
+				} #--- [pbc, rigid walls,] 
 	#
 	Variable = {6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
-				7:' -var buff 6.0 -var T 0.3 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat'
+				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat'
+				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz'
 				} 
 	#--- different scripts in a pipeline
-	indices = [5,7]
+	indices = [5,7,8]
 	Pipeline = list(map(lambda x:'%s/'%Alloy+LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	#
