@@ -13,7 +13,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	if EXEC == 'lmp_mpi' or EXEC == 'lmp_serial':
 		for script,var,indx in zip(Pipeline,Variables,range(100)):
-		print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, EXEC, 'lmpScript%s.txt'%indx, OUT_PATH, MEAM_library_DIR, var)
+			print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, EXEC, 'lmpScript%s.txt'%indx, OUT_PATH, MEAM_library_DIR, var)
 	someFile.close()										  
 
 
