@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	#
 	Variable = {6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
-				7:' -var buff 6.0 -var T 300 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat'
+				7:' -var buff 6.0 -var T 30 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat'
 				} 
 	#--- different scripts in a pipeline
 	indices = [5,7]
