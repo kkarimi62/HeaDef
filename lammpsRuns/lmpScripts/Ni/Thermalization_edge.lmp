@@ -66,7 +66,7 @@ fix                      f1        all        nvt temp   $T  $T  ${damp_t}  #iso
 #--- compute & dump variables
 #-----------------------------
 compute     1 all stress/atom NULL pair
-dump        1 all custom ${nevery} ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump        1 all custom ${nevery} ${OUT_PATH}/${DumpFile} id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 
 #dump                      mydump all custom ${nevery} equilibrium.dump id type x y z
@@ -76,5 +76,5 @@ unfix                     f1
 reset_timestep            0
 # -------------------------------------- Write Data ----------------------------------------------#
 
-write_data                Equilibrated_$T.dat  
+write_data                ${WriteData} 
   

@@ -1,7 +1,7 @@
 units                     metal
 atom_style                atomic
 boundary                  s s p
-read_data                 data.txt
+read_data                 ${DataFile}
 
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
@@ -47,7 +47,7 @@ velocity rg set 0 0 0
 #--- compute & dump variables
 #-----------------------------
 compute     1 all stress/atom NULL pair
-dump        1 all custom ${nevery} ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump        1 all custom ${nevery} ${OUT_PATH}/${DumpFile} id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 run	0
 undump		1
@@ -60,9 +60,9 @@ minimize 				  0.0 1.0e-6 100000 100000
 #-----------------------------
 #--- compute & dump variables
 #-----------------------------
-dump        1 all custom ${nevery} ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump        1 all custom ${nevery} ${OUT_PATH}/${DumpFile} id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 1 flush yes append yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 
-write_data data_minimized.txt
+write_data ${WriteData} 
 
 run	0
