@@ -22,8 +22,8 @@ change_box		all	triclinic
 variable	natom	equal	"atoms"
 
 # ---------- Define Interatomic Potential --------------------- 
-pair_style              eam/alloy
-pair_coeff              * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
+pair_style              eam #/alloy
+pair_coeff              * * ${PathEam}/Ni_u3.eam
 neighbor    			0.3 bin            #--- define parameters for neighbor list
 neigh_modify    		delay 5            #--- define parameters for neighbor list
 
