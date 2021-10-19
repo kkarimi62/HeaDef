@@ -39,7 +39,7 @@ if __name__ == '__main__':
 	#
 	Alloy = {1:'Ni', 2:'NiCoCr'}[1]
 	#
-	LmpScript = '%s/'%Alloy+{1:'relax.in', 2:'relaxWalls.in', 3:'Thermalization.lmp', 4:'vsgc.lmp', 5:'minimization_edge.lmp', 6:'shearDispTemp.in', 7:'Thermalization_edge.lmp'} #--- [pbc, rigid walls,] 
+	LmpScript = {1:'relax.in', 2:'relaxWalls.in', 3:'Thermalization.lmp', 4:'vsgc.lmp', 5:'minimization_edge.lmp', 6:'shearDispTemp.in', 7:'Thermalization_edge.lmp'} #--- [pbc, rigid walls,] 
 	#
 	Variable = {6:' -var T 300 -var DataFile Equilibrated_300.dat',5:' -var buff 6.0 -var nevery 1', 7:' -var buff 6.0 -var T 300 -var DataFile data_minimized.txt'} 
 	#--- different scripts in a pipeline
