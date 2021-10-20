@@ -60,6 +60,8 @@ region    mybox block 0 ${lx} 0 ${lx} 0 ${lx}   ## define box sizes along x, y, 
 create_box      3 mybox              ## create the simulation box, allowing a max of three species
 create_atoms    1 box               ## create type-1 metal atoms in the box
 
+change_box	all	triclinic
+
 # Need to set mass to something, just to satisfy LAMMPS
 mass 1 1.0e-20
 
