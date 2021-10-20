@@ -47,7 +47,7 @@ if __name__ == '__main__':
 					7:'/../postprocess/NiCoCrNatom1000K', 
 					8:'/NiCoCrNatom200KTemp600', 
 					9:'/NiNatom1KT0EdgeDisl',
-				}[0] #--- must be different than sourcePath
+				}[4] #--- must be different than sourcePath
         #
 	sourceFiles = { 0:False,
 					1:['Equilibrated_300.dat'],
