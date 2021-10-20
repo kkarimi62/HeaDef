@@ -19,7 +19,7 @@ if __name__ == '__main__':
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + ['/../lammpsRuns/NiCoCrNatom100KTakeOneOutRlxd','/../lammpsRuns/NiCoCrNatom200KTemp600Annealed'][1] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
-	durtn = '00:59:59'
+	durtn = '23:59:59'
 	mem = '8gb'
 	partition = ['single','cpu2019','bigmem','parallel'][0] 
 	argv = "path=%s"%(readPath) #--- don't change! 
