@@ -26,11 +26,37 @@ if __name__ == '__main__':
 	nThreads = 9
 	nNode	 = 1
 	#
-	jobname  = {1:'NiNatom100KReplaceCoRlxd',2:'NiCoCrNatom100KTemp300', 3:'NiNatom1KT0EdgeDisl', 4:'NiCoCrNatom1000KEdgeDisl', 5:'NiCoCrNatom200KTemp600Annealed', 6:'NiCoCrNatom100KTemp300Gdot4',7:'NiNatom1KT300EdgeDisl'}[7]
+	jobname  = {
+				1:'NiNatom100KReplaceCoRlxd',
+				2:'NiCoCrNatom100KTemp300', 
+				3:'NiNatom1KT0EdgeDisl', 
+				4:'NiCoCrNatom1000KEdgeDisl', 
+				5:'NiCoCrNatom200KTemp600Annealed', 
+				6:'NiCoCrNatom100KTemp300Gdot4',
+				7:'NiNatom1KT300EdgeDisl',
+				8:'NiNatom1KT0Elastic'
+			   }[8]
 	sourcePath = os.getcwd() +\
-				{1:'/../postprocess/NiCoCrNatom1K',2:'/NiCoCrNatom100K',3:'/NiCoCrNatom100KTemp300',4:'/junk',5:'/../postprocess/NiNatom1KEdgeDisl',6:'/../postprocess/NiCoCrNatom1K', 7:'/../postprocess/NiCoCrNatom1000K', 8:'/NiCoCrNatom200KTemp600', 9:'/NiNatom1KT0EdgeDisl'}[5] #--- must be different than sourcePath
+				{
+					1:'/../postprocess/NiCoCrNatom1K',
+					2:'/NiCoCrNatom100K',
+					3:'/NiCoCrNatom100KTemp300',
+					4:'/junk',
+					5:'/../postprocess/NiNatom1KEdgeDisl',
+					6:'/../postprocess/NiCoCrNatom1K', 
+					7:'/../postprocess/NiCoCrNatom1000K', 
+					8:'/NiCoCrNatom200KTemp600', 
+					9:'/NiNatom1KT0EdgeDisl',
+					10:'/lmpScripts/Ni/Elastic',
+				}[10] #--- must be different than sourcePath
         #
-	sourceFiles = {1:['Equilibrated_300.dat'],2:['data.txt','ScriptGroup.txt'],3:['data.txt'], 4:['data_minimized.txt']}[3] #--- to be copied from the above directory
+	sourceFiles = {
+					1:['Equilibrated_300.dat'],
+					2:['data.txt','ScriptGroup.txt'],
+					3:['data.txt'], 
+					4:['data_minimized.txt'],
+					5:['potential.mod','init.mod','displace.mod'],
+				 }[5] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
@@ -39,7 +65,8 @@ if __name__ == '__main__':
 	#
 	Alloy = {1:'Ni', 2:'NiCoCr'}[1]
 	#
-	LmpScript = { 	1:'relax.in', 
+	LmpScript = {	0:'PrepTemp0.in',
+				 	1:'relax.in', 
 					2:'relaxWalls.in', 
 					3:'Thermalization.lmp', 
 					4:'vsgc.lmp', 
@@ -47,15 +74,22 @@ if __name__ == '__main__':
 					6:'shearDispTemp.in', 
 					7:'Thermalization_edge.lmp',
 					8:'shearDispTemp_edge.in',
-				} #--- [pbc, rigid walls,] 
+					9:'in.elastic',
+				} 
 	#
-	Variable = {6:' -var T 300 -var DataFile Equilibrated_300.dat',
+	Variable = {
+				0:' -var natom 1000 -var cutoff 3.52'
+				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
-				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz'
+				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
+				9:' -var natom 1000 -var cutoff 3.52 ',
 				} 
 	#--- different scripts in a pipeline
-	indices = [5,7,8]
+	indices = {
+				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
+				1:[9],     #--- elastic constants- 
+			  }[1]
 	Pipeline = list(map(lambda x:'%s/'%Alloy+LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	#
