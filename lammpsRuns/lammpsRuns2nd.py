@@ -63,7 +63,7 @@ if __name__ == '__main__':
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	Alloy = {1:'Ni', 2:'NiCoCr'}[1]
+	Alloy = {1:'Ni/Elastic', 2:'NiCoCr'}[1]
 	#
 	LmpScript = {	0:'PrepTemp0.in',
 				 	1:'relax.in', 
