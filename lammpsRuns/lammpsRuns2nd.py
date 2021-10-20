@@ -81,7 +81,7 @@ if __name__ == '__main__':
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
 				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
-				9:' -var natom 1000 -var cutoff 3.52 -var INC %s/%s'%(SCRPT_DIR,Alloy),
+				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s/%s'%(SCRPT_DIR,Alloy),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
