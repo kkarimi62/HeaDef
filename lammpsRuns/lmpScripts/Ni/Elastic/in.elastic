@@ -43,8 +43,8 @@
 #  init.mod. 
 #
 
-include init.mod
-include potential.mod
+include ${INC}/init.mod
+include ${INC}/potential.mod
 
 # Compute initial state
 fix 3 all box/relax  aniso 0.0
@@ -88,32 +88,32 @@ write_restart restart.equil
 # uxx Perturbation
 
 variable dir equal 1
-include displace.mod
+include ${INC}/displace.mod
 
 # uyy Perturbation
 
 variable dir equal 2
-include displace.mod
+include ${INC}/displace.mod
 
 # uzz Perturbation
 
 variable dir equal 3
-include displace.mod
+include ${INC}/displace.mod
 
 # uyz Perturbation
 
 variable dir equal 4
-include displace.mod
+include ${INC}/displace.mod
 
 # uxz Perturbation
 
 variable dir equal 5
-include displace.mod
+include ${INC}/displace.mod
 
 # uxy Perturbation
 
 variable dir equal 6
-include displace.mod
+include ${INC}/displace.mod
 
 # Output final values
 

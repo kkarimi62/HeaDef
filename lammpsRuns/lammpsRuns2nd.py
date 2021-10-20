@@ -37,7 +37,7 @@ if __name__ == '__main__':
 				8:'NiNatom1KT0Elastic'
 			   }[8]
 	sourcePath = os.getcwd() +\
-				{
+				{	0:None,
 					1:'/../postprocess/NiCoCrNatom1K',
 					2:'/NiCoCrNatom100K',
 					3:'/NiCoCrNatom100KTemp300',
@@ -47,16 +47,14 @@ if __name__ == '__main__':
 					7:'/../postprocess/NiCoCrNatom1000K', 
 					8:'/NiCoCrNatom200KTemp600', 
 					9:'/NiNatom1KT0EdgeDisl',
-					10:'/lmpScripts/Ni/Elastic',
-				}[10] #--- must be different than sourcePath
+				}[0] #--- must be different than sourcePath
         #
-	sourceFiles = {
+	sourceFiles = { 0:None
 					1:['Equilibrated_300.dat'],
 					2:['data.txt','ScriptGroup.txt'],
 					3:['data.txt'], 
 					4:['data_minimized.txt'],
-					5:['potential.mod','init.mod','displace.mod'],
-				 }[5] #--- to be copied from the above directory
+				 }[0] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
@@ -83,7 +81,7 @@ if __name__ == '__main__':
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
 				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
-				9:' -var natom 1000 -var cutoff 3.52 ',
+				9:' -var natom 1000 -var cutoff 3.52 -var INC %s/%s'%(SCRPT_DIR,Alloy),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
@@ -115,8 +113,9 @@ if __name__ == '__main__':
 		#---
 		for script,indx in zip(Pipeline,range(100)):
 			os.system( 'cp %s/%s %s/lmpScript%s.txt' %( SCRPT_DIR, script, writPath, indx) ) #--- lammps script: periodic x, pxx, vy, load
-		for sf in sourceFiles:
-			os.system( 'cp %s/Run%s/%s %s' %(sourcePath, irun, sf, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+		if sourceFiles: 
+			for sf in sourceFiles:
+				os.system( 'cp %s/Run%s/%s %s' %(sourcePath, irun, sf, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		#---
 		makeOAR( path, 1, nThreads, durtn) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh %s' % ( writPath) ) # --- create folder & mv oar scrip & cp executable
