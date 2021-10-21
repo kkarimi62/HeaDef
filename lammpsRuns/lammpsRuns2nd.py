@@ -61,7 +61,7 @@ if __name__ == '__main__':
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	Alloy = {1:'Ni/Elastic', 2:'NiCoCr/Elastic'}[2]
+	Alloy = {1:'Ni/Elastic', 2:'NiCoCr'}[2]
 	#
 	LmpScript = {	0:'PrepTemp0.in',
 				 	1:'relax.in', 
@@ -76,7 +76,7 @@ if __name__ == '__main__':
 				} 
 	#
 	Variable = {
-				0:' -var natom 1000 -var cutoff 3.52',
+				0:' -var natom 1000 -var cutoff 3.52  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
@@ -87,7 +87,8 @@ if __name__ == '__main__':
 	indices = {
 				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-			  }[1]
+				2:[0],	   #--- local elastic constants
+			  }[2]
 	Pipeline = list(map(lambda x:'%s/'%Alloy+LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	#
