@@ -15,20 +15,31 @@ if __name__ == '__main__':
 	import os
 #
 	nruns	 = range(1)
-	jobname  = ['HeaNiCoCrNatom10KTakeOneOutFreeze','NiCoCrNatom100KTakeOneOut', 'NiNatom100KTakeOneOut','NiNatom100KReplaceCr','NiNatom100KReplaceCo','NiNatom1K','NiCoCrNatom1000K', 'NiNatom1KEdgeDisl'][-1]
+	jobname  = {
+					1:'HeaNiCoCrNatom10KTakeOneOutFreeze',
+					2:'NiCoCrNatom100KTakeOneOut', 
+					3:'NiNatom100KTakeOneOut',
+					4:'NiNatom100KReplaceCr',
+					5:'NiNatom100KReplaceCo',
+					6:'NiNatom1K',
+					7:'NiCoCrNatom1000K', 
+					8:'NiNatom1KEdgeDisl',
+					9:'NiCoCrNatom1KT0Elastic',
+				}[9]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/NiCoCrNatom1000K' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/NiCoCrNatom1KT0Elastic' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:59:59'
 	mem = '8gb'
 	partition = ['cpu2019','bigmem','parallel','single'][3]
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "fract=0.2" 
+	argv2nd = "fileName=data_init.txt\ndmean=10.0" 
 	SingleHea = True #--- remove atoms from a single realization
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
+		1:'partition.ipynb'
 		}
-	keyno = 0
+	keyno = 1
 #---
 #---
 	PYFIL = PYFILdic[ keyno ] 

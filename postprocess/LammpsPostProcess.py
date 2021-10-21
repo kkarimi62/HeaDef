@@ -145,9 +145,9 @@ class ReadDumpFile:
         #
         cell_vector = np.array([slist.readline().split()[0:2] for i in range( 3 )])
         #
-        [slist.readline() for i in range(7)]
+        [slist.readline() for i in range(6+ntype)]
         #       
-        sarr = np.array([slist.readline().split() for i in range( natom )]) #--- get coord
+        sarr = np.array([slist.readline().split()[:5] for i in range( natom )]) #--- get coord
 
         #--- insert in a data frame
         self.coord_atoms_broken[ itime ] = pd.DataFrame( np.c_[sarr].astype('float'), columns = ['id','type','x','y','z'] )
