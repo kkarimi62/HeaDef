@@ -35,8 +35,13 @@ group kind3 type 3
 # ---------- Define Interatomic Potential --------------------- 
 pair_style              eam/alloy
 pair_coeff              * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
-neighbor    			0.3 bin            #--- define parameters for neighbor list
-neigh_modify    		delay 5            #--- define parameters for neighbor list
+
+
+# Setup neighbor style
+neighbor 1.0 nsq
+neigh_modify once no every 1 delay 0 check yes
+#neighbor    			0.3 bin            #--- define parameters for neighbor list
+#neigh_modify    		delay 5            #--- define parameters for neighbor list
 
 #-----------------------------
 #--- compute & dump variables
@@ -50,7 +55,20 @@ undump		1
 # -------------------------------------- Minimization -------------------------------------------#
 thermo                    1000
 fix                       p1        all        box/relax   iso 1.0e-3 #vmax 0.001 #--- equilibrate at p=0 
-minimize 				  0.0 1.0e-08 100000 100000
+
+# Setup minimization style
+min_style	     cg
+min_modify	     dmax ${dmax} line quadratic
+
+# Define minimization parameters
+variable etol equal 0.0 
+variable ftol equal 1.0e-08
+variable maxiter equal 100000
+variable maxeval equal 100000
+variable dmax equal 1.0e-2
+#
+minimize ${etol} ${ftol} ${maxiter} ${maxeval}
+#
 unfix                     p1
 
 #-----------------------------

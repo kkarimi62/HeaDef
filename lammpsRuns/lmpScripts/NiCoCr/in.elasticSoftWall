@@ -14,7 +14,7 @@
 #		     not stored in restart file
 #
 #
-#   displace.mod    (displace.mod should not need to be modified)
+#   displaceSoftWall.mod    (displaceSoftWall.mod should not need to be modified)
 # 		    Perform positive and negative box displacements 
 # 		    in direction ${dir} and size ${up}. 
 # 		    It uses the resultant changes 
@@ -45,35 +45,35 @@
 
 include ${INC}/initSoftWall.mod
 include ${INC}/potential.mod
-include ${AtomGroup}
+#include ${AtomGroup}
 
 #--- compute stress
-compute		peratom freeGr stress/atom NULL pair
-compute		p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3]	c_peratom[4] c_peratom[5] c_peratom[6]
-variable	pxx equal c_p[1] 
-variable	pyy equal c_p[2] 
-variable	pzz equal c_p[3] 
-variable	pxy equal c_p[4] 
-variable	pxz equal c_p[5] 
-variable	pyz equal c_p[6] 
-
+#compute		peratom freeGr stress/atom NULL pair
+#compute		p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3]	c_peratom[4] c_peratom[5] c_peratom[6]
+compute     peratom all stress/atom NULL
+compute     p all reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+#
+variable    press equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
+variable 	pxx0 equal -c_p[1]/vol
+variable 	pyy0 equal -c_p[2]/vol
+variable 	pzz0 equal -c_p[3]/vol
+variable 	pyz0 equal -c_p[6]/vol
+variable 	pxz0 equal -c_p[5]/vol
+variable 	pxy0 equal -c_p[4]/vol
+#
 # Compute initial state
-fix 3 all box/relax  aniso 0.0
-minimize ${etol} ${ftol} ${maxiter} ${maxeval}
+minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
-variable tmp equal pxx
-variable pxx0 equal ${tmp}
-variable tmp equal pyy
-variable pyy0 equal ${tmp}
-variable tmp equal pzz
-variable pzz0 equal ${tmp}
-variable tmp equal pyz
-variable pyz0 equal ${tmp}
-variable tmp equal pxz
-variable pxz0 equal ${tmp}
-variable tmp equal pxy
-variable pxy0 equal ${tmp}
-
+#--- store initial stress
+thermo_style	custom	step	v_pxx0	pxx
+run	0
+variable	sxx0	equal ${pxx0}
+variable	syy0	equal ${pyy0}
+variable	szz0	equal ${pzz0}
+variable	syz0	equal ${pyz0}
+variable	sxz0	equal ${pxz0}
+variable	sxy0	equal ${pxy0}
+#
 variable tmp equal lx
 variable lx0 equal ${tmp}
 variable tmp equal ly
@@ -83,55 +83,55 @@ variable lz0 equal ${tmp}
 
 # These formulas define the derivatives w.r.t. strain components
 # Constants uses $, variables use v_ 
-variable d1 equal -(v_pxx1-${pxx0})/(v_delta/v_len0)*${cfac}
-variable d2 equal -(v_pyy1-${pyy0})/(v_delta/v_len0)*${cfac}
-variable d3 equal -(v_pzz1-${pzz0})/(v_delta/v_len0)*${cfac}
-variable d4 equal -(v_pyz1-${pyz0})/(v_delta/v_len0)*${cfac}
-variable d5 equal -(v_pxz1-${pxz0})/(v_delta/v_len0)*${cfac}
+variable d1 equal -(v_pxx1-${sxx0})/(v_delta/v_len0)*${cfac}
+variable d2 equal -(v_pyy1-${syy0})/(v_delta/v_len0)*${cfac}
+variable d3 equal -(v_pzz1-${szz0})/(v_delta/v_len0)*${cfac}
+variable d4 equal -(v_pyz1-${syz0})/(v_delta/v_len0)*${cfac}
+variable d5 equal -(v_pxz1-${sxz0})/(v_delta/v_len0)*${cfac}
 variable d6 equal -(v_pxy1-${pxy0})/(v_delta/v_len0)*${cfac}
-
+#
 displace_atoms all random ${atomjiggle} ${atomjiggle} ${atomjiggle} 87287 units box
-
+#
 # Write restart
-unfix 3
+#unfix 3
 write_restart restart.equil
-
+#
 # uxx Perturbation
 
 variable dir equal 1
-include ${INC}/displace.mod
-
+include ${INC}/displaceSoftWall.mod
+#
 # uyy Perturbation
-
+#
 variable dir equal 2
-include ${INC}/displace.mod
-
+include ${INC}/displaceSoftWall.mod
+#
 # uzz Perturbation
-
+#
 variable dir equal 3
-include ${INC}/displace.mod
-
+include ${INC}/displaceSoftWall.mod
+#
 # uyz Perturbation
-
+#
 variable dir equal 4
-include ${INC}/displace.mod
-
+include ${INC}/displaceSoftWall.mod
+#
 # uxz Perturbation
-
+#
 variable dir equal 5
-include ${INC}/displace.mod
-
+include ${INC}/displaceSoftWall.mod
+#
 # uxy Perturbation
-
+#
 variable dir equal 6
-include ${INC}/displace.mod
-
+include ${INC}/displaceSoftWall.mod
+#
 # Output final values
-
+#
 variable C11all equal ${C11}
 variable C22all equal ${C22}
 variable C33all equal ${C33}
-
+#
 variable C12all equal 0.5*(${C12}+${C21})
 variable C13all equal 0.5*(${C13}+${C31})
 variable C23all equal 0.5*(${C23}+${C32})
@@ -155,9 +155,9 @@ variable C36all equal 0.5*(${C36}+${C63})
 variable C45all equal 0.5*(${C45}+${C54})
 variable C46all equal 0.5*(${C46}+${C64})
 variable C56all equal 0.5*(${C56}+${C65})
-
-# Average moduli for cubic crystals
-
+#
+## Average moduli for cubic crystals
+#
 variable C11cubic equal (${C11all}+${C22all}+${C33all})/3.0
 variable C12cubic equal (${C12all}+${C13all}+${C23all})/3.0
 variable C44cubic equal (${C44all}+${C55all}+${C66all})/3.0
@@ -213,3 +213,4 @@ print "Bulk Modulus = ${bulkmodulus} ${cunits}"
 print "Shear Modulus 1 = ${shearmodulus1} ${cunits}"
 print "Shear Modulus 2 = ${shearmodulus2} ${cunits}"
 print "Poisson Ratio = ${poissonratio}"
+
