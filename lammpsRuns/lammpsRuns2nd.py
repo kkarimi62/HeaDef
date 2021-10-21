@@ -62,9 +62,8 @@ if __name__ == '__main__':
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
-	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	Alloy = {1:'Ni', 2:'NiCoCr'}[2]
+	SCRPT_DIR = os.getcwd()+'/lmpScripts/'+{1:'Ni', 2:'NiCoCr'}[2]
 	#--- py script must have a key of type str!
 	LmpScript = {	0:'PrepTemp0.in',
 				 	1:'relax.in', 
@@ -94,7 +93,7 @@ if __name__ == '__main__':
 				1:[9],     #--- elastic constants
 				2:[0,'p0'],	   #--- local elastic constants
 			  }[2]
-	Pipeline = list(map(lambda x:'%s/'%Alloy+LmpScript[x],indices))
+	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
 	#
