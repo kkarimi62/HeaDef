@@ -15,7 +15,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 		if execc == 'lmp': #_mpi' or EXEC == 'lmp_serial':
 			print >> someFile, "mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var)
 		elif execc == 'py':
-			print >> someFile, "python %s %s"%(script, var)
+			print >> someFile, "python3 %s %s"%(script, var)
 			
 	someFile.close()										  
 
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
 				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s'%(SCRPT_DIR),
-				'p0':' data_init.txt 10.0'
+				'p0':' data_init.txt 10.0 %s'%(os.getcwd()+'/../postprocess')
 				} 
 	#--- different scripts in a pipeline
 	indices = {

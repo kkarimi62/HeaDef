@@ -3,9 +3,6 @@ import pandas as pd
 import pdb
 import sys
 
-import LammpsPostProcess as lp
-import imp
-imp.reload(lp)
 
 def Partition( atoms,box, dmean ):
 #    pdb.set_trace()
@@ -54,8 +51,12 @@ def Partition( atoms,box, dmean ):
 
 fileName = sys.argv[1] #'data_init.txt'
 dmean = float(sys.argv[2])
+pathlib = sys.argv[3]
+
+sys.path.append(pathlib)
+import LammpsPostProcess as lp
 #
-    #--- read data file
+#--- read data file
 lmpData = lp.ReadDumpFile( fileName ) 
 lmpData.ReadData()
 #--- atom obj
