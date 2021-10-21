@@ -56,9 +56,6 @@ undump		1
 thermo                    1000
 fix                       p1        all        box/relax   iso 1.0e-3 #vmax 0.001 #--- equilibrate at p=0 
 
-# Setup minimization style
-min_style	     cg
-min_modify	     dmax ${dmax} line quadratic
 
 # Define minimization parameters
 variable etol equal 0.0 
@@ -66,6 +63,10 @@ variable ftol equal 1.0e-08
 variable maxiter equal 100000
 variable maxeval equal 100000
 variable dmax equal 1.0e-2
+#
+# Setup minimization style
+min_style	     cg
+min_modify	     dmax ${dmax} line quadratic
 #
 minimize ${etol} ${ftol} ${maxiter} ${maxeval}
 #
