@@ -11,9 +11,12 @@ def makeOAR( EXEC_DIR, node, core, time ):
 		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 #	 print >> someFile, "$EXEC_DIR/%s < in.txt -var OUT_PATH %s -var MEAM_library_DIR %s"%( EXEC, OUT_PATH, MEAM_library_DIR )
 #	cutoff = 1.0 / rho ** (1.0/3.0)
-	if EXEC == 'lmp_mpi' or EXEC == 'lmp_serial':
-		for script,var,indx in zip(Pipeline,Variables,range(100)):
-			print >> someFile, "mpirun -np %s $EXEC_DIR/%s < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, EXEC, 'lmpScript%s.txt'%indx, OUT_PATH, MEAM_library_DIR, var)
+	for script,var,indx, execc in zip(Pipeline,Variables,range(100),EXEC):
+		if execc == 'lmp': #_mpi' or EXEC == 'lmp_serial':
+			print >> someFile, "mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var)
+		elif execc == 'py':
+			print >> someFile, "python %s %s"%(script, var)
+			
 	someFile.close()										  
 
 
@@ -61,8 +64,8 @@ if __name__ == '__main__':
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	Alloy = {1:'Ni/Elastic', 2:'NiCoCr'}[2]
-	#
+	Alloy = {1:'Ni/Elastic', 2:'NiCoCr/Elastic'}[2]
+	#--- py script must have a key of type str!
 	LmpScript = {	0:'PrepTemp0.in',
 				 	1:'relax.in', 
 					2:'relaxWalls.in', 
@@ -73,6 +76,7 @@ if __name__ == '__main__':
 					7:'Thermalization_edge.lmp',
 					8:'shearDispTemp_edge.in',
 					9:'in.elastic',
+					'p0':'partition.py',
 				} 
 	#
 	Variable = {
@@ -82,17 +86,19 @@ if __name__ == '__main__':
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
 				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s/%s'%(SCRPT_DIR,Alloy),
+				'p0':' data_init.txt 10.0'
 				} 
 	#--- different scripts in a pipeline
 	indices = {
 				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-				2:[0],	   #--- local elastic constants
+				2:[0,'p0'],	   #--- local elastic constants
 			  }[2]
 	Pipeline = list(map(lambda x:'%s/'%Alloy+LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
+	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py' Variable[x], indices))	
 	#
-	EXEC = ['lmp_mpi','lmp_serial'][0]
+#	EXEC = ['lmp_mpi','lmp_serial'][0]
 	durtn = '23:59:59'
 	SCRATCH = None
 	mem = '8gb'
@@ -113,7 +119,8 @@ if __name__ == '__main__':
 			os.system( 'cp %s/%s %s' % ( EXEC_DIR, EXEC, path ) ) # --- create folder & mv oar scrip & cp executable
 		#---
 		for script,indx in zip(Pipeline,range(100)):
-			os.system( 'cp %s/%s %s/lmpScript%s.txt' %( SCRPT_DIR, script, writPath, indx) ) #--- lammps script: periodic x, pxx, vy, load
+#			os.system( 'cp %s/%s %s/lmpScript%s.txt' %( SCRPT_DIR, script, writPath, indx) ) #--- lammps script: periodic x, pxx, vy, load
+			os.system( 'cp %s/%s %s' %( SCRPT_DIR, script, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		if sourceFiles: 
 			for sf in sourceFiles:
 				os.system( 'cp %s/Run%s/%s %s' %(sourcePath, irun, sf, writPath) ) #--- lammps script: periodic x, pxx, vy, load
