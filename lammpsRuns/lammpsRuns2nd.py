@@ -34,7 +34,7 @@ if __name__ == '__main__':
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT300EdgeDisl',
-				8:'NiNatom1KT0Elastic'
+				8:'NiCoCrNatom1KT0Elastic'
 			   }[8]
 	sourcePath = os.getcwd() +\
 				{	
@@ -61,7 +61,7 @@ if __name__ == '__main__':
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	SCRPT_DIR = os.getcwd()+'/lmpScripts'
 	#
-	Alloy = {1:'Ni/Elastic', 2:'NiCoCr'}[1]
+	Alloy = {1:'Ni/Elastic', 2:'NiCoCr/Elastic'}[2]
 	#
 	LmpScript = {	0:'PrepTemp0.in',
 				 	1:'relax.in', 
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 	#--- different scripts in a pipeline
 	indices = {
 				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
-				1:[9],     #--- elastic constants- 
+				1:[9],     #--- elastic constants
 			  }[1]
 	Pipeline = list(map(lambda x:'%s/'%Alloy+LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
