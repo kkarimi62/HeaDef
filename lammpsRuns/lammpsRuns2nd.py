@@ -75,6 +75,7 @@ if __name__ == '__main__':
 					7:'Thermalization_edge.lmp',
 					8:'shearDispTemp_edge.in',
 					9:'in.elastic',
+					10:'in.elasticSoftWall',
 					'p0':'partition.py',
 				} 
 	#
@@ -85,13 +86,14 @@ if __name__ == '__main__':
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
 				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s'%(SCRPT_DIR),
-				'p0':' data_init.txt 10.0 %s'%(os.getcwd()+'/../postprocess')
+				10:' -var DataFile data_init.txt -var AtomGroup ScriptGroup.0.txt -var INC %s'%(SCRPT_DIR),
+				'p0':' data_init.txt 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
 				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-				2:[0,'p0'],	   #--- local elastic constants
+				2:[0,'p0',10],	   #--- local elastic constants
 			  }[2]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
