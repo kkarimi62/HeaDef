@@ -40,7 +40,7 @@ def Partition( atoms,box, dmean ):
     #--- output as additional lammps script
     count = 0
     for key in keys:
-        sfile=open('ScriptGroup.txt','w')
+        sfile=open('ScriptGroup.%s.txt'%count,'w')
         sfile.write('group freeGr id\t')
         atomf = df.iloc[d[key]]
         for i in atomf.id:
@@ -48,20 +48,20 @@ def Partition( atoms,box, dmean ):
         sfile.write('\ngroup frozGr subtract all freeGr')
         sfile.close()
 		#---
-        os.system("mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var))
+#        os.system("mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var))
 		#
         count += 1
 
 fileName = sys.argv[1] 
 dmean = float(sys.argv[2])
 pathlib = sys.argv[3]
-EXEC_DIR = sys.argv[4]
-nThreads = int(sys.argv[5])
-nNode	= int(sys.argv[6])
-script = sys.argv[7]
-OUT_PATH = sys.argv[8]
-MEAM_library_DIR = sys.argv[9]
-var = sys.argv[10]
+#EXEC_DIR = sys.argv[4]
+#nThreads = int(sys.argv[5])
+#nNode	= int(sys.argv[6])
+#script = sys.argv[7]
+#OUT_PATH = sys.argv[8]
+#MEAM_library_DIR = sys.argv[9]
+#var = sys.argv[10]
 
 sys.path.append(pathlib)
 import LammpsPostProcess as lp
