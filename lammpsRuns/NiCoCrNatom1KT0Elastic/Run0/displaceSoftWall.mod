@@ -1,0 +1,1 @@
+../../lmpScripts/NiCoCr/displaceSoftWall.mod
