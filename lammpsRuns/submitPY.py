@@ -19,7 +19,7 @@ if __name__ == '__main__':
 #		string[ inums ] = "\tsourcePath = os.getcwd() +\'/../postprocess/HeaNiCoCrNatom10KTakeOneOutFreezeFract%s\'\n" % (iphi) #--- change job name
 		#---	densities
 		inums = lnums[ 2 ] - 1
-		string[ inums ] = "\t10:\' -var DataFile data_init.txt -var AtomGroup ScriptGroup.%s.txt -var INC \%s\'\%(SCRPT_DIR),\n" % (iphi) #--- change job name
+		string[ inums ] = "\t10:\' -var DataFile data_init.txt -var AtomGroup ScriptGroup.%s.txt"%iphi+" -var INC %s\'%(SCRPT_DIR),\n" #--- change job name
 		
 		sfile=open('junk%s.py'%iphi,'w');sfile.writelines(string);sfile.close()
 		os.system( 'python junk%s.py'%iphi )
