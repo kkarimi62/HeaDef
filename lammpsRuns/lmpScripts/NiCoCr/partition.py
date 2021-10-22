@@ -40,18 +40,29 @@ def Partition( atoms,box, dmean ):
     #--- output as additional lammps script
     count = 0
     for key in keys:
-        sfile=open('ScriptGroup.%s.txt'%count,'w')
+        sfile=open('ScriptGroup.txt','w')
         sfile.write('group freeGr id\t')
         atomf = df.iloc[d[key]]
         for i in atomf.id:
             sfile.write('%i\t'%i)
         sfile.write('\ngroup frozGr subtract all freeGr')
         sfile.close()
+		#---
+		os.system("mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var)
+
+
         count += 1
 
-fileName = sys.argv[1] #'data_init.txt'
+fileName = sys.argv[1] 
 dmean = float(sys.argv[2])
 pathlib = sys.argv[3]
+EXEC_DIR = sys.argv[4]
+nThreads = int(sys.argv[5])
+nNode	= int(sys.argv[6])
+script = sys.argv[7]
+OUT_PATH = sys.argv[8]
+MEAM_library_DIR = sys.argv[9]
+var = sys.argv[10]
 
 sys.path.append(pathlib)
 import LammpsPostProcess as lp
@@ -64,6 +75,9 @@ atoms = lp.Atoms( **lmpData.coord_atoms_broken[0].to_dict(orient='series') )
 #--- box
 box = lp.Box( BoxBounds = lmpData.BoxBounds[0],AddMissing = np.array([0.0,0.0,0.0] ) )
 
-
+#--- partitioning
 #dmean = 10.0
 Partition( atoms,box, dmean )
+
+
+
