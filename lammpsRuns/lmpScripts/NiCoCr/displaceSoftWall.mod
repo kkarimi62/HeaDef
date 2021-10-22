@@ -23,6 +23,12 @@ box tilt large
 read_restart restart.equil
 include ${INC}/potential.mod
 
+#if "${dir} == 1" then &
+#	"dump        1 all custom 1 dump.xyz id type x y z" 
+#if "${dir} == 1" then &
+#	"dump_modify 1 flush yes append yes"
+#run	1
+
 # Negative deformation
 
 variable delta equal -${up}*${len0}
@@ -54,9 +60,14 @@ variable 	pyz1 equal -c_p[6]/${volume}
 variable 	pxz1 equal -c_p[5]/${volume}
 variable 	pxy1 equal -c_p[4]/${volume}
 
+#--- set dynamics 
+#fix         set_force frozGr setforce 0.0 0.0 0.0
+#velocity    frozGr set 0.0 0.0 0.0 #--- set velocity
+
 # Relax atoms positions
 
 minimize ${etol} ${ftol} ${maxiter} ${maxeval}
+
 
 # Obtain new stress tensor
 
@@ -93,6 +104,12 @@ box tilt large
 read_restart restart.equil
 include ${INC}/potential.mod
 
+#if "${dir} == 1" then &
+#	"dump        1 all custom 1 dump.xyz id type x y z" 
+#if "${dir} == 1" then &
+#	"dump_modify 1 flush yes append yes"
+#run	1
+
 # Positive deformation
 
 variable delta equal ${up}*${len0}
@@ -125,7 +142,14 @@ variable 	pxy1 equal -c_p[4]/${volume}
 
 # Relax atoms positions
 
+#--- set dynamics 
+#fix         set_force frozGr setforce 0.0 0.0 0.0
+#velocity    frozGr set 0.0 0.0 0.0 #--- set velocity
+
 minimize ${etol} ${ftol} ${maxiter} ${maxeval}
+
+#if "${dir} == 1" then &
+#	"undump	1"
 
 # Obtain new stress tensor
 thermo_style	custom	step v_pxx1	v_sxx0

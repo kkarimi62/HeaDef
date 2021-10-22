@@ -47,9 +47,8 @@ include ${INC}/initSoftWall.mod
 include ${INC}/potential.mod
 include ${AtomGroup}
 
+
 #--- compute stress
-#compute		peratom freeGr stress/atom NULL pair
-#compute		p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3]	c_peratom[4] c_peratom[5] c_peratom[6]
 compute     peratom freeGr stress/atom NULL
 compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
 #
@@ -63,6 +62,7 @@ variable 	pxy0 equal -c_p[4]/${volume}
 #
 # Compute initial state
 minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
+
 
 #--- store initial stress
 thermo_style	custom	step	v_pxx0	pxx
@@ -176,6 +176,8 @@ variable poissonratio equal 1.0/(1.0+${C11cubic}/${C12cubic})
 print "========================================="
 print "Components of the Elastic Constant Tensor"
 print "========================================="
+print "#C11 C12 C13 C14 C15 C16 C22 C23 C24 C25 C26 C33 C34 C35 C36 C44 C45 C46 C55 C56 C66" file "ElasticConst.txt"
+print "${C11all} ${C12all} ${C13all} ${C14all} ${C15all} ${C16all} ${C22all} ${C23all} ${C24all} ${C25all} ${C26all} ${C33all} ${C34all} ${C35all} ${C36all} ${C44all} ${C45all} ${C46all} ${C55all} ${C56all} ${C66all}" append "ElasticConst.txt"
 
 print "Elastic Constant C11all = ${C11all} ${cunits}"
 print "Elastic Constant C22all = ${C22all} ${cunits}"
