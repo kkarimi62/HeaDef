@@ -43,8 +43,8 @@ if "${dir} == 6" then &
    "change_box all xy delta ${delta} remap units box"
 
 #--- compute stress
-compute     peratom all stress/atom NULL
-compute     p all reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+compute     peratom freeGr stress/atom NULL
+compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
 #
 variable    press1 equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
 variable 	pxx1 equal -c_p[1]/vol
@@ -113,10 +113,8 @@ if "${dir} == 6" then &
    "change_box all xy delta ${delta} remap units box"
 
 #--- compute stress
-#compute		peratom freeGr stress/atom NULL pair
-#compute		p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3]	c_peratom[4] c_peratom[5] c_peratom[6]
-compute     peratom all stress/atom NULL
-compute     p all reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+compute     peratom freeGr stress/atom NULL
+compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
 variable    press1 equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
 variable 	pxx1 equal -c_p[1]/vol
 variable 	pyy1 equal -c_p[2]/vol
