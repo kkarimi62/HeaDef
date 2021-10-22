@@ -45,7 +45,7 @@
 
 include ${INC}/initSoftWall.mod
 include ${INC}/potential.mod
-#include ${AtomGroup}
+include ${AtomGroup}
 
 #--- compute stress
 #compute		peratom freeGr stress/atom NULL pair
