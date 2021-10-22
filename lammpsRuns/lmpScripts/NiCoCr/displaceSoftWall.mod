@@ -46,13 +46,13 @@ if "${dir} == 6" then &
 compute     peratom freeGr stress/atom NULL
 compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
 #
-variable    press1 equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
-variable 	pxx1 equal -c_p[1]/vol
-variable 	pyy1 equal -c_p[2]/vol
-variable 	pzz1 equal -c_p[3]/vol
-variable 	pyz1 equal -c_p[6]/vol
-variable 	pxz1 equal -c_p[5]/vol
-variable 	pxy1 equal -c_p[4]/vol
+variable    press1 equal -(c_p[1]+c_p[2]+c_p[3])/(3*${volume})
+variable 	pxx1 equal -c_p[1]/${volume}
+variable 	pyy1 equal -c_p[2]/${volume}
+variable 	pzz1 equal -c_p[3]/${volume}
+variable 	pyz1 equal -c_p[6]/${volume}
+variable 	pxz1 equal -c_p[5]/${volume}
+variable 	pxy1 equal -c_p[4]/${volume}
 
 # Relax atoms positions
 
@@ -115,13 +115,13 @@ if "${dir} == 6" then &
 #--- compute stress
 compute     peratom freeGr stress/atom NULL
 compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
-variable    press1 equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
-variable 	pxx1 equal -c_p[1]/vol
-variable 	pyy1 equal -c_p[2]/vol
-variable 	pzz1 equal -c_p[3]/vol
-variable 	pyz1 equal -c_p[6]/vol
-variable 	pxz1 equal -c_p[5]/vol
-variable 	pxy1 equal -c_p[4]/vol
+variable    press1 equal -(c_p[1]+c_p[2]+c_p[3])/(3*${volume})
+variable 	pxx1 equal -c_p[1]/${volume}
+variable 	pyy1 equal -c_p[2]/${volume}
+variable 	pzz1 equal -c_p[3]/${volume}
+variable 	pyz1 equal -c_p[6]/${volume}
+variable 	pxz1 equal -c_p[5]/${volume}
+variable 	pxy1 equal -c_p[4]/${volume}
 
 # Relax atoms positions
 

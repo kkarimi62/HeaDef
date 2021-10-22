@@ -45,7 +45,7 @@ def Partition( atoms,box, dmean ):
         atomf = df.iloc[d[key]]
         for i in atomf.id:
             sfile.write('%i\t'%i)
-        sfile.write('\ngroup frozGr subtract all freeGr')
+        sfile.write('\ngroup frozGr subtract all freeGr\nvariable volume equal %4.3e'%dvol)
         sfile.close()
 		#---
 #        os.system("mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var))

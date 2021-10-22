@@ -53,13 +53,13 @@ include ${AtomGroup}
 compute     peratom freeGr stress/atom NULL
 compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
 #
-variable    press equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
-variable 	pxx0 equal -c_p[1]/vol
-variable 	pyy0 equal -c_p[2]/vol
-variable 	pzz0 equal -c_p[3]/vol
-variable 	pyz0 equal -c_p[6]/vol
-variable 	pxz0 equal -c_p[5]/vol
-variable 	pxy0 equal -c_p[4]/vol
+variable    press equal -(c_p[1]+c_p[2]+c_p[3])/(3*${volume})
+variable 	pxx0 equal -c_p[1]/${volume}
+variable 	pyy0 equal -c_p[2]/${volume}
+variable 	pzz0 equal -c_p[3]/${volume}
+variable 	pyz0 equal -c_p[6]/${volume}
+variable 	pxz0 equal -c_p[5]/${volume}
+variable 	pxy0 equal -c_p[4]/${volume}
 #
 # Compute initial state
 minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
