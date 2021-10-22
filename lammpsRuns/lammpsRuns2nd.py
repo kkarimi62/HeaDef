@@ -6,9 +6,6 @@ def makeOAR( EXEC_DIR, node, core, time ):
 	print >> someFile, 'module load mpich/3.2.1-gnu\n'
 
 	#--- run python script 
-	OUT_PATH = '.'
-	if SCRATCH:
-		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 #	 print >> someFile, "$EXEC_DIR/%s < in.txt -var OUT_PATH %s -var MEAM_library_DIR %s"%( EXEC, OUT_PATH, MEAM_library_DIR )
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	for script,var,indx, execc in zip(Pipeline,Variables,range(100),EXEC):
@@ -104,7 +101,10 @@ if __name__ == '__main__':
 	SCRATCH = None
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
-
+	#
+	OUT_PATH = '.'
+	if SCRATCH:
+		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
