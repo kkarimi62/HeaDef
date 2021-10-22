@@ -61,6 +61,11 @@ if __name__ == '__main__':
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	#
 	SCRPT_DIR = os.getcwd()+'/lmpScripts/'+{1:'Ni', 2:'NiCoCr'}[2]
+	#
+	SCRATCH = None
+	OUT_PATH = '.'
+	if SCRATCH:
+		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 	#--- py script must have a key of type str!
 	LmpScript = {	0:'PrepTemp0.in',
 				 	1:'relax.in', 
@@ -98,13 +103,8 @@ if __name__ == '__main__':
 	#
 	EXEC_lmp = ['lmp_mpi','lmp_serial'][0]
 	durtn = '23:59:59'
-	SCRATCH = None
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
-	#
-	OUT_PATH = '.'
-	if SCRATCH:
-		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
