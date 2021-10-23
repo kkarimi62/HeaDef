@@ -6,7 +6,7 @@ if __name__ == '__main__':
 	lnums = [ 37, 58, 93 ]
 	string=open('lammpsRuns2nd.py').readlines() #--- python script
 	#---
-	PHI = range(8) #np.logspace(np.log10(0.1),np.log10(0.9),8)
+	PHI = range(125) #np.logspace(np.log10(0.1),np.log10(0.9),8)
 	nphi = len(PHI)
 	#---
 	for iphi in range( nphi ):
