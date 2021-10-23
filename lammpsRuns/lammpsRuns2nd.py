@@ -91,7 +91,7 @@ if __name__ == '__main__':
 				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s'%(SCRPT_DIR),
 				10:' -var DataFile data_init.txt -var AtomGroup ScriptGroup.0.txt -var INC %s'%(SCRPT_DIR),
-				'p0':' data_init.txt 3.0 %s'%(os.getcwd()+'/../postprocess'),
+				'p0':' data_init.txt 4.0 %s'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
