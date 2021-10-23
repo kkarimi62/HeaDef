@@ -34,7 +34,7 @@ if __name__ == '__main__':
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT300EdgeDisl',
-				8:'NiCoCrNatom1KT0Elastic2nd',
+				8:'NiCoCrNatom1KT0Elastic',
 			   }[8]
 	sourcePath = os.getcwd() +\
 				{	
@@ -48,15 +48,15 @@ if __name__ == '__main__':
 					8:'/NiCoCrNatom200KTemp600', 
 					9:'/NiNatom1KT0EdgeDisl',
 					10:'/NiCoCrNatom1KT0Elastic',
-				}[10] #--- must be different than sourcePath
+				}[4] #--- must be different than sourcePath
         #
 	sourceFiles = { 0:False,
 					1:['Equilibrated_300.dat'],
 					2:['data.txt','ScriptGroup.txt'],
 					3:['data.txt'], 
 					4:['data_minimized.txt'],
-					5:['data_init.txt','ScriptGroup.0.txt'],
-				 }[5] #--- to be copied from the above directory
+					5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
+				 }[0] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
@@ -91,13 +91,13 @@ if __name__ == '__main__':
 				8:' -var buff 6.0 -var T 0.1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s'%(SCRPT_DIR),
 				10:' -var DataFile data_init.txt -var AtomGroup ScriptGroup.0.txt -var INC %s'%(SCRPT_DIR),
-				'p0':' data_init.txt 10.0 %s'%(os.getcwd()+'/../postprocess'),
+				'p0':' data_init.txt 3.0 %s'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
 				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-				2:[[0,'p0'],[10]][1],	   #--- local elastic constants
+				2:[[0,'p0'],[10]][0],	   #--- local elastic constants: [0]-> prepare sample & partition [1]->deform
 			  }[2]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
