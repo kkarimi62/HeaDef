@@ -46,16 +46,16 @@ def Partition( atoms,box, dmean ):
 #     pdb.set_trace()
     
     #--- output as additional lammps script
-	count = 0
-	for key in keys:
-		sfile=open('ScriptGroup.%s.txt'%count,'w')
-		sfile.write('group freeGr id\t')
-		atomf = df.iloc[d[key]]
-		for i in atomf.id:
-			sfile.write('%i\t'%i)
-		sfile.write('\ngroup frozGr subtract all freeGr\nvariable volume equal %4.3e'%dvol)
-		sfile.close()
-		count += 1
+    count = 0
+    for key in keys:
+        sfile=open('ScriptGroup.%s.txt'%count,'w')
+        sfile.write('group freeGr id\t')
+        atomf = df.iloc[d[key]]
+        for i in atomf.id:
+            sfile.write('%i\t'%i)
+        sfile.write('\ngroup frozGr subtract all freeGr\nvariable volume equal %4.3e'%dvol)
+        sfile.close()
+        count += 1
 
 fileName = sys.argv[1] 
 dmean = float(sys.argv[2])
