@@ -45,34 +45,19 @@
 
 include ${INC}/initSoftWall.mod
 include ${INC}/potential.mod
-include ${AtomGroup}
+include ScriptGroup.0.txt
 
-
-#--- compute stress
-compute     peratom freeGr stress/atom NULL
-compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
-#
-variable    press equal -(c_p[1]+c_p[2]+c_p[3])/(3*${volume})
-variable 	pxx0 equal -c_p[1]/${volume}
-variable 	pyy0 equal -c_p[2]/${volume}
-variable 	pzz0 equal -c_p[3]/${volume}
-variable 	pyz0 equal -c_p[6]/${volume}
-variable 	pxz0 equal -c_p[5]/${volume}
-variable 	pxy0 equal -c_p[4]/${volume}
-#
 # Compute initial state
-minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
+#minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
-
-#--- store initial stress
-thermo_style	custom	step	v_pxx0	pxx
-run	0
-variable	sxx0	equal ${pxx0}
-variable	syy0	equal ${pyy0}
-variable	szz0	equal ${pzz0}
-variable	syz0	equal ${pyz0}
-variable	sxz0	equal ${pxz0}
-variable	sxy0	equal ${pxy0}
+#--- loop
+variable 	icel 	loop 0	${ncel}-1
+label loop
+include ScriptGroup.${icel}.txt
+include	CompStrs0.mod #--- initial stress
+#--- end of loop
+next 	icel
+jump	in.elasticSoftWall  loop
 #
 variable tmp equal lx
 variable lx0 equal ${tmp}
@@ -81,138 +66,65 @@ variable ly0 equal ${tmp}
 variable tmp equal lz
 variable lz0 equal ${tmp}
 
-# These formulas define the derivatives w.r.t. strain components
-# Constants uses $, variables use v_ 
-variable d1 equal -(v_pxx1-${sxx0})/(v_delta/v_len0)*${cfac}
-variable d2 equal -(v_pyy1-${syy0})/(v_delta/v_len0)*${cfac}
-variable d3 equal -(v_pzz1-${szz0})/(v_delta/v_len0)*${cfac}
-variable d4 equal -(v_pyz1-${syz0})/(v_delta/v_len0)*${cfac}
-variable d5 equal -(v_pxz1-${sxz0})/(v_delta/v_len0)*${cfac}
-variable d6 equal -(v_pxy1-${pxy0})/(v_delta/v_len0)*${cfac}
 #
-displace_atoms all random ${atomjiggle} ${atomjiggle} ${atomjiggle} 87287 units box
+#displace_atoms all random ${atomjiggle} ${atomjiggle} ${atomjiggle} 87287 units box
 #
 # Write restart
 #unfix 3
 write_restart restart.equil
 #
 # uxx Perturbation
+variable dir loop 6 #--- six modes
+	label loop0
+	include ${INC}/displaceSoftWall.mod #--- deform
+	#--- loop : compute current stress
+	variable 	icel 	loop 0	${ncel}-1
+		label loop1
+		include ScriptGroup.${icel}.txt
+		include	CompStrs1.mod
+		include DerivStrs.mod
+		#thermo_style	custom	step	 v_sxx0_${icel}	v_pxx1_${icel}	
+		#run0
+	next 	icel
+	jump	in.elasticSoftWall  loop1
+	variable	icel	delete
+next	dir
+jump	in.elasticSoftWall  loop0
+#--- end of loop
 
-variable dir equal 1
-include ${INC}/displaceSoftWall.mod
-#
-# uyy Perturbation
-#
-variable dir equal 2
-include ${INC}/displaceSoftWall.mod
-#
-# uzz Perturbation
-#
-variable dir equal 3
-include ${INC}/displaceSoftWall.mod
-#
-# uyz Perturbation
-#
-variable dir equal 4
-include ${INC}/displaceSoftWall.mod
-#
-# uxz Perturbation
-#
-variable dir equal 5
-include ${INC}/displaceSoftWall.mod
-#
-# uxy Perturbation
-#
-variable dir equal 6
-include ${INC}/displaceSoftWall.mod
-#
-# Output final values
-#
-variable C11all equal ${C11}
-variable C22all equal ${C22}
-variable C33all equal ${C33}
-#
-variable C12all equal 0.5*(${C12}+${C21})
-variable C13all equal 0.5*(${C13}+${C31})
-variable C23all equal 0.5*(${C23}+${C32})
+#--- print
+print "#icel C11 C12 C13 C14 C15 C16 C22 C23 C24 C25 C26 C33 C34 C35 C36 C44 C45 C46 C55 C56 C66" file "ElasticConst.txt"
+variable 	icel 	loop	0	${ncel}-1
+	label loop2
+	variable	C11all	equal	v_C11_${icel}
+	variable	C12all	equal	v_C12_${icel}
+	variable	C13all	equal	v_C13_${icel}
+	variable	C14all	equal	v_C14_${icel}
+	variable	C15all	equal	v_C15_${icel}
+	variable	C16all	equal	v_C16_${icel}
+	#
+	variable	C22all	equal	v_C22_${icel}
+	variable	C23all	equal	v_C23_${icel}
+	variable	C24all	equal	v_C24_${icel}
+	variable	C25all	equal	v_C25_${icel}
+	variable	C26all	equal	v_C26_${icel}
+	#
+	variable	C33all	equal	v_C33_${icel}
+	variable	C34all	equal	v_C34_${icel}
+	variable	C35all	equal	v_C35_${icel}
+	variable	C36all	equal	v_C36_${icel}
+	#
+	variable	C44all	equal	v_C44_${icel}
+	variable	C45all	equal	v_C45_${icel}
+	variable	C46all	equal	v_C46_${icel}
+	#
+	variable	C55all	equal	v_C55_${icel}
+	variable	C56all	equal	v_C56_${icel}
+	#
+	variable	C66all	equal	v_C66_${icel}
+	#
+	print "${icel} ${C11all} ${C12all} ${C13all} ${C14all} ${C15all} ${C16all} ${C22all} ${C23all} ${C24all} ${C25all} ${C26all} ${C33all} ${C34all} ${C35all} ${C36all} ${C44all} ${C45all} ${C46all} ${C55all} ${C56all} ${C66all}" append "ElasticConst.txt"
+next 	icel
+jump	in.elasticSoftWall  loop2
 
-variable C44all equal ${C44}
-variable C55all equal ${C55}
-variable C66all equal ${C66}
-
-variable C14all equal 0.5*(${C14}+${C41})
-variable C15all equal 0.5*(${C15}+${C51})
-variable C16all equal 0.5*(${C16}+${C61})
-
-variable C24all equal 0.5*(${C24}+${C42})
-variable C25all equal 0.5*(${C25}+${C52})
-variable C26all equal 0.5*(${C26}+${C62})
-
-variable C34all equal 0.5*(${C34}+${C43})
-variable C35all equal 0.5*(${C35}+${C53})
-variable C36all equal 0.5*(${C36}+${C63})
-
-variable C45all equal 0.5*(${C45}+${C54})
-variable C46all equal 0.5*(${C46}+${C64})
-variable C56all equal 0.5*(${C56}+${C65})
-#
-## Average moduli for cubic crystals
-#
-variable C11cubic equal (${C11all}+${C22all}+${C33all})/3.0
-variable C12cubic equal (${C12all}+${C13all}+${C23all})/3.0
-variable C44cubic equal (${C44all}+${C55all}+${C66all})/3.0
-
-variable bulkmodulus equal (${C11cubic}+2*${C12cubic})/3.0
-variable shearmodulus1 equal ${C44cubic}
-variable shearmodulus2 equal (${C11cubic}-${C12cubic})/2.0
-variable poissonratio equal 1.0/(1.0+${C11cubic}/${C12cubic})
-  
-# For Stillinger-Weber silicon, the analytical results
-# are known to be (E. R. Cowley, 1988):
-#               C11 = 151.4 GPa
-#               C12 = 76.4 GPa
-#               C44 = 56.4 GPa
-
-print "========================================="
-print "Components of the Elastic Constant Tensor"
-print "========================================="
-print "#C11 C12 C13 C14 C15 C16 C22 C23 C24 C25 C26 C33 C34 C35 C36 C44 C45 C46 C55 C56 C66" file "ElasticConst.txt"
-print "${C11all} ${C12all} ${C13all} ${C14all} ${C15all} ${C16all} ${C22all} ${C23all} ${C24all} ${C25all} ${C26all} ${C33all} ${C34all} ${C35all} ${C36all} ${C44all} ${C45all} ${C46all} ${C55all} ${C56all} ${C66all}" append "ElasticConst.txt"
-
-print "Elastic Constant C11all = ${C11all} ${cunits}"
-print "Elastic Constant C22all = ${C22all} ${cunits}"
-print "Elastic Constant C33all = ${C33all} ${cunits}"
-
-print "Elastic Constant C12all = ${C12all} ${cunits}"
-print "Elastic Constant C13all = ${C13all} ${cunits}"
-print "Elastic Constant C23all = ${C23all} ${cunits}"
-
-print "Elastic Constant C44all = ${C44all} ${cunits}"
-print "Elastic Constant C55all = ${C55all} ${cunits}"
-print "Elastic Constant C66all = ${C66all} ${cunits}"
-
-print "Elastic Constant C14all = ${C14all} ${cunits}"
-print "Elastic Constant C15all = ${C15all} ${cunits}"
-print "Elastic Constant C16all = ${C16all} ${cunits}"
-
-print "Elastic Constant C24all = ${C24all} ${cunits}"
-print "Elastic Constant C25all = ${C25all} ${cunits}"
-print "Elastic Constant C26all = ${C26all} ${cunits}"
-
-print "Elastic Constant C34all = ${C34all} ${cunits}"
-print "Elastic Constant C35all = ${C35all} ${cunits}"
-print "Elastic Constant C36all = ${C36all} ${cunits}"
-
-print "Elastic Constant C45all = ${C45all} ${cunits}"
-print "Elastic Constant C46all = ${C46all} ${cunits}"
-print "Elastic Constant C56all = ${C56all} ${cunits}"
-
-print "========================================="
-print "Average properties for a cubic crystal"
-print "========================================="
-
-print "Bulk Modulus = ${bulkmodulus} ${cunits}"
-print "Shear Modulus 1 = ${shearmodulus1} ${cunits}"
-print "Shear Modulus 2 = ${shearmodulus2} ${cunits}"
-print "Poisson Ratio = ${poissonratio}"
 

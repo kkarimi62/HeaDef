@@ -53,7 +53,7 @@ def Partition( atoms,box, dmean ):
         atomf = df.iloc[d[key]]
         for i in atomf.id:
             sfile.write('%i\t'%i)
-        sfile.write('\ngroup frozGr subtract all freeGr\nvariable volume equal %4.3e'%dvol)
+        sfile.write('\ngroup frozGr subtract all freeGr\nvariable volume equal %4.3e\nvariable    ncel    equal   %s'%(dvol,nx*ny*nz))
         sfile.close()
         count += 1
 
