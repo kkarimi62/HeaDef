@@ -197,5 +197,5 @@ minimize ${etol} ${ftol} ${maxiter} ${maxeval}
 
 #variable dir delete
 
-write_restart restart.deform${dir}
+#write_restart restart.deform${dir}
 
