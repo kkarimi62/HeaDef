@@ -43,22 +43,29 @@
 #  init.mod. 
 #
 
+#--- include files
 include ${INC}/initSoftWall.mod
 include ${INC}/potential.mod
 include ScriptGroup.0.txt
 
 # Compute initial state
-#minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
+minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
-#--- loop
+#--- stress loop
 variable	ncc		equal	${ncel}-1
 variable 	icel 	loop 0	${ncc}
-label loop
-include ScriptGroup.${icel}.txt
-include	${INC}/CompStrs0.mod #--- initial stress
-#--- end of loop
+	label loop
+	#
+	group	freeGr	delete
+	group	frozGr	delete
+	include ScriptGroup.${icel}.txt
+	#
+	include	${INC}/CompStrs0.mod #--- initial stress
+#	variable xx	equal	v_sxx0_${icel}
+#	print "${icel} ${xx}" append "p_init.txt"
 next 	icel
 jump	in.elasticSoftWall  loop
+#--- end of loop
 #
 variable tmp equal lx
 variable lx0 equal ${tmp}
@@ -75,23 +82,37 @@ variable lz0 equal ${tmp}
 write_restart restart.equil
 #
 # uxx Perturbation
+#variable	dir	equal	1	
 variable dir loop 6 #--- six modes
 	label loop0
 	include ${INC}/displaceSoftWall.mod #--- deform
 	#--- loop : compute current stress
 	variable 	icel 	loop 0	${ncc}
 		label loop1
+#		clear
+		#
+#		read_restart	restart.deform${dir}
+		#
+		group	freeGr	delete
+		group	frozGr	delete
 		include ScriptGroup.${icel}.txt
+		#
+#		include ${INC}/potential.mod
+		#
 		include	${INC}/CompStrs1.mod
+#		variable xx	equal	v_sxx0_${icel}
+#		variable yy	equal	v_pxx1_${dir}_${icel}
+#		print "${icel} ${xx} ${yy}" append pdir${dir}.txt
 		include ${INC}/DerivStrs.mod
 		#thermo_style	custom	step	 v_sxx0_${icel}	v_pxx1_${icel}	
 		#run0
 	next 	icel
 	jump	in.elasticSoftWall  loop1
 	variable	icel	delete
+	#--- end of inner loop
 next	dir
 jump	in.elasticSoftWall  loop0
-#--- end of loop
+#--- end of outer loop
 
 #--- print
 print "#icel C11 C12 C13 C14 C15 C16 C22 C23 C24 C25 C26 C33 C34 C35 C36 C44 C45 C46 C55 C56 C66" file "ElasticConst.txt"

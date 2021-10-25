@@ -11,15 +11,15 @@ variable 	pxz0 equal -c_p[5]/${volume}
 variable 	pxy0 equal -c_p[4]/${volume}
 
 #--- store initial stress
-thermo_style	custom	step	v_pxx0	pxx v_press
+thermo_style	custom	step	v_pxx0  v_press
 run	0
 
-variable	pxx1	equal ${pxx0}
-variable	pyy1	equal ${pyy0}
-variable	pzz1	equal ${pzz0}
-variable	pyz1	equal ${pyz0}
-variable	pxz1	equal ${pxz0}
-variable	pxy1	equal ${pxy0}
+variable	pxx1_${dir}_${icel}	equal ${pxx0}
+variable	pyy1_${dir}_${icel}	equal ${pyy0}
+variable	pzz1_${dir}_${icel}	equal ${pzz0}
+variable	pyz1_${dir}_${icel}	equal ${pyz0}
+variable	pxz1_${dir}_${icel}	equal ${pxz0}
+variable	pxy1_${dir}_${icel}	equal ${pxy0}
 
 uncompute	p
 uncompute	peratom

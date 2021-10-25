@@ -196,3 +196,6 @@ minimize ${etol} ${ftol} ${maxiter} ${maxeval}
 # Delete dir to make sure it is not reused
 
 #variable dir delete
+
+write_restart restart.deform${dir}
+
