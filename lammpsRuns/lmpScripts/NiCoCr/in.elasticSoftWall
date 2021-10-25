@@ -54,7 +54,7 @@ include ScriptGroup.0.txt
 variable 	icel 	loop 0	${ncel}-1
 label loop
 include ScriptGroup.${icel}.txt
-include	CompStrs0.mod #--- initial stress
+include	${INC}/CompStrs0.mod #--- initial stress
 #--- end of loop
 next 	icel
 jump	in.elasticSoftWall  loop
@@ -81,8 +81,8 @@ variable dir loop 6 #--- six modes
 	variable 	icel 	loop 0	${ncel}-1
 		label loop1
 		include ScriptGroup.${icel}.txt
-		include	CompStrs1.mod
-		include DerivStrs.mod
+		include	${INC}/CompStrs1.mod
+		include ${INC}/DerivStrs.mod
 		#thermo_style	custom	step	 v_sxx0_${icel}	v_pxx1_${icel}	
 		#run0
 	next 	icel
