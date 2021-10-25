@@ -52,7 +52,7 @@ include ScriptGroup.0.txt
 
 #--- loop
 variable	ncc		equal	${ncel}-1
-variable 	icel 	loop 0	ncc
+variable 	icel 	loop 0	${ncc}
 label loop
 include ScriptGroup.${icel}.txt
 include	${INC}/CompStrs0.mod #--- initial stress
