@@ -51,7 +51,8 @@ include ScriptGroup.0.txt
 #minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
 #--- loop
-variable 	icel 	loop 0	${ncel}-1
+variable	nn		equal	${ncel}-1
+variable 	icel 	loop 0	nn
 label loop
 include ScriptGroup.${icel}.txt
 include	${INC}/CompStrs0.mod #--- initial stress
@@ -78,7 +79,7 @@ variable dir loop 6 #--- six modes
 	label loop0
 	include ${INC}/displaceSoftWall.mod #--- deform
 	#--- loop : compute current stress
-	variable 	icel 	loop 0	${ncel}-1
+	variable 	icel 	loop 0	nn
 		label loop1
 		include ScriptGroup.${icel}.txt
 		include	${INC}/CompStrs1.mod
@@ -94,7 +95,7 @@ jump	in.elasticSoftWall  loop0
 
 #--- print
 print "#icel C11 C12 C13 C14 C15 C16 C22 C23 C24 C25 C26 C33 C34 C35 C36 C44 C45 C46 C55 C56 C66" file "ElasticConst.txt"
-variable 	icel 	loop	0	${ncel}-1
+variable 	icel 	loop	0	nn
 	label loop2
 	variable	C11all	equal	v_C11_${icel}
 	variable	C12all	equal	v_C12_${icel}
