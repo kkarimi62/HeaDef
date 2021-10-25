@@ -19,6 +19,11 @@ def Partition( atoms,box, dmean ):
     nz -= 1
     assert nx*ny*nz >= 8, 'decrease division length!'
     print(dmean,nx*ny*nz)
+    #--- indices
+    (xvi, yvi, zvi) = np.meshgrid(np.arange(0,nx),np.arange(0,ny),np.arange(0,nz))
+    indices = np.array(list(zip(xvi.flatten(), yvi.flatten(), zvi.flatten()))) #--- shape:(ncel,3) 
+    indices = list(map(lambda x: tuple(x),indices))
+
 
     #--- partition box & assign index to each atom
     wrap = lp.Wrap(atoms,box)
@@ -30,27 +35,27 @@ def Partition( atoms,box, dmean ):
     #--- store in a df
     df = pd.DataFrame(np.c_[pd.DataFrame(atoms.__dict__),AtomCellId],
                          columns=list(pd.DataFrame(atoms.__dict__).keys())+['ix','iy','iz'])
+	df.ix=df.ix.astype(int)
+    df.iy=df.iy.astype(int)
+    df.iz=df.iz.astype(int)
     #--- group & compute p and c
     d = df.groupby(by=['ix','iy','iz']).groups #--- key = cell id, value = list of atoms inside
 #     print(len(d))
     assert len(d) == nx*ny*nz, 'empty boxes!'
-    keys = d.keys()
+    keys = indices #d.keys()
 #     pdb.set_trace()
     
     #--- output as additional lammps script
     count = 0
     for key in keys:
-        sfile=open('ScriptGroup.%s.txt'%count,'w')
-        sfile.write('group freeGr id\t')
-        atomf = df.iloc[d[key]]
-        for i in atomf.id:
-            sfile.write('%i\t'%i)
-        sfile.write('\ngroup frozGr subtract all freeGr\nvariable volume equal %4.3e'%dvol)
-        sfile.close()
-		#---
-#        os.system("mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var))
-		#
-        count += 1
+		sfile=open('ScriptGroup.%s.txt'%count,'w')
+		sfile.write('group freeGr id\t')
+		atomf = df.iloc[d[key]]
+		for i in atomf.id:
+			sfile.write('%i\t'%i)
+		sfile.write('\ngroup frozGr subtract all freeGr\nvariable volume equal %4.3e'%dvol)
+		sfile.close()
+		count += 1
 
 fileName = sys.argv[1] 
 dmean = float(sys.argv[2])
