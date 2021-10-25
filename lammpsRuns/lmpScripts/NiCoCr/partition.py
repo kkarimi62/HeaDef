@@ -35,7 +35,7 @@ def Partition( atoms,box, dmean ):
     #--- store in a df
     df = pd.DataFrame(np.c_[pd.DataFrame(atoms.__dict__),AtomCellId],
                          columns=list(pd.DataFrame(atoms.__dict__).keys())+['ix','iy','iz'])
-	df['ix']=df['ix'].astype(int)
+    df['ix']=df['ix'].astype(int)
     df['iy']=df['iy'].astype(int)
     df['iz']=df['iz'].astype(int)
     #--- group & compute p and c
