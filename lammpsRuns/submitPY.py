@@ -13,7 +13,7 @@ if __name__ == '__main__':
 		#---	
 		inums = lnums[ 0 ] - 1
 #		string[ inums ] = "\tjobname=\'NiCoCrNatom1KT0Elastic2nd%s\'\n" % (iphi) #--- change job name
-		string[ inums ] = "\t8:\'NiCoCrNatom1KT0Elastic2nd%s\',\n" % (iphi) #--- change job name
+		string[ inums ] = "\t8:\'NiCoCrNatom10KT0Elastic2nd%s\',\n" % (iphi) #--- change job name
 		#---	densities
 		inums = lnums[ 1 ] - 1
 		string[ inums ] = "\t5:[\'data_init.txt\',\'ScriptGroup.%s.txt\'],\n" % (iphi) #--- change job name
