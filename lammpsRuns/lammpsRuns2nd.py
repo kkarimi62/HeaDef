@@ -119,14 +119,14 @@ if __name__ == '__main__':
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
 		if irun == 0: #--- cp to directory
 			path=os.getcwd() + '/%s' % ( jobname)
-			os.system( 'cp %s/%s %s' % ( EXEC_DIR, EXEC_lmp, path ) ) # --- create folder & mv oar scrip & cp executable
+			os.system( 'ln -s %s/%s %s' % ( EXEC_DIR, EXEC_lmp, path ) ) # --- create folder & mv oar scrip & cp executable
 		#---
 		for script,indx in zip(Pipeline,range(100)):
 #			os.system( 'cp %s/%s %s/lmpScript%s.txt' %( SCRPT_DIR, script, writPath, indx) ) #--- lammps script: periodic x, pxx, vy, load
-			os.system( 'cp %s/%s %s' %( SCRPT_DIR, script, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+			os.system( 'ln -s %s/%s %s' %( SCRPT_DIR, script, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		if sourceFiles: 
 			for sf in sourceFiles:
-				os.system( 'cp %s/Run%s/%s %s' %(sourcePath, irun, sf, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+				os.system( 'ln -s %s/Run%s/%s %s' %(sourcePath, irun, sf, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		#---
 		makeOAR( path, 1, nThreads, durtn) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh %s' % ( writPath) ) # --- create folder & mv oar scrip & cp executable
