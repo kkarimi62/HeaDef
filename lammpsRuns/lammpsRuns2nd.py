@@ -34,7 +34,7 @@ if __name__ == '__main__':
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT300EdgeDisl',
-				8:'NiCoCrNatom10KT0Elastic',
+				8:'NiCoCrNatom1KT0Elastic',
 			   }[8]
 	sourcePath = os.getcwd() +\
 				{	
@@ -81,10 +81,11 @@ if __name__ == '__main__':
 					9:'in.elastic',
 					10:'in.elasticSoftWall',
 					'p0':'partition.py',
+					'p1':'WriteDump.py',
 				} 
 	#
 	Variable = {
-				0:' -var natoms 50000 -var cutoff 3.52  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
+				0:' -var natoms 1000 -var cutoff 3.52  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
@@ -92,21 +93,22 @@ if __name__ == '__main__':
 				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s'%(SCRPT_DIR),
 				10:' -var DataFile data_init.txt -var INC %s'%(SCRPT_DIR),
 				'p0':' data_init.txt 4.0 %s'%(os.getcwd()+'/../postprocess'),
+				'p1':' data_init.txt ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
 				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-				2:[0,'p0',10],	   #--- local elastic constants: [0]-> prepare sample & partition [1]->deform
+				2:[0,'p0',10,'p1'],	   #--- local elastic constants
 			  }[2]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
 	#
 	EXEC_lmp = ['lmp_mpi','lmp_serial'][0]
-	durtn = ['23:59:59','00:59:59'][0]
+	durtn = ['23:59:59','00:59:59'][1]
 	mem = '8gb'
-	partition = ['gpu-v100','parallel','cpu2019','single'][2]
+	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
