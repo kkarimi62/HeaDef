@@ -34,7 +34,7 @@ if __name__ == '__main__':
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT300EdgeDisl',
-				8:'NiCoCrNatom10KT0Elastic',
+				8:'NiCoCrNatom100KT0Elastic',
 			   }[8]
 	sourcePath = os.getcwd() +\
 				{	
@@ -84,7 +84,7 @@ if __name__ == '__main__':
 				} 
 	#
 	Variable = {
-				0:' -var natoms 10000 -var cutoff 3.52  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
+				0:' -var natoms 100000 -var cutoff 3.52  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				5:' -var DataFile data.txt -var buff 6.0 -var DumpFile dumpMin.xyz -var nevery 1 -var WriteData data_minimized.txt', 
 				7:' -var buff 6.0 -var T 0.1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat',
@@ -104,7 +104,7 @@ if __name__ == '__main__':
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
 	#
 	EXEC_lmp = ['lmp_mpi','lmp_serial'][0]
-	durtn = ['23:59:59','00:59:59'][1]
+	durtn = ['23:59:59','00:59:59'][0]
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][2]
 	#---
