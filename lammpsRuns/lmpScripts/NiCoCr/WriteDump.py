@@ -45,5 +45,5 @@ except:
 df = pd.DataFrame( arrc, columns = keys )
 atoms = lp.Atoms( **df.to_dict(orient='series'))
 wobj = lp.WriteDumpFile(atoms, box)
-wobj.Write(WritDump,attrs=['id','type','x','y','z']+list(modu.keys())[1:])
+wobj.Write(WritDump,attrs=['id','type','x','y','z'])#+list(modu.keys())[1:])
 #print(df.head())
