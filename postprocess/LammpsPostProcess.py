@@ -192,9 +192,9 @@ class WriteDumpFile:
 
 
         for row in np.c_[pd.DataFrame(self.atom.__dict__)[attrs]]:
-			for col in row:
-            	sfile.write('%s\t'%col)
-			sfile.write('\n')
+            for col in row:
+                sfile.write('%s\t'%col)
+            sfile.write('\n')
 #        for idd, typee, x, y, z in zip(self.atom.id, self.atom.type, self.atom.x, self.atom.y, self.atom.z ):
 #            sfile.write('%s %s %s %s %s\n'%(int(idd),int(typee),x,y,z))
             
