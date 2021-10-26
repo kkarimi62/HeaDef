@@ -106,7 +106,7 @@ if __name__ == '__main__':
 	EXEC_lmp = ['lmp_mpi','lmp_serial'][0]
 	durtn = ['23:59:59','00:59:59'][1]
 	mem = '8gb'
-	partition = ['gpu-v100','parallel','cpu2019','single'][1]
+	partition = ['gpu-v100','parallel','cpu2019','single'][2]
 	#---
 	os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
