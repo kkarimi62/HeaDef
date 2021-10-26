@@ -183,17 +183,18 @@ class WriteDumpFile:
         (xlo,xhi,xy)=self.box.BoxBounds[0,:]
         (ylo,yhi,junk)=self.box.BoxBounds[1,:]
         (zlo,zhi,junk)=self.box.BoxBounds[2,:]
-        cols = attrs
         sfile=open(outpt,'w')
         sfile.write('ITEM: TIMESTEP\n%s\nITEM: NUMBER OF ATOMS\n%s\nITEM: BOX BOUNDS xy xz yz pp pp pp\n\
                      %s %s %s\n%s\t%s\t%s\n%s\t%s\t%s\nITEM: ATOMS %s\n'\
-                     %(0,natom,xlo,xhi,xy,ylo,yhi,0.0,zlo,zhi,0.0,str(np.array(cols))[1:-1]))
+                     %(0,natom,xlo,xhi,xy,ylo,yhi,0.0,zlo,zhi,0.0," ".join(map(str,attrs))))
 
 #                     %s %s %s\n%s\t%s\t%s\n%s\t%s\t%s\nITEM: ATOMS id type x y z\n'\
 
 
         for row in np.c_[pd.DataFrame(self.atom.__dict__)[attrs]]:
-            sfile.write('%s\n'%(str(row)[1:-1]))
+			for col in row:
+            	sfile.write('%s\t'%col)
+			sfile.write('\n')
 #        for idd, typee, x, y, z in zip(self.atom.id, self.atom.type, self.atom.x, self.atom.y, self.atom.z ):
 #            sfile.write('%s %s %s %s %s\n'%(int(idd),int(typee),x,y,z))
             
