@@ -183,13 +183,19 @@ class WriteDumpFile:
         (xlo,xhi,xy)=self.box.BoxBounds[0,:]
         (ylo,yhi,junk)=self.box.BoxBounds[1,:]
         (zlo,zhi,junk)=self.box.BoxBounds[2,:]
+        cols = list(pd.DataFrame(self.atom.__dict__).keys())
         sfile=open(outpt,'w')
         sfile.write('ITEM: TIMESTEP\n%s\nITEM: NUMBER OF ATOMS\n%s\nITEM: BOX BOUNDS xy xz yz pp pp pp\n\
-                     %s %s %s\n%s\t%s\t%s\n%s\t%s\t%s\nITEM: ATOMS id type x y z\n'\
-                     %(0,natom,xlo,xhi,xy,ylo,yhi,0.0,zlo,zhi,0.0))
+                     %s %s %s\n%s\t%s\t%s\n%s\t%s\t%s\nITEM: ATOMS %s\n'\
+                     %(0,natom,xlo,xhi,xy,ylo,yhi,0.0,zlo,zhi,0.0,str(np.array(cols))[1:-1]))
 
-        for idd, typee, x, y, z in zip(self.atom.id, self.atom.type, self.atom.x, self.atom.y, self.atom.z ):
-            sfile.write('%s %s %s %s %s\n'%(int(idd),int(typee),x,y,z))
+#                     %s %s %s\n%s\t%s\t%s\n%s\t%s\t%s\nITEM: ATOMS id type x y z\n'\
+
+
+        for row in np.c_[pd.DataFrame(self.atom.__dict__)]:
+            sfile.write('%s\n'%(str(row)[1:-1]))
+#        for idd, typee, x, y, z in zip(self.atom.id, self.atom.type, self.atom.x, self.atom.y, self.atom.z ):
+#            sfile.write('%s %s %s %s %s\n'%(int(idd),int(typee),x,y,z))
             
         sfile.close()
         
@@ -308,7 +314,48 @@ class Atoms:
             self.uy = kwargs['uy']
         if 'uz' in kwargs:
             self.uz = kwargs['uz']
-            
+        if 'C11' in kwargs:
+        	self.C11 = kwargs['C11']
+        if 'C12' in kwargs:
+        	self.C12 = kwargs['C12']
+        if 'C13' in kwargs:
+        	self.C13 = kwargs['C13']
+        if 'C14' in kwargs:
+        	self.C14 = kwargs['C14']
+        if 'C15' in kwargs:
+        	self.C15 = kwargs['C15']
+        if 'C16' in kwargs:
+        	self.C16 = kwargs['C16']
+        if 'C22' in kwargs:
+        	self.C22 = kwargs['C22']
+        if 'C23' in kwargs:
+        	self.C23 = kwargs['C23']
+        if 'C24' in kwargs:
+        	self.C24 = kwargs['C24']
+        if 'C25' in kwargs:
+        	self.C25 = kwargs['C25']
+        if 'C26' in kwargs:
+        	self.C26 = kwargs['C26']
+        if 'C33' in kwargs:
+        	self.C33 = kwargs['C33']
+        if 'C34' in kwargs:
+        	self.C34 = kwargs['C34']
+        if 'C35' in kwargs:
+        	self.C35 = kwargs['C35']
+        if 'C36' in kwargs:
+        	self.C36 = kwargs['C36']
+        if 'C44' in kwargs:
+        	self.C44 = kwargs['C44']
+        if 'C45' in kwargs:
+        	self.C45 = kwargs['C45']
+        if 'C46' in kwargs:
+        	self.C46 = kwargs['C46']
+        if 'C55' in kwargs:
+        	self.C55 = kwargs['C55']
+        if 'C56' in kwargs:
+        	self.C56 = kwargs['C56']
+        if 'C66' in kwargs:
+        	self.C66 = kwargs['C66']            
     def __getitem__(self,key):
         return self.__dict__[key]
 
