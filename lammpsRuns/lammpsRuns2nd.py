@@ -82,6 +82,7 @@ if __name__ == '__main__':
 					10:'in.elasticSoftWall',
 					'p0':'partition.py',
 					'p1':'WriteDump.py',
+					'p2':'DislocateEdge.py',
 				} 
 	#
 	Variable = {
@@ -94,10 +95,11 @@ if __name__ == '__main__':
 				10:' -var DataFile data_init.txt -var INC %s'%(SCRPT_DIR),
 				'p0':' data_init.txt 3.302034049785914 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' data_init.txt ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
+				'p2':' %s 3.52 40.0 20.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
-				0:[5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
+				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
 				2:[0,'p0',10,'p1'],	   #--- local elastic constants
 			  }[2]
