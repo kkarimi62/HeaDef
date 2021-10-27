@@ -37,6 +37,11 @@ sys.path.append(pathlib)
 import LammpsPostProcess as lp
  
 if 1: #Atomsk:
+	mass={1:58.693, # Ni
+        2:58.933195, # Co
+        3:51.9961 #Cr,
+       } 
+	#
     a = float(sys.argv[2]) #3.52
     lx, ly, lz = float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]) #40.0, 20.0, 40.0 Angstrom
 #   m,n,k = 90, 30, 4
