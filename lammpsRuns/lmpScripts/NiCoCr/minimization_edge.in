@@ -71,14 +71,14 @@ run	0
 undump		1
 
 # -------------------------------------- Minimization -------------------------------------------#
-
-thermo                    1000
-minimize 				  0.0 1.0e-4 100000 100000
+minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
 #-----------------------------
 #--- compute & dump variables
 #-----------------------------
 dump        1 all custom 1 ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 1 flush yes append yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+write_data ${WriteData}
 
 run	0
