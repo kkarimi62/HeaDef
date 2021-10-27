@@ -37,7 +37,7 @@ sys.path.append(pathlib)
 import LammpsPostProcess as lp
  
 if 1: #Atomsk:
-	mass={1:58.693, # Ni
+    mass={1:58.693, # Ni
         2:58.933195, # Co
         3:51.9961 #Cr,
        } 
