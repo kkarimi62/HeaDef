@@ -1,7 +1,10 @@
-units                     metal
-atom_style                atomic
-boundary                  s s p
-read_data                 data.txt
+# ---------- Initialize Simulation --------------------- 
+include ${INC}/initSoftWall.mod
+
+#units                     metal
+#atom_style                atomic
+#boundary                  s s p
+#read_data                 data.txt
 
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#

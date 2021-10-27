@@ -12,11 +12,13 @@ variable Nstep  	equal	floor(${GammaXY}/${dt}/${GammaDot}) #--- timesteps
 variable Nevery  	equal	ceil(${Nstep}/100)
 
 # ---------- Initialize Simulation --------------------- 
-units			metal
-atom_style      atomic
-boundary    	p p p
-read_data		${DataFile} 
-change_box		all	triclinic
+include ${INC}/initSoftWall.mod
+
+#units			metal
+#atom_style      atomic
+#boundary    	p p p
+#read_data		${DataFile} 
+#change_box		all	triclinic
 
 #--- get number of atoms
 variable	natom	equal	"atoms"

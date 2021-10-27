@@ -20,6 +20,7 @@ variable atomjiggle equal 1.0e-5
 
 # metal units, elastic constants in GPa
 units		metal
+atom_style      atomic
 variable cfac equal 1.0e-4
 variable cunits string GPa
 
@@ -34,6 +35,8 @@ variable ftol equal 1.0e-08
 variable maxiter equal 100000
 variable maxeval equal 100000
 variable dmax equal 1.0e-2
+
+boundary    	p p p
 
 read_data	${DataFile}
 change_box	all	triclinic
