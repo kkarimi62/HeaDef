@@ -90,7 +90,7 @@ if __name__ == '__main__':
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var WriteData data_minimized.txt -var INC %s'%(SCRPT_DIR), 
 				7:' -var buff 3.0 -var T 0.1 -var teq 200.0 -var nevery 1000 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat -var INC %s'%(SCRPT_DIR),
-				8:' -var buff 3.0 -var T 0.1 -var sigm 4.0 -var sigmdt 0.01 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz -var INC %s'%(SCRPT_DIR),
+				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz -var INC %s'%(SCRPT_DIR),
 				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s'%(SCRPT_DIR),
 				10:' -var DataFile data_init.txt -var INC %s'%(SCRPT_DIR),
 				'p0':' data_init.txt 3.302034049785914 %s'%(os.getcwd()+'/../postprocess'),
