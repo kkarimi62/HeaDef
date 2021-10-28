@@ -46,7 +46,7 @@ change_box	all	triclinic
 #mass 1 1.0e-20
 
 #--- discretization time
-variable            dt        equal     0.01         # Time step
+variable            dt        equal     0.005         # Time step
 
 #--- thermostat parameters
 variable            damp_t    equal     100*${dt}     # Thermostat damping
