@@ -22,8 +22,8 @@ include ${INC}/potential.mod
 include ${INC}/buffer.mod
 
 # ----------------------------------- NVT Equilibration -----------------------------------------#
-fix			FixTherm        all        npt temp   $T  $T  ${damp_t} 
-run	100
+fix			FixTherm        all        nvt temp   $T  $T  ${damp_t}	  
+run	1000
 unfix	FixTherm
 reset_timestep	0
 
