@@ -77,7 +77,7 @@ if __name__ == '__main__':
 					5:'minimization_edge.in', 
 					6:'shearDispTemp.in', 
 					7:'Thermalization_edge.in',
-					8:'shearDispTemp_edge.in',
+					8:'shearLoadTemp_edge.in',
 					9:'in.elastic',
 					10:'in.elasticSoftWall',
 					'p0':'partition.py',
@@ -99,7 +99,7 @@ if __name__ == '__main__':
 				} 
 	#--- different scripts in a pipeline
 	indices = {
-				0:['p2',5,7],#8], #--- put disc. by atomsk, minimize, thermalize, and shear
+				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
 				2:[0,'p0',10,'p1'],	   #--- local elastic constants
 			  }[0]
