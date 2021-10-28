@@ -1,3 +1,4 @@
+#--- define groups
 variable xxlo	equal xlo
 variable x0		equal ${xxlo}+${buff}
 #
@@ -19,6 +20,7 @@ group downn region down
 #group lg region left
 #group rg region right
 #
+#--- fix walls
 #fix 1 upp setforce 0.0 0.0 0.0
 #fix 2 downn setforce 0.0 0.0 0.0
 #fix 11 lg setforce 0.0 0.0 0.0

@@ -3,8 +3,8 @@ include ${INC}/initSoftWall.mod
 
 #--- set variables
 #--- Pressure
-variable SIGMA equal 1.0/${cfac} #--- 1 gpa
-variable SIGMADOT equal 0.1/${cfac} #--- 0.1 gpa/ps
+variable SIGMA equal -1.0/${cfac} #--- 1 gpa
+variable SIGMADOT equal -0.1/${cfac} #--- 0.1 gpa/ps
 
 #
 variable Nstep  	equal	floor(${SIGMA}/${dt}/${SIGMADOT}) #--- timesteps
@@ -21,6 +21,12 @@ include ${INC}/potential.mod
 #--- fix buffer zone
 include ${INC}/buffer.mod
 
+# ----------------------------------- NVT Equilibration -----------------------------------------#
+fix			FixTherm        all        npt temp   $T  $T  ${damp_t} 
+run	100
+unfix	FixTherm
+reset_timestep	0
+
 #-----------------------------
 #--- compute & dump variables
 #-----------------------------
@@ -28,12 +34,6 @@ compute     1 all stress/atom NULL pair
 dump        1 all custom ${Nevery} ${OUT_PATH}/${DumpFile} id type x y z c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 
-
-#thermo                    100
-#thermo_style              custom    step temp etotal pe press vol
-
-# ----------------------------------- NVT Equilibration -----------------------------------------#
-#velocity	all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
 #--- initial stress
 run	0
 variable tmp equal pxy
