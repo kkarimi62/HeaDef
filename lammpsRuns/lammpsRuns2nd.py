@@ -34,7 +34,7 @@ if __name__ == '__main__':
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT0EdgeDisl',
-				8:'NiCoCrNatom10KT0Elastic',
+				8:'NiCoCrNatom10KT0Elastic2nd',
 			   }[7]
 	sourcePath = os.getcwd() +\
 				{	
