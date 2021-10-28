@@ -1,15 +1,12 @@
+# --------------------------------------- Atomic Setup ------------------------------------------#
+include ${INC}/initSoftWall.mod
+
 #--- thermalize two partial dislocations
 
 # -------------------------------------- General Variables --------------------------------------#
 variable                  t_eq      equal     ${teq}         # Equlibration time
-#variable				  nevery	equal	  200
-variable                  dt        equal     0.01         # Time step
 variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
-variable                  damp_t    equal     100*${dt}     # Thermostat damping
-variable                  damp_p    equal     1000*${dt}    # Barostat damping
 
-# --------------------------------------- Atomic Setup ------------------------------------------#
-include ${INC}/initSoftWall.mod
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
 
@@ -23,8 +20,8 @@ include ${INC}/buffer.mod
 
 velocity                  all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
  
-thermo                    100
-thermo_style              custom    step temp etotal pe press vol
+#thermo                    100
+#thermo_style              custom    step temp etotal pe press vol
 fix                      f1        all        nvt temp   $T  $T  ${damp_t}  #iso 1.0e-03 1.0e-03 ${damp_p} fixedpoint 0.0 0.0 0.0
 
 #-----------------------------

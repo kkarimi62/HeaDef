@@ -45,3 +45,10 @@ change_box	all	triclinic
 # Need to set mass to something, just to satisfy LAMMPS
 #mass 1 1.0e-20
 
+#--- discretization time
+variable            dt        equal     0.01         # Time step
+
+#--- thermostat parameters
+variable            damp_t    equal     100*${dt}     # Thermostat damping
+variable            damp_p    equal     1000*${dt}    # Barostat damping
+
