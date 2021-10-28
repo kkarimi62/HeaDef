@@ -30,42 +30,15 @@ group kind3 type 3
 
 # -------------------------------------- Minimization -------------------------------------------#
 #
-#--- fix buffer zone
-variable xxlo	equal xlo
-variable x0		equal v_xxlo+${buff}
-#
-variable xxhi	equal xhi 
-variable x1		equal v_xxhi-${buff}
-#
-variable yylo	equal ylo
-variable y0	equal v_yylo+${buff}
 
-variable yyhi	equal yhi
-variable y1		equal v_yyhi-${buff}
-#
-region up block INF INF ${y1} INF INF INF
-region down block INF INF INF ${y0} INF INF
-#region right block ${x1} INF INF INF INF INF
-#region left block INF ${x0} INF INF INF INF
-group upp region up
-group downn region down
-#group lg region left
-#group rg region right
-#
-fix 1 upp setforce 0.0 0.0 0.0
-fix 2 downn setforce 0.0 0.0 0.0
-#fix 11 lg setforce 0.0 0.0 0.0
-#fix 22 rg setforce 0.0 0.0 0.0
-velocity upp set 0 0 0
-velocity downn set 0 0 0
-#velocity lg set 0 0 0
-#velocity rg set 0 0 0
+#--- fix buffer zone
+include ${INC}/buffer.mod
 
 #-----------------------------
 #--- compute & dump variables
 #-----------------------------
 compute     1 all stress/atom NULL pair
-dump        1 all custom ${nevery} ${OUT_PATH}/DumpFile.xyz id type x y z c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump        1 all custom ${nevery} ${OUT_PATH}/${DumpFile} id type x y z c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 #run	0
 #undump		1
