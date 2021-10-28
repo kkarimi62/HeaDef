@@ -50,8 +50,11 @@ if 1: #Atomsk:
     bmag = a / 2.0 ** 0.5
     os.system('rm *.cfg *.lmp *.xyz')
     os.system('atomsk --create fcc %s Ni orient 110 -111 1-12 Al_unitcell.cfg'%(a))
-    os.system('atomsk Al_unitcell.cfg -duplicate %s %s %s Al_supercell.cfg'%(m,n,k))
-    os.system('atomsk Al_supercell.cfg -dislocation 0.51*box 0.51*box edge_rm Z Y %s 0.33 data.cfg'%(bmag))
+#    os.system('atomsk Al_unitcell.cfg -duplicate %s %s %s Al_supercell.cfg'%(m,n,k))
+    os.system('atomsk Al_unitcell.cfg -duplicate %s %s %s -deform X 0.0125 0.0 bottom.xsf'%(m,int(n/2),k))
+    os.system('atomsk Al_unitcell.cfg -duplicate %s %s %s -deform X -0.012195122 0.0 top.xsf'%(m+1,int(n/2),k))
+    os.system('atomsk --merge Y 2 bottom.xsf top.xsf data.cfg')
+#    os.system('atomsk Al_supercell.cfg -dislocation 0.51*box 0.51*box edge_rm Z Y %s 0.33 data.cfg'%(bmag))
     os.system('atomsk data.cfg -center com final.cfg')
     os.system('atomsk final.cfg lmp')
     #
