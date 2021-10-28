@@ -1,16 +1,15 @@
 #--- thermalize two partial dislocations
 
 # -------------------------------------- General Variables --------------------------------------#
-variable                  t_eq      equal     6000         # Equlibration time
-variable				  nevery	equal	  200
-variable                  dt        equal     0.001         # Time step
+variable                  t_eq      equal     ${teq}         # Equlibration time
+#variable				  nevery	equal	  200
+variable                  dt        equal     0.01         # Time step
+variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
 variable                  damp_t    equal     200*${dt}     # Thermostat damping
 variable                  damp_p    equal     5000*${dt}    # Barostat damping
 
 # --------------------------------------- Atomic Setup ------------------------------------------#
 include ${INC}/initSoftWall.mod
-
-
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
 
@@ -36,7 +35,7 @@ dump        1 all custom ${nevery} ${OUT_PATH}/${DumpFile} id type x y z c_1[1] 
 dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 
 #dump                      mydump all custom ${nevery} equilibrium.dump id type x y z
-run                       ${t_eq}
+run                       ${Nstep}
 
 unfix                     f1
 reset_timestep            0

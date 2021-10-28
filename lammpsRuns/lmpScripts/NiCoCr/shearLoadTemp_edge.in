@@ -1,3 +1,5 @@
+# ---------- Initialize Simulation --------------------- 
+include ${INC}/initSoftWall.mod
 
 #--- set variables
 variable            dt        equal     0.01         # Time step
@@ -11,8 +13,6 @@ variable            damp_p    equal     5000*${dt}    # Barostat damping
 variable Nstep  	equal	floor(${SIGMA}/${dt}/${SIGMADOT}) #--- timesteps
 variable Nevery  	equal	ceil(${Nstep}/100)
 
-# ---------- Initialize Simulation --------------------- 
-include ${INC}/initSoftWall.mod
 
 #--- get number of atoms
 variable	natom	equal	"atoms"
@@ -36,12 +36,13 @@ dump_modify 1 flush yes format line "%d %d %5.4e %5.4e %5.4e %4.3e %4.3e %4.3e %
 #thermo_style              custom    step temp etotal pe press vol
 
 # ----------------------------------- NVT Equilibration -----------------------------------------#
-velocity	all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
+#velocity	all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
 #--- initial stress
+run	0
 variable tmp equal pxy
-variable pxy0 equal ${tmp}
+variable sxy0 equal -${tmp}
 #
-fix			FixTherm        all        npt temp   $T  $T  ${damp_t} xy	${pxy0} ${SIGMA} ${damp_p} 
+fix			FixTherm        all        npt temp   $T  $T  ${damp_t} xy	${sxy0} ${SIGMA} ${damp_p} 
  
 #--- set discretization time 
 timestep	${dt}
