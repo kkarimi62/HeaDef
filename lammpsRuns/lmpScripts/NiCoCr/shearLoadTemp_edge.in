@@ -3,8 +3,8 @@ include ${INC}/initSoftWall.mod
 
 #--- set variables
 #--- Pressure
-variable SIGMA equal -1.0/${cfac} #--- 1 gpa
-variable SIGMADOT equal -0.01/${cfac} #--- 0.1 gpa/ps
+variable SIGMA equal -${sigm}/${cfac} #--- 1 gpa
+variable SIGMADOT equal ${sigmdt}/${cfac} #--- 0.1 gpa/ps
 
 #
 variable Nstep  	equal	floor(${SIGMA}/${dt}/${SIGMADOT}) #--- timesteps
