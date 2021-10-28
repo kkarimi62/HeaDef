@@ -37,6 +37,7 @@ dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %
 #undump		1
 
 # -------------------------------------- Minimization -------------------------------------------#
+fix 3 all box/relax  aniso 0.0
 minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
 #-----------------------------
