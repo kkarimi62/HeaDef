@@ -21,10 +21,9 @@ set group remain1 type/subset 3 ${natom3} 74
 group kind3 type 3
 
 #--- fix buffer zone
-include ${INC}/buffer.mod
+#include ${INC}/buffer.mod
 
 # -------------------------------------- Minimization -------------------------------------------#
-#
 
 
 #-----------------------------
