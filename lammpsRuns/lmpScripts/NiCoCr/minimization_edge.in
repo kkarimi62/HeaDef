@@ -1,17 +1,9 @@
 # ---------- Initialize Simulation --------------------- 
 include ${INC}/initSoftWall.mod
 
-#units                     metal
-#atom_style                atomic
-#boundary                  s s p
-#read_data                 data.txt
-
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
 include ${INC}/potential.mod
-#neigh_modify              delay   0
-#pair_style                eam/alloy
-#pair_coeff                * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
 
 #--- ternary alloys
 #--- get number of atoms
@@ -28,11 +20,12 @@ group remain1 subtract all  kind2
 set group remain1 type/subset 3 ${natom3} 74
 group kind3 type 3
 
+#--- fix buffer zone
+include ${INC}/buffer.mod
+
 # -------------------------------------- Minimization -------------------------------------------#
 #
 
-#--- fix buffer zone
-include ${INC}/buffer.mod
 
 #-----------------------------
 #--- compute & dump variables
