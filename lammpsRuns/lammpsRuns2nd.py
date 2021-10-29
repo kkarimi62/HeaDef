@@ -10,7 +10,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 #	cutoff = 1.0 / rho ** (1.0/3.0)
 	for script,var,indx, execc in zip(Pipeline,Variables,range(100),EXEC):
 		if execc == 'lmp': #_mpi' or EXEC == 'lmp_serial':
-			print >> someFile, "mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, var)
+			print >> someFile, "mpirun -np %s $EXEC_DIR/lmp_mpi < %s -echo screen -var OUT_PATH %s -var PathEam %s -var INC %s %s"%(nThreads*nNode, script, OUT_PATH, MEAM_library_DIR, SCRPT_DIR, var)
 		elif execc == 'py':
 			print >> someFile, "python3 %s %s"%(script, var)
 			
@@ -88,12 +88,12 @@ if __name__ == '__main__':
 	Variable = {
 				0:' -var natoms 10000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
-				4:' -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat -var INC %s'%(SCRPT_DIR), 
-				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var ParseData 1 -var WriteData data_minimized.txt -var INC %s'%(SCRPT_DIR), 
-				7:' -var buff 3.0 -var T 600 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat -var INC %s'%(SCRPT_DIR),
-				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz -var INC %s'%(SCRPT_DIR),
-				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1 -var INC %s'%(SCRPT_DIR),
-				10:' -var ParseData 1 -var DataFile swapped_600.dat -var INC %s'%(SCRPT_DIR),
+				4:' -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
+				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var ParseData 1 -var WriteData data_minimized.txt', 
+				7:' -var buff 3.0 -var T 600 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat',
+				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
+				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
+				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' swapped_600.dat 4.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
 				'p2':' %s 3.52 40.0 20.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
