@@ -1,12 +1,8 @@
 # --------------------------------------- Atomic Setup ------------------------------------------#
 include ${INC}/initSoftWall.mod
 
-#--- thermalize two partial dislocations
-
-# -------------------------------------- General Variables --------------------------------------#
-variable                  t_eq      equal     ${teq}         # Equlibration time
-variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
-
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
 
@@ -14,6 +10,14 @@ include ${INC}/potential.mod
 
 #--- fix buffer zone
 include ${INC}/buffer.mod
+
+#--- thermalize two partial dislocations
+
+# -------------------------------------- General Variables --------------------------------------#
+variable                  t_eq      equal     ${teq}         # Equlibration time
+variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
+
+
 
  
 # ----------------------------------- NVT Equilibration -----------------------------------------#

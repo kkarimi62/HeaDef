@@ -1,4 +1,12 @@
 # Rene Alvarez - ralvarez@ncbj.gov.pl
+ # ---------- Initialize Simulation --------------------- 
+include ${INC}/initSoftWall.mod
+
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
+
+# ---------- Define Interatomic Potential --------------------- 
+include ${INC}/potential.mod
 
 #------------------------------- Random number generator --------------------------------#
 
@@ -15,22 +23,22 @@
 
   # Time variables
 
-  variable        t_sw      equal     10000        # Equlibration time
-  variable        dt        equal     0.0025         # Time step
-  variable        damp_t    equal     200*${dt}      # Thermostat damping
-  variable        damp_p    equal     2500*${dt}     # Barostat damping
+#  variable        t_sw      equal     10000        # Equlibration time
+#  variable        dt        equal     0.0025         # Time step
+#  variable        damp_t    equal     200*${dt}      # Thermostat damping
+#  variable        damp_p    equal     2500*${dt}     # Barostat damping
 #  variable		  DataFile	equal	  "Equilibrated_${T}.dat"	
 #----------------------------------------------------------------------------------------#
 
-  units           metal
-  atom_style      atomic
+#  units           metal
+#  atom_style      atomic
  # read_restart    ../NPT_configurations/Crystal_1600K.restart.500000
-  read_data       ${DataFile} #Equilibrated_1300.dat
+#  read_data       ${DataFile} #Equilibrated_1300.dat
 # Interatomic potential information.
 
-  neigh_modify    delay   0
-  pair_style      eam/alloy
-  pair_coeff      * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
+#  neigh_modify    delay   0
+#  pair_style      eam/alloy
+#  pair_coeff      * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
   timestep        ${dt}
 
 # VSGCM variables
@@ -52,9 +60,9 @@
   fix             mc all sgcmc ${nsteps_mc} ${swap_fraction} ${temperature_mc} ${deltamu1} ${deltamu2} &
                   randseed 1234 variance ${kappa} ${target_concentration} ${target_concentration}
   #variable        rnd equal round(random(0,999999,${RANDOM}))
-  thermo          10
-  thermo_style    custom step temp atoms pe press  lx ly lz f_mc[1] f_mc[2] f_mc[3] f_mc[4]
-  thermo_modify   flush yes
+#  thermo          10
+#  thermo_style    custom step temp atoms pe press  lx ly lz f_mc[1] f_mc[2] f_mc[3] f_mc[4]
+#  thermo_modify   flush yes
 
 #-----------------------------
 #--- compute & dump variables
@@ -67,4 +75,4 @@ dump_modify 11 flush yes format line "%d %d %5.4e %5.4e %5.4e %4.3e %4.3e %4.3e 
 #  restart         ${t_sw}       Swap_$TK.restart 
   run             ${t_sw}
   
-write_data  swapped_$T.dat
+write_data  ${WriteData} #swapped_$T.dat

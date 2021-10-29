@@ -1,6 +1,10 @@
 # ---------- Initialize Simulation --------------------- 
 include ${INC}/initSoftWall.mod
 
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
+
+
 #--- set variables
 #--- Pressure
 variable SIGMA equal -${sigm}/${cfac} #--- 1 gpa
@@ -11,8 +15,6 @@ variable Nstep  	equal	floor(${SIGMA}/${dt}/${SIGMADOT}) #--- timesteps
 variable Nevery  	equal	ceil(${Nstep}/100)
 
 
-#--- get number of atoms
-variable	natom	equal	"atoms"
 
 # ---------- Define Interatomic Potential --------------------- 
 include ${INC}/potential.mod

@@ -38,9 +38,7 @@ variable dmax equal 1.0e-2
 
 #--- 
 boundary    	p p p
-read_data	${DataFile}
-change_box	all	triclinic
-#
+#---
 
 #--- Need to set mass to something, just to satisfy LAMMPS
 #mass 1 1.0e-20

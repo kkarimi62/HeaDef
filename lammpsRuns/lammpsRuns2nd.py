@@ -35,7 +35,8 @@ if __name__ == '__main__':
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT0EdgeDisl2nd',
 				8:'NiCoCrNatom10KT0Elastic',
-			   }[7]
+				9:'NiCoCrNatom10KAnnealedT600Elastic',
+			   }[9]
 	sourcePath = os.getcwd() +\
 				{	
 					1:'/../postprocess/NiCoCrNatom1K',
@@ -69,15 +70,14 @@ if __name__ == '__main__':
 	if SCRATCH:
 		OUT_PATH = '/scratch/${SLURM_JOB_ID}'
 	#--- py script must have a key of type str!
-	LmpScript = {	0:'PrepTemp0.in',
+	LmpScript = {	0:'in.PrepTemp0',
 				 	1:'relax.in', 
 					2:'relaxWalls.in', 
-					3:'Thermalization.in', 
-					4:'vsgc.in', 
-					5:'minimization_edge.in', 
-					6:'shearDispTemp.in', 
-					7:'Thermalization_edge.in',
-					8:'shearLoadTemp_edge.in',
+					7:'in.Thermalization', 
+					4:'in.vsgc', 
+					5:'in.minimization', 
+					6:'in.shearDispTemp', 
+					8:'in.shearLoadTemp',
 					9:'in.elastic',
 					10:'in.elasticSoftWall',
 					'p0':'partition.py',
@@ -86,23 +86,25 @@ if __name__ == '__main__':
 				} 
 	#
 	Variable = {
-				0:' -var natoms 10000 -var cutoff 3.52  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
+				0:' -var natoms 10000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
-				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var WriteData data_minimized.txt -var INC %s'%(SCRPT_DIR), 
-				7:' -var buff 3.0 -var T 0.1 -var teq 200.0 -var nevery 1000 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_300.dat -var INC %s'%(SCRPT_DIR),
-				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz -var INC %s'%(SCRPT_DIR),
-				9:' -var natoms 1000 -var cutoff 3.52 -var INC %s'%(SCRPT_DIR),
-				10:' -var DataFile data_init.txt -var INC %s'%(SCRPT_DIR),
-				'p0':' data_init.txt 3.302034049785914 %s'%(os.getcwd()+'/../postprocess'),
-				'p1':' data_init.txt ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
+				4:' -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat -var INC %s'%(SCRPT_DIR), 
+				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var ParseData 1 -var WriteData data_minimized.txt -var INC %s'%(SCRPT_DIR), 
+				7:' -var buff 3.0 -var T 600 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat -var INC %s'%(SCRPT_DIR),
+				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz -var INC %s'%(SCRPT_DIR),
+				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1 -var INC %s'%(SCRPT_DIR),
+				10:' -var ParseData 1 -var DataFile swapped_600.dat -var INC %s'%(SCRPT_DIR),
+				'p0':' swapped_600.dat 4.0 %s'%(os.getcwd()+'/../postprocess'),
+				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
 				'p2':' %s 3.52 40.0 20.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
 				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-				2:[0,'p0',10,'p1'],	   #--- local elastic constants
-			  }[0]
+				2:[0,'p0',10,'p1'],	   #--- local elastic constants (zero temp)
+				3:[0,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
+			  }[3]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	

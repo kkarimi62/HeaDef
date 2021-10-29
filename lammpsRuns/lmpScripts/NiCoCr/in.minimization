@@ -1,27 +1,14 @@
 # ---------- Initialize Simulation --------------------- 
 include ${INC}/initSoftWall.mod
 
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
 
 # -------------------------------- EAM Interatomic Potential ------------------------------------#
 include ${INC}/potential.mod
 
-#--- ternary alloys
-#--- get number of atoms
-variable	natom	equal	"atoms"
-variable	natom2	equal	floor(${natom}/3)
-variable	natom3	equal	floor(${natom2})
-#
-group kind1 type 1
-set group kind1 type/subset 2 ${natom2} 12345
-#
-group kind2 type 2
-group remain1 subtract all  kind2 
-#
-set group remain1 type/subset 3 ${natom3} 74
-group kind3 type 3
-
 #--- fix buffer zone
-#include ${INC}/buffer.mod
+include ${INC}/buffer.mod
 
 # -------------------------------------- Minimization -------------------------------------------#
 
