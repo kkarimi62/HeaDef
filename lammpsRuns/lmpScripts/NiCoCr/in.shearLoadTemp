@@ -3,7 +3,7 @@ include ${INC}/initSoftWall.mod
 
 # ---------- Create Atoms ---------------------
 include ${INC}/CreateBox.mod
-
+change_box all triclinic
 
 #--- set variables
 #--- Pressure
