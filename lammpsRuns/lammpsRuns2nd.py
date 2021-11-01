@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = [1,9][0]
+	nThreads = [1,9][1]
 	nNode	 = 1
 	#
 	jobname  = {
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT0EdgeDisl2nd',
 				8:'NiCoCrNatom10KT0Elastic',
-				9:'NiCoCrNatom10KAnnealedT600Elastic2nd',
+				9:'NiCoCrNatom10KAnnealedT600Elastic',
 			   }[9]
 	sourcePath = os.getcwd() +\
 				{	
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 				} 
 	#
 	Variable = {
-				0:' -var natoms 1000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
+				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				4:' -var T 600 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var ParseData 1 -var WriteData data_minimized.txt', 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
-				'p0':' swapped_600.dat 4.0 %s'%(os.getcwd()+'/../postprocess'),
+				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
 				'p2':' %s 3.52 40.0 20.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
 				} 
