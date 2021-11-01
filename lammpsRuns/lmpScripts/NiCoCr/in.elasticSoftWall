@@ -45,6 +45,7 @@
 
 #--- include files
 include ${INC}/initSoftWall.mod
+include ${INC}/CreateBox.mod
 include ${INC}/potential.mod
 include ScriptGroup.0.txt
 
