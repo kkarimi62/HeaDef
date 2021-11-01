@@ -17,7 +17,7 @@ run	0
 undump		1
 
 # -------------------------------------- Minimization -------------------------------------------#
-thermo                    1000
+#thermo                    1000
 fix                       p1        all        box/relax   iso 0.0 #vmax 0.001 #--- equilibrate at p=0 
 
 
