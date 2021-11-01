@@ -22,6 +22,7 @@ clear
 box tilt large
 read_restart restart.equil
 include ${INC}/potential.mod
+change_box all triclinic
 
 dump        1 all custom 1 dump.xyz id type x y z
 dump_modify 1 flush yes append yes
