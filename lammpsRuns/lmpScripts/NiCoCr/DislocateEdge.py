@@ -29,7 +29,7 @@ def WriteDataFile(AtomskOutpt, mass, LmpInput):
     atoms.y -= rcent[1]
     atoms.z -= rcent[2]
 
-	if len(mass) > 1: #--- multi-component alloy: assign random types
+    if len(mass) > 1: #--- multi-component alloy: assign random types
         dff=pd.DataFrame(atoms.__dict__)
         dff['type']=1
         indices = dff.index
