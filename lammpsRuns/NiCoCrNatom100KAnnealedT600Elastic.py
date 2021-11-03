@@ -33,10 +33,10 @@ if __name__ == '__main__':
 				4:'NiCoCrNatom1000KEdgeDisl', 
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
-				7:'NiNatom10KT0EdgeDisl',
+				7:'NiNatom1KT0EdgeDisl2nd',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
-			   }[7]
+			   }[9]
 	sourcePath = os.getcwd() +\
 				{	
 					1:'/../postprocess/NiCoCrNatom1K',
@@ -90,8 +90,8 @@ if __name__ == '__main__':
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var ParseData 1 -var WriteData data_minimized.txt', 
-				7:' -var buff 3.0 -var T 0.01 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_0.dat',
-				8:' -var buff 3.0 -var T 0.01 -var sigm 1.1 -var sigmdt 0.01 -var ndump 400 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
+				7:' -var buff 3.0 -var T 600.0 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat',
+				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
@@ -104,7 +104,7 @@ if __name__ == '__main__':
 				1:[9],     #--- elastic constants
 				2:[0,'p0',10,'p1'],	   #--- local elastic constants (zero temp)
 				3:[0,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
-			  }[0]
+			  }[3]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
@@ -129,7 +129,7 @@ if __name__ == '__main__':
 		#---
 		for script,indx in zip(Pipeline,range(100)):
 #			os.system( 'cp %s/%s %s/lmpScript%s.txt' %( SCRPT_DIR, script, writPath, indx) ) #--- lammps script: periodic x, pxx, vy, load
-			os.system( 'cp %s/%s %s' %( SCRPT_DIR, script, writPath) ) #--- lammps script: periodic x, pxx, vy, load
+			os.system( 'ln -s %s/%s %s' %( SCRPT_DIR, script, writPath) ) #--- lammps script: periodic x, pxx, vy, load
 		if sourceFiles: 
 			for sf in sourceFiles:
 				os.system( 'ln -s %s/Run%s/%s %s' %(sourcePath, irun, sf, writPath) ) #--- lammps script: periodic x, pxx, vy, load

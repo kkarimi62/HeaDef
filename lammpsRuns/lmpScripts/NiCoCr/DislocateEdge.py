@@ -29,6 +29,22 @@ def WriteDataFile(AtomskOutpt, mass, LmpInput):
     atoms.y -= rcent[1]
     atoms.z -= rcent[2]
 
+	if len(mass) > 1: #--- multi-component alloy: assign random types
+        dff=pd.DataFrame(atoms.__dict__)
+        dff['type']=1
+        indices = dff.index
+        ntype=len(mass)
+        sizeTot = len(dff)
+        size = int(np.floor((1.0*sizeTot/ntype)))
+        assert size * ntype <= sizeTot
+        indxxx = {}
+        for itype in range(ntype-1):
+            indxxx[itype] = np.random.choice(indices, size=size, replace=None)
+            dff.iloc[indxxx[itype]]['type'] = ntype - itype
+            indices = list(set(indices)-set(indxxx[itype]))
+            sizeTot -= size		
+        atoms = lp.Atoms( **dff.to_dict(orient='series') )
+	
     #--- write data file
     lp.WriteDataFile(atoms,box,mass).Write(LmpInput)
 

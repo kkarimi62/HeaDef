@@ -21,12 +21,12 @@ group downn region down
 #group rg region right
 #
 #--- fix walls
-#fix 1 upp setforce 0.0 0.0 0.0
-#fix 2 downn setforce 0.0 0.0 0.0
+fix 1 upp setforce 0.0 0.0 0.0
+fix 2 downn setforce 0.0 0.0 0.0
 #fix 11 lg setforce 0.0 0.0 0.0
 #fix 22 rg setforce 0.0 0.0 0.0
-#velocity upp set 0 0 0
-#velocity downn set 0 0 0
+velocity upp set 0 0 0
+velocity downn set 0 0 0
 #velocity lg set 0 0 0
 #velocity rg set 0 0 0
 
