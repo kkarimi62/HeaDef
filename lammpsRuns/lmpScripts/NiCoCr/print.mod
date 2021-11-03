@@ -31,3 +31,7 @@ variable 	icel 	loop	0	${ncc}
 	#
 #	print "${icel} ${C11all} ${C12all} ${C13all} ${C14all} ${C15all} ${C16all} ${C22all} ${C23all} ${C24all} ${C25all} ${C26all} ${C33all} ${C34all} ${C35all} ${C36all} ${C44all} ${C45all} ${C46all} ${C55all} ${C56all} ${C66all}" append "ElasticConst.txt"
 	print "${icel} ${C66all}" append "ElasticConst.txt"
+next    icel
+jump    ${INC}/print.mod  loop2
+#--- end of outer loop
+

@@ -24,10 +24,10 @@ read_restart restart.equil
 include ${INC}/potential.mod
 change_box all triclinic
 
-dump        1 all custom 1 dump.xyz id type x y z
-dump_modify 1 flush yes append yes
-run	0
-undump	1
+#dump        1 all custom 1 dump.xyz id type x y z
+#dump_modify 1 flush yes append yes
+#run	0
+#undump	1
 
 # Negative deformation
 
@@ -54,7 +54,7 @@ if "${dir} == 6" then &
 
 minimize ${etol} ${ftol} ${maxiter} ${maxeval}
 
-dump        1 all custom 1 dump.xyz id type x y z
-dump_modify 1 flush yes append yes
-run	0
+#dump        1 all custom 1 dump.xyz id type x y z
+#dump_modify 1 flush yes append yes
+#run	0
 

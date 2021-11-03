@@ -61,54 +61,15 @@ variable 	icel 	loop 0	${ncc}
 	group	frozGr	delete
 	include ScriptGroup.${icel}.txt
 	#
-	include	${INC}/CompStrs0.mod #--- initial stress
+#	include	${INC}/CompStrs0.mod #--- initial stress
+	include	${INC}/CompStrs02nd.mod #--- initial stress
 #	variable xx	equal	v_sxx0_${icel}
 #	print "${icel} ${xx}" append "p_init.txt"
 next 	icel
-jump	in.elasticSoftWall  loop
+jump	in.elasticSoftWall2nd  loop
 
+#--- store initial stress
+thermo_style	custom	step	v_sxx0_0  #v_pxx0	pxx v_press
+run	0
 #--- end of loop
 #
-variable tmp equal lx
-variable lx0 equal ${tmp}
-variable tmp equal ly
-variable ly0 equal ${tmp}
-variable tmp equal lz
-variable lz0 equal ${tmp}
-
-#
-#displace_atoms all random ${atomjiggle} ${atomjiggle} ${atomjiggle} 87287 units box
-#
-# Write restart
-#unfix 3
-write_restart restart.equil
-#
-# uxx Perturbation
-variable dir loop 6 6 #--- six modes
-	label loop0
-	include ${INC}/displaceSoftWall.mod #--- deform
-	#--- loop : compute current stress
-	variable 	icel 	loop 0	${ncc}
-		label loop1
-		#
-		group	freeGr	delete
-		group	frozGr	delete
-		include ScriptGroup.${icel}.txt
-		#
-		include	${INC}/CompStrs1.mod
-#		variable xx	equal	v_sxx0_${icel}
-#		variable yy	equal	v_pxx1_${dir}_${icel}
-#		print "${icel} ${xx} ${yy}" append pdir${dir}.txt
-		include ${INC}/DerivStrs.mod
-		#thermo_style	custom	step	 v_sxx0_${icel}	v_pxx1_${icel}	
-		#run0
-	next 	icel
-	jump	in.elasticSoftWall  loop1
-	variable	icel	delete
-	#--- end of inner loop
-next	dir
-jump	in.elasticSoftWall  loop0
-#--- end of outer loop
-
-#--- print
-include ${INC}/print.mod

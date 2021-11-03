@@ -12,7 +12,7 @@ variable 	pxy0 equal -c_p[4]/${volume}
 
 #--- store initial stress
 thermo_style	custom	step	v_pxx0	pxx v_press
-run	0
+run	0	post	no
 
 variable	sxx0_${icel}	equal ${pxx0}
 variable	syy0_${icel}	equal ${pyy0}
