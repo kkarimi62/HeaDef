@@ -43,7 +43,7 @@ variable iatom loop  ${natom} #--- six modes
 	#
 
 next	iatom
-jump	${INC}/CompStrs02nd.mod loop0_CompStrs02nd
+jump	${INC}/CompStrs0.mod loop0_CompStrs0
 
 
 uncompute	pinit
