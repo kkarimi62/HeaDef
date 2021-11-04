@@ -3,7 +3,7 @@ import pandas as pd
 import pdb
 import sys
 import os
-
+import pdb
 
 def WriteDataFile(AtomskOutpt, mass, LmpInput):
     #--- read data file
@@ -40,11 +40,14 @@ def WriteDataFile(AtomskOutpt, mass, LmpInput):
         indxxx = {}
         for itype in range(ntype-1):
             indxxx[itype] = np.random.choice(indices, size=size, replace=None)
-            dff.iloc[indxxx[itype]]['type'] = ntype - itype
+#            dff.iloc[indxxx[itype]]['type'] = ntype - itype
+            row_indexer = indxxx[itype]
+            col_indexer = 'type'
+            dff.loc[row_indexer,col_indexer] = ntype - itype 
             indices = list(set(indices)-set(indxxx[itype]))
             sizeTot -= size		
         atoms = lp.Atoms( **dff.to_dict(orient='series') )
-	
+#        pdb.set_trace()	
     #--- write data file
     lp.WriteDataFile(atoms,box,mass).Write(LmpInput)
 
