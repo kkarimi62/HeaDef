@@ -90,7 +90,7 @@ variable dir loop 1 6 #--- six modes
 	include ${INC}/displaceSoftWall.mod #--- deform
 	include	${INC}/CompStrs1.mod #--- compute stress
 	#--- loop : compute current stress
-	variable 	icel 	loop ${natom} #0	${ncc}
+	variable 	iatom 	loop ${natom} #0	${ncc}
 		label loop1
 		#
 #		group	freeGr	delete
@@ -103,9 +103,9 @@ variable dir loop 1 6 #--- six modes
 		include ${INC}/DerivStrs.mod
 		#thermo_style	custom	step	 v_sxx0_${icel}	v_pxx1_${icel}	
 		#run0
-	next 	icel
+	next 	iatom
 	jump	in.elasticSoftWall  loop1
-	variable	icel	delete
+	variable	iatom	delete
 	#--- end of inner loop
 next	dir
 jump	in.elasticSoftWall  loop0
