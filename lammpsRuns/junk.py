@@ -34,7 +34,7 @@ if __name__ == '__main__':
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT0EdgeDisl2nd',
-				8:'NiCoCrNatom1KT0Elastic',
+				8:'NiCoCrNatom100KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[8]
 	sourcePath = os.getcwd() +\
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 				} 
 	#
 	Variable = {
-				0:' -var natoms 1000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
+				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var ParseData 1 -var WriteData data_minimized.txt', 
