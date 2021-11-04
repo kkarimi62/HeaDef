@@ -21,7 +21,7 @@ run	0	#post	no
 
 variable	natom	equal	atoms
 variable iatom loop  ${natom} #--- six modes
-	label loop0_CompStrs02nd
+	label loop0_CompStrs0
 	#
 	variable	tmp		equal 	v_pxx0[${iatom}]
 	variable	sxx0_iatom${iatom}	equal ${tmp}
