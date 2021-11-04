@@ -1,0 +1,1 @@
+../../NiCoCrNatom1KT0Elastic/Run0/DerivStrs2nd.mod

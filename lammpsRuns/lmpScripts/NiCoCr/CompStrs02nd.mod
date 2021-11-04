@@ -1,27 +1,52 @@
 #--- compute stress
 compute     peratom all stress/atom NULL
-#compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+compute     pinit all reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
 #
-#variable    press equal -(c_peratom[1]+c_peratom[2]+c_peratom[3])/(3*${volume})
-variable 	pxx0 vector -c_peratom[1]
-variable 	pyy0 vector -c_peratom[2]
-variable 	pzz0 vector -c_peratom[3]
-variable 	pyz0 vector -c_peratom[6]
-variable 	pxz0 vector -c_peratom[5]
-variable 	pxy0 vector -c_peratom[4]
+variable    press equal -(c_pinit[1]+c_pinit[2]+c_pinit[3])/(3*vol)
+variable 	pxx0 atom -c_peratom[1]
+variable 	pyy0 atom -c_peratom[2]
+variable 	pzz0 atom -c_peratom[3]
+variable 	pyz0 atom -c_peratom[6]
+variable 	pxz0 atom -c_peratom[5]
+variable 	pxy0 atom -c_peratom[4]
 
 #--- store initial stress
-thermo_style	custom	step	v_pxx0	pxx v_press
-run	0	post	no
+thermo_style	custom	step	v_press #v_sxx0[1] #	pxx #v_press
 
-#variable	sxx0_${icel}	equal ${pxx0}
-#variable	syy0_${icel}	equal ${pyy0}
-#variable	szz0_${icel}	equal ${pzz0}
-#variable	syz0_${icel}	equal ${pyz0}
-#variable	sxz0_${icel}	equal ${pxz0}
-#variable	sxy0_${icel}	equal ${pxy0}
+dump        1 all custom 1 dump_init.xyz id type x y z c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+undump		1
 
-#uncompute	p
-#uncompute	peratom
+run	0	#post	no
+
+variable	natom	equal	atoms
+variable iatom loop  ${natom} #--- six modes
+	label loop0_CompStrs02nd
+	#
+	variable	tmp		equal 	v_pxx0[${iatom}]
+	variable	sxx0_iatom${iatom}	equal ${tmp}
+	#
+	variable	tmp		equal 	v_pyy0[${iatom}]
+	variable	syy0_iatom${iatom}	equal ${tmp}
+	#
+	variable	tmp		equal 	v_pzz0[${iatom}]
+	variable	szz0_iatom${iatom}	equal ${tmp}
+	#
+	variable	tmp		equal 	v_pyz0[${iatom}]
+	variable	syz0_iatom${iatom}	equal ${tmp}
+	#
+	variable	tmp		equal 	v_pxz0[${iatom}]
+	variable	sxz0_iatom${iatom}	equal ${tmp}
+	#
+	variable	tmp		equal 	v_pxy0[${iatom}]
+	variable	sxy0_iatom${iatom}	equal ${tmp}
+	#
+
+next	iatom
+jump	${INC}/CompStrs02nd.mod loop0_CompStrs02nd
+
+
+uncompute	pinit
+uncompute	peratom
 
 

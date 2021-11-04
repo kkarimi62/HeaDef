@@ -47,26 +47,26 @@
 include ${INC}/initSoftWall.mod
 include ${INC}/CreateBox.mod
 include ${INC}/potential.mod
-include ScriptGroup.0.txt
+#include ScriptGroup.0.txt
 
 # Compute initial state
 minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
 #--- stress loop
-variable	ncc		equal	${ncel}-1
-variable 	icel 	loop 0	${ncc}
-	label loop
+#variable	ncc		equal	${ncel}-1
+#variable 	icel 	loop 0	${ncc}
+#	label loop
 	#
-	group	freeGr	delete
-	group	frozGr	delete
-	include ScriptGroup.${icel}.txt
+#	group	freeGr	delete
+#	group	frozGr	delete
+#	include ScriptGroup.${icel}.txt
 	#
 #	include	${INC}/CompStrs0.mod #--- initial stress
 	include	${INC}/CompStrs02nd.mod #--- initial stress
 #	variable xx	equal	v_sxx0_${icel}
 #	print "${icel} ${xx}" append "p_init.txt"
-next 	icel
-jump	in.elasticSoftWall2nd  loop
+#next 	icel
+#jump	in.elasticSoftWall2nd  loop
 
 #--- store initial stress
 thermo_style	custom	step	v_sxx0_0  #v_pxx0	pxx v_press
