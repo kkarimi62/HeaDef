@@ -102,7 +102,7 @@ if __name__ == '__main__':
 	indices = {
 				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-				2:[0,'p0',10,'p1'],	   #--- local elastic constants (zero temp)
+				2:[0,10,'p1'],	   #--- local elastic constants (zero temp)
 				3:[0,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
 			  }[2]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
