@@ -45,7 +45,7 @@
 
 #--- include files
 include ${INC}/initSoftWall.mod
-atom_modify keyword values	#--- access to atom-based variables
+atom_modify map yes	#--- access to atom-based variables
 include ${INC}/CreateBox.mod
 include ${INC}/potential.mod
 #include ScriptGroup.0.txt
