@@ -13,37 +13,37 @@ variable 	pxy0 atom -c_peratom[4]
 #--- store initial stress
 thermo_style	custom	step	v_press #v_sxx0[1] #	pxx #v_press
 
-#dump        1 all custom 1 dump_init.xyz id type x y z c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
-#dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
-#undump		1
+dump        1 all custom 1 dump_init.xyz id type x y z c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+dump_modify 1 flush yes append yes format line "%d %d %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e"
+undump		1
 
-run	0	#post	no
+run	0
 
-variable	natom	equal	atoms
-variable iatom loop  ${natom} #--- six modes
-	label loop0_CompStrs0
-	#
-	variable	tmp		equal 	v_pxx0[${iatom}]
-	variable	sxx0_iatom${iatom}	equal ${tmp}
-	#
-	variable	tmp		equal 	v_pyy0[${iatom}]
-	variable	syy0_iatom${iatom}	equal ${tmp}
-	#
-	variable	tmp		equal 	v_pzz0[${iatom}]
-	variable	szz0_iatom${iatom}	equal ${tmp}
-	#
-	variable	tmp		equal 	v_pyz0[${iatom}]
-	variable	syz0_iatom${iatom}	equal ${tmp}
-	#
-	variable	tmp		equal 	v_pxz0[${iatom}]
-	variable	sxz0_iatom${iatom}	equal ${tmp}
-	#
-	variable	tmp		equal 	v_pxy0[${iatom}]
-	variable	sxy0_iatom${iatom}	equal ${tmp}
-	#
-
-next	iatom
-jump	${INC}/CompStrs0.mod loop0_CompStrs0
+#variable	natom	equal	atoms
+#variable iatom loop  ${natom} #--- six modes
+#	label loop0_CompStrs0
+#	#
+#	variable	tmp		equal 	v_pxx0[${iatom}]
+#	variable	sxx0_iatom${iatom}	equal ${tmp}
+#	#
+#	variable	tmp		equal 	v_pyy0[${iatom}]
+#	variable	syy0_iatom${iatom}	equal ${tmp}
+#	#
+#	variable	tmp		equal 	v_pzz0[${iatom}]
+#	variable	szz0_iatom${iatom}	equal ${tmp}
+#	#
+#	variable	tmp		equal 	v_pyz0[${iatom}]
+#	variable	syz0_iatom${iatom}	equal ${tmp}
+#	#
+#	variable	tmp		equal 	v_pxz0[${iatom}]
+#	variable	sxz0_iatom${iatom}	equal ${tmp}
+#	#
+#	variable	tmp		equal 	v_pxy0[${iatom}]
+#	variable	sxy0_iatom${iatom}	equal ${tmp}
+#	#
+#
+#next	iatom
+#jump	${INC}/CompStrs0.mod loop0_CompStrs0
 
 
 uncompute	pinit

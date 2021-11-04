@@ -14,6 +14,10 @@ variable 	pxy1_${dir} atom -c_peratom[4]
 thermo_style	custom	step	v_press
 run	0
 
+dump        1 all custom 1 dump_def${dir}.xyz id type x y z c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+dump_modify 1 flush yes append yes format line "%d %d %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e %15.14e"
+undump		1
+
 #variable	pxx1_${dir}_atom0	equal v_sxx1_${dir}[1]
 #variable	pxx1_${dir}_atom0	equal v_sxx1_${dir}[1]
 #variable	pyy1_${dir}	atom ${pyy0}
