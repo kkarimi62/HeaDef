@@ -1,26 +1,27 @@
 #--- compute stress
-compute     peratom freeGr stress/atom NULL
-compute     p freeGr reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+compute     peratom all stress/atom NULL
+compute     p all reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
 #
-variable    press equal -(c_p[1]+c_p[2]+c_p[3])/(3*${volume})
-variable 	pxx0 equal -c_p[1]/${volume}
-variable 	pyy0 equal -c_p[2]/${volume}
-variable 	pzz0 equal -c_p[3]/${volume}
-variable 	pyz0 equal -c_p[6]/${volume}
-variable 	pxz0 equal -c_p[5]/${volume}
-variable 	pxy0 equal -c_p[4]/${volume}
+variable    press equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
+variable 	pxx1_${dir} atom -c_peratom[1]
+variable 	pyy1_${dir} atom -c_peratom[2]
+variable 	pzz1_${dir} atom -c_peratom[3]
+variable 	pyz1_${dir} atom -c_peratom[6]
+variable 	pxz1_${dir} atom -c_peratom[5]
+variable 	pxy1_${dir} atom -c_peratom[4]
 
 #--- store initial stress
-thermo_style	custom	step	v_pxx0  v_press
-run	0	post	no
+thermo_style	custom	step	v_press
+run	0
 
-variable	pxx1_${dir}_${icel}	equal ${pxx0}
-variable	pyy1_${dir}_${icel}	equal ${pyy0}
-variable	pzz1_${dir}_${icel}	equal ${pzz0}
-variable	pyz1_${dir}_${icel}	equal ${pyz0}
-variable	pxz1_${dir}_${icel}	equal ${pxz0}
-variable	pxy1_${dir}_${icel}	equal ${pxy0}
+#variable	pxx1_${dir}_atom0	equal v_sxx1_${dir}[1]
+#variable	pxx1_${dir}_atom0	equal v_sxx1_${dir}[1]
+#variable	pyy1_${dir}	atom ${pyy0}
+#variable	pzz1_${dir}	atom ${pzz0}
+#variable	pyz1_${dir}	atom ${pyz0}
+#variable	pxz1_${dir}	atom ${pxz0}
+#variable	pxy1_${dir}	atom ${pxy0}
 
-uncompute	p
-uncompute	peratom
+#uncompute	p
+#uncompute	peratom
 

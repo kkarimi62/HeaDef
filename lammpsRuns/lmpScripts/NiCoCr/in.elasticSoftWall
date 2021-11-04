@@ -45,27 +45,28 @@
 
 #--- include files
 include ${INC}/initSoftWall.mod
+atom_modify keyword values	#--- access to atom-based variables
 include ${INC}/CreateBox.mod
 include ${INC}/potential.mod
-include ScriptGroup.0.txt
+#include ScriptGroup.0.txt
 
 # Compute initial state
 minimize ${etol} ${ftol} ${maxiter} ${maxeval} #--- initial state is already in equilibrium!
 
 #--- stress loop
-variable	ncc		equal	${ncel}-1
-variable 	icel 	loop 0	${ncc}
-	label loop
+#variable	ncc		equal	${ncel}-1
+#variable 	icel 	loop 0	${ncc}
+#	label loop
 	#
-	group	freeGr	delete
-	group	frozGr	delete
-	include ScriptGroup.${icel}.txt
+#	group	freeGr	delete
+#	group	frozGr	delete
+#	include ScriptGroup.${icel}.txt
 	#
 	include	${INC}/CompStrs0.mod #--- initial stress
 #	variable xx	equal	v_sxx0_${icel}
 #	print "${icel} ${xx}" append "p_init.txt"
-next 	icel
-jump	in.elasticSoftWall  loop
+#next 	icel
+#jump	in.elasticSoftWall  loop
 
 #--- end of loop
 #
@@ -87,15 +88,15 @@ write_restart restart.equil
 variable dir loop 6 6 #--- six modes
 	label loop0
 	include ${INC}/displaceSoftWall.mod #--- deform
+	include	${INC}/CompStrs1.mod #--- compute stress
 	#--- loop : compute current stress
-	variable 	icel 	loop 0	${ncc}
+	variable 	icel 	loop ${natom} #0	${ncc}
 		label loop1
 		#
-		group	freeGr	delete
-		group	frozGr	delete
-		include ScriptGroup.${icel}.txt
+#		group	freeGr	delete
+#		group	frozGr	delete
+#		include ScriptGroup.${icel}.txt
 		#
-		include	${INC}/CompStrs1.mod
 #		variable xx	equal	v_sxx0_${icel}
 #		variable yy	equal	v_pxx1_${dir}_${icel}
 #		print "${icel} ${xx} ${yy}" append pdir${dir}.txt
