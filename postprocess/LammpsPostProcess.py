@@ -178,7 +178,7 @@ class WriteDumpFile:
         self.atom = atomm
         self.box = boxx
         
-    def Write(self, outpt, attrs=['id', 'type', 'x', 'y', 'z' ] ):
+    def Write(self, outpt, attrs=['id', 'type', 'x', 'y', 'z' ]):
         natom = len(self.atom.x)
         (xlo,xhi,xy)=self.box.BoxBounds[0,:]
         (ylo,yhi,junk)=self.box.BoxBounds[1,:]
@@ -193,7 +193,7 @@ class WriteDumpFile:
 
         for row in np.c_[pd.DataFrame(self.atom.__dict__)[attrs]]:
             for col in row:
-                sfile.write('%s\t'%col)
+                sfile.write('%4.3e\t'%col)
             sfile.write('\n')
 #        for idd, typee, x, y, z in zip(self.atom.id, self.atom.type, self.atom.x, self.atom.y, self.atom.z ):
 #            sfile.write('%s %s %s %s %s\n'%(int(idd),int(typee),x,y,z))
@@ -390,12 +390,12 @@ class Box:
         lx = xhi - xlo - xy
         CellVector0 = np.array( [ lx, 0.0, 0.0 ] )
 
-        (ylo, yhi, junk) =  list(map( float, self.BoxBounds[ 1 ] )) #--- ylo, yhi, xy
+        (ylo, yhi, xz) =  list(map( float, self.BoxBounds[ 1 ] )) #--- ylo, yhi, xy
         ly = yhi - ylo
         a1 = np.array( [ 0.0, ly, 0.0 ] )
         CellVector1 = CellVector0 * ( xy / lx ) + a1
 
-        (zlo, zhi, junk) =  list(map( float, self.BoxBounds[ 2 ] )) #--- zlo, zhi, xy
+        (zlo, zhi, yz) =  list(map( float, self.BoxBounds[ 2 ] )) #--- zlo, zhi, xy
         lz = zhi - zlo
         CellVector2 = np.array( [ 0.0, 0.0, lz ] )
 
