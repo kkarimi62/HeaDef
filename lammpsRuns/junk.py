@@ -36,7 +36,7 @@ if __name__ == '__main__':
 				7:'NiNatom1KT0EdgeDisl2nd',
 				8:'NiCoCrNatom100KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
-			   }[8]
+			   }[9]
 	sourcePath = os.getcwd() +\
 				{	
 					1:'/../postprocess/NiCoCrNatom1K',
@@ -90,10 +90,10 @@ if __name__ == '__main__':
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var DataFile data.txt -var buff 3.0 -var DumpFile dumpMin.xyz -var nevery 1000 -var ParseData 1 -var WriteData data_minimized.txt', 
-				7:' -var buff 3.0 -var T 600.0 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat',
+				7:' -var buff 0.0 -var T 600.0 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_init.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat',
 				8:' -var buff 3.0 -var T 0.1 -var sigm 1.5 -var sigmdt 0.01 -var ParseData 1 -var DataFile Equilibrated_300.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
-				10:' -var ParseData 1 -var DataFile data_init.txt',
+				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' data_init.txt 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' data_init.txt ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
 				'p2':' %s 3.52 40.0 20.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
@@ -103,8 +103,8 @@ if __name__ == '__main__':
 				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
 				2:[0,10],	   #--- local elastic constants (zero temp)
-				3:[0,7,4,10,'p1'],	   #--- local elastic constants (annealed)
-			  }[2]
+				3:[0,7,4,10],	   #--- local elastic constants (annealed)
+			  }[3]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
