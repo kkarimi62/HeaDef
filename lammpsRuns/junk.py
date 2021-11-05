@@ -34,7 +34,7 @@ if __name__ == '__main__':
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
 				7:'NiNatom1KT0EdgeDisl2nd',
-				8:'NiCoCrNatom1KT0Elastic',
+				8:'NiCoCrNatom100KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[8]
 	sourcePath = os.getcwd() +\
@@ -102,7 +102,7 @@ if __name__ == '__main__':
 	indices = {
 				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
-				2:[0,10,'p1'],	   #--- local elastic constants (zero temp)
+				2:[0,10],	   #--- local elastic constants (zero temp)
 				3:[0,7,4,10,'p1'],	   #--- local elastic constants (annealed)
 			  }[2]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
