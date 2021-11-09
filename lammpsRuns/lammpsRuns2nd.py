@@ -89,7 +89,7 @@ if __name__ == '__main__':
 				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
-				5:' -var buff 0.0 -var nevery 1000 -var ParseData 0 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
+				5:' -var buff 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
 				7:' -var buff 3.0 -var T 0.01 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_0.dat',
 				8:' -var buff 3.0 -var T 0.01 -var sigm 1.1 -var sigmdt 0.01 -var ndump 400 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
