@@ -96,7 +96,7 @@ if __name__ == '__main__':
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
-				'p2':' %s 3.52 40.0 20.0 40.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
+				'p2':' %s 3.52 60.0 30.0 60.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
