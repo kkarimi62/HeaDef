@@ -8,7 +8,7 @@ include ${INC}/CreateBox.mod
 include ${INC}/potential.mod
 
 #--- fix buffer zone
-#include ${INC}/buffer.mod
+include ${INC}/buffer.mod
 
 # -------------------------------------- Minimization -------------------------------------------#
 
