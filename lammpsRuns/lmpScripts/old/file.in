@@ -1,0 +1,25 @@
+units		metal
+atom_style      atomic
+boundary        p p p
+
+variable 	a      			equal   ${cutoff}   #--- lattice constant
+variable    volume          equal   ${natoms}*${a}^3.0/4.0 #--- natom * vol. of the voronoi cell
+variable    lx              equal   ${volume}^(1.0/3.0)
+
+
+#variable        a equal 3.520
+
+#region          mybox block -15 15 -15 15 -10 10 
+region 			mybox block 0.0 ${lx} 0.0 ${lx} 0.0 ${lx}
+lattice	fcc $a 
+create_box      3 mybox
+
+create_atoms	1 region mybox
+mass            1  26.98
+mass            2  26.98
+mass            3  26.98
+
+run 0
+
+write_data initial.data
+

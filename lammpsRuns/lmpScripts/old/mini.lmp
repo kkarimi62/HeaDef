@@ -1,0 +1,49 @@
+# -------------------------------------- General Variables --------------------------------------#
+variable                  rnd       equal     round(random(0,999999,12))
+variable                  T         equal     650           # Temperature
+variable                  t_eq      equal     10000         # Equlibration time
+variable                  dt        equal     0.001         # Time step
+variable                  damp_t    equal     200*${dt}     # Thermostat damping
+variable                  damp_p    equal     5000*${dt}    # Barostat damping
+
+# --------------------------------------- Atomic Setup ------------------------------------------#
+
+units                     metal
+atom_style                atomic
+read_data                 data.txt
+
+
+# -------------------------------- EAM Interatomic Potential ------------------------------------#
+
+neigh_modify              delay   0
+pair_style                eam/alloy
+#pair_coeff                * * NiCoCr.lammps.eam Ni Co Cr
+pair_coeff                * * ${PathEam}
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        1 all custom 1 ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+run	0
+undump		1
+
+# -------------------------------------- Minimization -------------------------------------------#
+
+thermo                    100
+fix                       p1        all        box/relax   aniso 0.0 vmax 0.001
+#minimize                  1e-25     1e-25      5000      20000
+minimize 				  0.0 1.0e-8 100000 100000
+unfix                     p1
+#reset_timestep            0
+
+write_data                Minimized_NiCoCr.dat
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+dump        1 all custom 1 ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes append yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+run	0

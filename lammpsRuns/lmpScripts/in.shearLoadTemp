@@ -1,0 +1,45 @@
+# ---------- Initialize Simulation --------------------- 
+include ${INC}/initSoftWall.mod
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
+change_box all triclinic
+# ---------- Define Interatomic Potential --------------------- 
+include ${INC}/potential.mod
+#--- fix buffer zone
+include ${INC}/buffer.mod
+
+#--- set variables
+#--- Pressure
+variable SIGMA equal -${sigm}/${cfac} #--- 1 gpa
+variable SIGMADOT equal -${sigmdt}/${cfac} #--- 0.1 gpa/ps
+
+#
+variable Nstep  	equal	floor(${SIGMA}/${dt}/${SIGMADOT}) #--- timesteps
+variable Nevery  	equal	ceil(${Nstep}/${ndump})
+
+# ----------------------------------- NVT Equilibration -----------------------------------------#
+#fix			FixTherm        all        nvt temp   $T  $T  ${damp_t}	  
+fix			FixTherm        all        npt temp   $T  $T  ${damp_t} xy	0.0 0.0 ${damp_p} 
+variable 	Nrelx  			equal	floor(1.0/${dt}) #--- timesteps
+run	${Nrelx}
+unfix	FixTherm
+reset_timestep	0
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        1 all custom ${Nevery} ${OUT_PATH}/${DumpFile} id type x y z c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+#--- initial stress
+run	0
+variable tmp equal pxy
+variable sxy0 equal -${tmp}
+#
+fix			FixTherm        all        npt temp   $T  $T  ${damp_t} xy	${sxy0} ${SIGMA} ${damp_p} 
+ 
+#--- set discretization time 
+timestep	${dt}
+
+run	${Nstep}

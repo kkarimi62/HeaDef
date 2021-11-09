@@ -1,0 +1,40 @@
+units                     metal
+atom_style                atomic
+read_data                 data.txt
+
+
+# ---------- Define Interatomic Potential --------------------- 
+pair_style                eam/alloy
+pair_coeff                * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
+neighbor    0.3 bin                #--- define parameters for neighbor list
+neigh_modify    delay 5            #--- define parameters for neighbor list
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        1 all custom 1 ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+run	0
+undump		1
+
+
+thermo                    1000
+
+#--- include a new script file defining relevant groups
+include ./ScriptGroup.txt
+
+#--- set dynamics 
+fix         set_force frozGr setforce 0.0 0.0 0.0
+velocity    frozGr set 0.0 0.0 0.0 #--- set velocity
+
+# -------------------------------------- Minimization -------------------------------------------#
+minimize 				  0.0 1.0e-8 100000 100000
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+dump        1 all custom 1 ${OUT_PATH}/DumpFile.xyz id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes append yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+run	0

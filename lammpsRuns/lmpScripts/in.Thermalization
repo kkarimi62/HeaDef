@@ -1,0 +1,46 @@
+# --------------------------------------- Atomic Setup ------------------------------------------#
+include ${INC}/initSoftWall.mod
+
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
+
+# -------------------------------- EAM Interatomic Potential ------------------------------------#
+
+include ${INC}/potential.mod
+
+#--- fix buffer zone
+include ${INC}/buffer.mod
+
+#--- thermalize two partial dislocations
+
+# -------------------------------------- General Variables --------------------------------------#
+variable                  t_eq      equal     ${teq}         # Equlibration time
+variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
+
+
+
+ 
+# ----------------------------------- NVT Equilibration -----------------------------------------#
+
+velocity                  all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
+ 
+#thermo                    100
+#thermo_style              custom    step temp etotal pe press vol
+fix                      f1        all        nvt temp   $T  $T  ${damp_t}  #iso 1.0e-03 1.0e-03 ${damp_p} fixedpoint 0.0 0.0 0.0
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        1 all custom ${nevery} ${OUT_PATH}/${DumpFile} id type x y z c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 1 flush yes format line "%d %d %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+#dump                      mydump all custom ${nevery} equilibrium.dump id type x y z
+run                       ${Nstep}
+
+unfix                     f1
+reset_timestep            0
+# -------------------------------------- Write Data ----------------------------------------------#
+
+write_data                ${WriteData} 
+  

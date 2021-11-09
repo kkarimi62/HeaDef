@@ -1,0 +1,78 @@
+# Rene Alvarez - ralvarez@ncbj.gov.pl
+ # ---------- Initialize Simulation --------------------- 
+include ${INC}/initSoftWall.mod
+
+# ---------- Create Atoms ---------------------
+include ${INC}/CreateBox.mod
+
+# ---------- Define Interatomic Potential --------------------- 
+include ${INC}/potential.mod
+
+#------------------------------- Random number generator --------------------------------#
+
+  # Initializes random number generator
+
+#  variable      rnd equal round(random(0,999999,${RANDOM}))
+  variable      name loop 1
+  label         RESTART
+
+#------------------------------ General variables ---------------------------------------#
+ # Simulation variables
+
+#  variable        T         equal     1300
+
+  # Time variables
+
+  variable        n_sw      equal     floor(${t_sw}/${dt})        # Equlibration time
+#  variable        dt        equal     0.0025         # Time step
+#  variable        damp_t    equal     200*${dt}      # Thermostat damping
+#  variable        damp_p    equal     2500*${dt}     # Barostat damping
+#  variable		  DataFile	equal	  "Equilibrated_${T}.dat"	
+#----------------------------------------------------------------------------------------#
+
+#  units           metal
+#  atom_style      atomic
+ # read_restart    ../NPT_configurations/Crystal_1600K.restart.500000
+#  read_data       ${DataFile} #Equilibrated_1300.dat
+# Interatomic potential information.
+
+#  neigh_modify    delay   0
+#  pair_style      eam/alloy
+#  pair_coeff      * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
+  timestep        ${dt}
+
+# VSGCM variables
+
+  variable        nsteps_mc     equal 20
+  variable        swap_fraction equal 0.25
+  variable        temperature_mc equal $T
+  variable        deltamu1 equal 0.021
+  variable        deltamu2 equal -0.31
+  variable        target_concentration equal 0.3333
+  variable        kappa equal 1e3
+
+
+#---------------------------------   Equilibrate in NPT ensemble  ----------------------#
+
+
+  reset_timestep  0 
+  fix             1  all npt temp $T $T ${damp_t} iso 0.0 0.0 ${damp_p} fixedpoint 0.0 0.0 0.0
+  fix             mc all sgcmc ${nsteps_mc} ${swap_fraction} ${temperature_mc} ${deltamu1} ${deltamu2} &
+                  randseed 1234 variance ${kappa} ${target_concentration} ${target_concentration}
+  #variable        rnd equal round(random(0,999999,${RANDOM}))
+#  thermo          10
+#  thermo_style    custom step temp atoms pe press  lx ly lz f_mc[1] f_mc[2] f_mc[3] f_mc[4]
+#  thermo_modify   flush yes
+
+#-----------------------------
+#--- compute & dump variables
+#-----------------------------
+compute     1 all stress/atom NULL pair
+dump        11 all custom ${n_sw} ${OUT_PATH}/Swapped_${T}.dump id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump_modify 11 flush yes format line "%d %d %5.4e %5.4e %5.4e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
+
+#  dump            mydump all custom 1000 Swapped_${T}.dump id type x y z
+#  restart         ${t_sw}       Swap_$TK.restart 
+  run             ${n_sw}
+  
+write_data  ${WriteData} #swapped_$T.dat

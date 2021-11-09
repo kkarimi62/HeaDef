@@ -33,7 +33,7 @@ if __name__ == '__main__':
 				4:'NiCoCrNatom1000KEdgeDisl', 
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
-				7:'NiCoCrNatom10KT0EdgeDisl',
+				7:'NiNatom10KT0EdgeDisl',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[7]
@@ -63,7 +63,7 @@ if __name__ == '__main__':
 	#
 	MEAM_library_DIR='/home/kamran.karimi1/Project/git/lammps2nd/lammps/potentials'
 	#
-	SCRPT_DIR = os.getcwd()+'/lmpScripts/'+{1:'Ni', 2:'NiCoCr'}[2]
+	SCRPT_DIR = os.getcwd()+'/lmpScripts' #/'+{1:'Ni', 2:'NiCoCr'}[2]
 	#
 	SCRATCH = None
 	OUT_PATH = '.'
@@ -96,7 +96,7 @@ if __name__ == '__main__':
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
-				'p2':' %s 3.52 40.0 20.0 40.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
+				'p2':' %s 3.52 40.0 20.0 40.0 data.txt 2'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
