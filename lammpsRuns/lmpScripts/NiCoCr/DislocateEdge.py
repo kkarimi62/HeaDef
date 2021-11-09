@@ -63,8 +63,8 @@ if 1: #Atomsk:
 	#
     a = float(sys.argv[2]) #3.52
     lx, ly, lz = float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]) #40.0, 20.0, 40.0 Angstrom
-    method = sys.argv[6]
-	m,n,k = int(lx/a*4.0**(1.0/3)), int(ly/a), int(lz/a)
+    method = sys.argv[7]
+    m,n,k = int(lx/a*4.0**(1.0/3)), int(ly/a), int(lz/a)
     #
     var1=int(n/2)
     var2=m+1
@@ -94,4 +94,4 @@ if 1: #Atomsk:
     os.system('atomsk data.cfg -center com final.cfg')
     os.system('atomsk final.cfg lmp')
     #
-    WriteDataFile('final.lmp',mass, 'data.txt')
+    WriteDataFile('final.lmp',mass, sys.argv[6])
