@@ -33,7 +33,7 @@ if __name__ == '__main__':
 				4:'NiCoCrNatom1000KEdgeDisl', 
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
-				7:'NiNatom10KT0EdgeDisl5',
+				7:'NiNatom10KT0EdgeDisl',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[7]
@@ -89,7 +89,7 @@ if __name__ == '__main__':
 				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
-				5:' -var buff 3.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
+				5:' -var buff 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
 				7:' -var buff 3.0 -var T 0.01 -var teq 200.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_0.dat',
 				8:' -var buff 3.0 -var T 0.01 -var sigm 1.1 -var sigmdt 0.01 -var ndump 400 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 				} 
 	#--- different scripts in a pipeline
 	indices = {
-				0:['p2',5],#,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
+				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
 				2:[0,'p0',10,'p1'],	   #--- local elastic constants (zero temp)
 				3:[0,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
