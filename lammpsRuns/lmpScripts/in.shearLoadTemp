@@ -43,8 +43,22 @@ variable tmp equal pxy
 variable sxy0 equal ${tmp}
 #
 fix			FixTherm        all        npt temp   $T  $T  ${damp_t} xy	${sxy0} ${SIGMA} ${damp_p} drag	1.0 
+
+#--- output thermodynamic variables
+variable varStep equal step
+variable varPress equal press
+variable varTemp equal temp
+variable varTime equal v_varStep*${dt}
+variable varXy	 equal	xy
+variable varLy	 equal	ly
+variable varPxy	 equal	pxy
+variable varSxy	 equal	-v_varPxy*${cfac}
+variable varExy	 equal	v_varXy/v_varLy		
+fix 	 extra all print 1 "${varStep} ${varTime} ${varTemp} ${varPress} ${varSxy} ${varExy}" screen no title "step time temp press sxy exy" file temperature.txt
  
 #--- set discretization time 
 timestep	${dt}
+
+
 
 run	${Nstep}
