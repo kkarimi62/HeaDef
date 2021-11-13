@@ -40,7 +40,7 @@ dump_modify 1 flush yes format line "%d %d %15.14e %15.14e %15.14e %4.3e %4.3e %
 #--- initial stress
 run	0
 variable tmp equal pxy
-variable sxy0 equal -${tmp}
+variable sxy0 equal ${tmp}
 #
 fix			FixTherm        all        npt temp   $T  $T  ${damp_t} xy	${sxy0} ${SIGMA} ${damp_p} drag	1.0 
  

@@ -21,17 +21,21 @@ variable 				  Nstep  	equal	floor(${t_eq}/${dt}) #--- timesteps
 
  
 # ----------------------------------- NVT Equilibration -----------------------------------------#
+compute     1 all stress/atom NULL pair
+#--- initial stress
+run	0
+variable tmp equal press
+variable p0 equal ${tmp}
 
 velocity                  all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
  
 #thermo                    100
 #thermo_style              custom    step temp etotal pe press vol
-fix                      f1        all        npt temp   $T  $T  ${damp_t}  iso $P $P ${damp_p} drag	1.0 ##fixedpoint 0.0 0.0 0.0
+fix                      f1        all        npt temp   $T  $T  ${damp_t}  iso $p0 $P ${damp_p} drag	1.0 ##fixedpoint 0.0 0.0 0.0
 
 #-----------------------------
 #--- compute & dump variables
 #-----------------------------
-compute     1 all stress/atom NULL pair
 dump        1 all custom ${nevery} ${OUT_PATH}/${DumpFile} id type x y z c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 1 flush yes format line "%d %d %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 
