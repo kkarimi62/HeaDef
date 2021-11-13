@@ -33,7 +33,7 @@ if __name__ == '__main__':
 				4:'NiCoCrNatom1000KEdgeDisl', 
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
-				7:'NiCoCrNatom10KT0EdgeDislSdt1E-2',
+				7:'NiCoCrNatom10KT0EdgeDislSdt1E-3',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[7]
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var buff 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
 				7:' -var buff 0.0 -var T 0.1 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_0.dat',
-				8:' -var buff 0.0 -var T 0.1 -var sigm 1.0 -var sigmdt 0.01 -var ndump 400 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
+				8:' -var buff 0.0 -var T 0.1 -var sigm 1.0 -var sigmdt 0.001 -var ndump 400 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
