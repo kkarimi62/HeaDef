@@ -33,7 +33,7 @@ if __name__ == '__main__':
 				4:'NiCoCrNatom1000KEdgeDisl', 
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
-				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-3',
+				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-2Annealed',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[7]
@@ -74,6 +74,7 @@ if __name__ == '__main__':
 				 	1:'relax.in', 
 					2:'relaxWalls.in', 
 					7:'in.Thermalization', 
+					71:'in.Thermalization', 
 					4:'in.vsgc', 
 					5:'in.minimization', 
 					6:'in.shearDispTemp', 
@@ -90,7 +91,8 @@ if __name__ == '__main__':
 				6:' -var T 300 -var DataFile Equilibrated_300.dat',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var buff 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
-				7:' -var buff 0.0 -var T 0.01 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_0.dat',
+				7:' -var buff 0.0 -var T 600.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat',
+				71:' -var buff 0.0 -var T 0.01 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
 				8:' -var buff 0.0 -var T 0.01 -var sigm 1.0 -var sigmdt 0.001 -var ndump 400 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
@@ -103,8 +105,9 @@ if __name__ == '__main__':
 				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
 				1:[9],     #--- elastic constants
 				2:[0,'p0',10,'p1'],	   #--- local elastic constants (zero temp)
-				3:[0,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
-			  }[0]
+				3:[5,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
+				4:['p2',5,7,4,7,8], #--- put disc. by atomsk, minimize, thermalize, anneal, thermalize, and shear
+			  }[4]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
