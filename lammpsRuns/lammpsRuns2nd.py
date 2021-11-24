@@ -33,7 +33,7 @@ if __name__ == '__main__':
 				4:'NiCoCrNatom1000KEdgeDisl', 
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
-				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-2Annealed',
+				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-3Annealed',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[7]
@@ -93,12 +93,12 @@ if __name__ == '__main__':
 				5:' -var buff 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
 				7:' -var buff 0.0 -var T 600.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600.dat',
 				71:' -var buff 0.0 -var T 0.01 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
-				8:' -var buff 0.0 -var T 0.01 -var sigm 1.0 -var sigmdt 0.001 -var ndump 400 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
+				8:' -var buff 0.0 -var T 0.01 -var sigm 1.0 -var sigmdt 0.001 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
 				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
-				'p2':' %s 3.52 60.0 30.0 60.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
+				'p2':' %s 3.52 90.0 45.0 90.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
