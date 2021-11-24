@@ -33,7 +33,7 @@ if __name__ == '__main__':
 				4:'NiCoCrNatom1000KEdgeDisl', 
 				5:'NiCoCrNatom200KTemp600Annealed', 
 				6:'NiCoCrNatom100KTemp300Gdot4',
-				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-3Annealed',
+				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-3Annealed2nd',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 			   }[7]
@@ -98,7 +98,7 @@ if __name__ == '__main__':
 				10:' -var ParseData 1 -var DataFile swapped_600.dat',
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
-				'p2':' %s 3.52 90.0 45.0 90.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
+				'p2':' %s 3.52 135.0 67.0 135.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
