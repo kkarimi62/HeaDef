@@ -18,9 +18,9 @@ variable Nstep  	equal	floor(${SIGMA}/${dt}/${SIGMADOT}) #--- timesteps
 variable Nevery  	equal	ceil(${Nstep}/${ndump})
 
 #--- initial stress
-run	0
-variable tmp equal pxy
-variable sxy0 equal -${tmp}
+#run	0
+#variable tmp equal pxy
+#variable sxy0 equal -${tmp}
 
 # ----------------------------------- NVT Equilibration -----------------------------------------#
 #fix			FixTherm        all        nvt temp   $T  $T  ${damp_t}	  
