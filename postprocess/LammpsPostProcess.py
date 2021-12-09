@@ -503,7 +503,7 @@ class Copy( Atoms, Wrap ):
         xyz_original = XYZ_shifted.copy()
         assert XYZ_shifted.shape[1] % 3 == 0, 'shifted coordinates must be integer multiple of 3!'
         #
-        ID_TYPE_shifted, attr1 = ConcatAttr( self, ['id','type','dx','dy','dz','exy','sxy','sxx','syy','szz','d2min','StructureType','AtomicVolume']) #--- add remaining 'Atoms' attrs
+        ID_TYPE_shifted, attr1 = ConcatAttr( self, ['id','type','dx','dy','dz','exy','sxy','sxx','syy','szz','d2min','StructureType','AtomicVolume','C66','C55','C44']) #--- add remaining 'Atoms' attrs
         id_type_original = ID_TYPE_shifted.copy()
 		
         #--- cell copies

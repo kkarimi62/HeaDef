@@ -25,21 +25,23 @@ if __name__ == '__main__':
 					7:'NiCoCrNatom1000K', 
 					8:'NiNatom1KEdgeDisl',
 					9:'NiCoCrNatom1KT0Elastic',
-				}[9]
+					10:'FeNiT300Elasticity',
+				}[10]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/NiCoCrNatom1KT0Elastic' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/FeNiT300Elasticity' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:59:59'
-	mem = '8gb'
-	partition = ['cpu2019','bigmem','parallel','single'][3]
+	mem = '16gb'
+	partition = ['cpu2019','bigmem','parallel','single'][1]
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "fileName=data_init.txt\ndmean=10.0" 
+	argv2nd = "indx=0" #"fileName=data_init.txt\ndmean=10.0" 
 	SingleHea = True #--- remove atoms from a single realization
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
-		1:'partition.ipynb'
+		1:'partition.ipynb',
+		2:'Moduli.ipynb',
 		}
-	keyno = 1
+	keyno = 2
 #---
 #---
 	PYFIL = PYFILdic[ keyno ] 
