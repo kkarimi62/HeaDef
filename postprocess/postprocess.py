@@ -28,7 +28,7 @@ if __name__ == '__main__':
 					10:'FeNiT300Elasticity',
 				}[10]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/FeNiT300Elasticity' #--- source
+	readPath = os.getcwd() + '/../../CrystalPlasticity/testRuns/Preparation/FeNiT300Elasticity'#'/../lammpsRuns/FeNiT300Elasticity' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:59:59'
 	mem = '16gb'
