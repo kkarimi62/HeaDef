@@ -26,22 +26,24 @@ if __name__ == '__main__':
 					8:'NiNatom1KEdgeDisl',
 					9:'NiCoCrNatom1KT0Elastic',
 					10:'FeNiT300Elasticity',
-				}[10]
+					11:'NiCoCrNatom100KAnnealedT600Elastic',
+				}[11]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../../CrystalPlasticity/testRuns/Preparation/FeNiT300Elasticity'#'/../lammpsRuns/FeNiT300Elasticity' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/NiCoCrNatom100KAnnealedT600Elastic' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
-	durtn = '00:59:59'
-	mem = '16gb'
+	durtn = '23:59:59'
+	mem = '64gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=0" #"fileName=data_init.txt\ndmean=10.0" 
+	argv2nd = "indx=5" #"fileName=data_init.txt\ndmean=10.0" 
 	SingleHea = True #--- remove atoms from a single realization
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
 		1:'partition.ipynb',
 		2:'Moduli.ipynb',
+		3:'pressFluc2nd.ipynb',
 		}
-	keyno = 2
+	keyno = 3
 #---
 #---
 	PYFIL = PYFILdic[ keyno ] 
