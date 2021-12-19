@@ -116,8 +116,8 @@ for frame in range(0,pipeline.source.num_frames,nevery):
         sfile.write('ITEM: NUMBER OF ATOMS\n%s\n'%(len(indexi)))
         sfile.write('ITEM: BOX BOUNDS xy xz yz pp pp pp\n0.0\t0.0\t0.0\n0.0\t0.0\t0.0\n0.0\t0.0\t0.0\n')
         sfile.write('ITEM: ATOMS id\ttype\tJ\tJtype\tDIST\tDX\tDY\tDZ\tPBC_SHIFT_X\tPBC_SHIFT_Y\tPBC_SHIFT_Z\n')
-        np.savetxt(sfile,np.c_[ atomi_id, atomi_type, atomj_id, atomj_type, pairij[:,2:]],
-                   fmt='%i %i %i %i %7.6e %7.6e %7.6e %7.6e %i %i %i' )
+        np.savetxt(sfile,np.c_[ atomi_id, atomi_type, atomj_id, atomj_type, pairij[:,2:]])#,
+#                   fmt='%i %i %i %i %7.6e %7.6e %7.6e %7.6e %i %i %i' )
                     
 #         for index in range(data.number_of_particles):
 #             atomi_id = data.particle_properties.particle_identifier.array[index]
