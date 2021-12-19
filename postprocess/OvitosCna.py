@@ -79,7 +79,7 @@ if AnalysisType == 3:
 
 #--- neighbor list
 if AnalysisType == 4:
-    sfile = open(OutputFile,'a')
+    sfile = open(OutputFile,'ab')
 
 
 for frame in range(0,pipeline.source.num_frames,nevery):
@@ -103,7 +103,6 @@ for frame in range(0,pipeline.source.num_frames,nevery):
         neighList = list(map(lambda x: finder.find(x) , range(data.number_of_particles) ))
         zipp = zip(neighList,range(data.number_of_particles))
         pairij = np.concatenate(list(map(lambda x: GetPairAttrs( data, x[0],x[1] ), zipp))) #,dtype=object)
-#        pdb.set_trace()
         #
         indexi = list(map(int,pairij[:,0]))
         indexj = list(map(int,pairij[:,1]))
@@ -112,12 +111,13 @@ for frame in range(0,pipeline.source.num_frames,nevery):
         atomi_type = type_property.array[indexi]
         atomj_type = type_property.array[indexj]
         #
-        sfile.write('ITIME: TIMESTEP\n%s\n'%itime)
-        sfile.write('ITEM: NUMBER OF ATOMS\n%s\n'%(len(indexi)))
-        sfile.write('ITEM: BOX BOUNDS xy xz yz pp pp pp\n0.0\t0.0\t0.0\n0.0\t0.0\t0.0\n0.0\t0.0\t0.0\n')
-        sfile.write('ITEM: ATOMS id\ttype\tJ\tJtype\tDIST\tDX\tDY\tDZ\tPBC_SHIFT_X\tPBC_SHIFT_Y\tPBC_SHIFT_Z\n')
-        np.savetxt(sfile,np.c_[ atomi_id, atomi_type, atomj_id, atomj_type, pairij[:,2:]])#,
-#                   fmt='%i %i %i %i %7.6e %7.6e %7.6e %7.6e %i %i %i' )
+        sfile.write(b'ITIME: TIMESTEP\n%d\n'%itime)
+        sfile.write(b'ITEM: NUMBER OF ATOMS\n%d\n'%(len(indexi)))
+        sfile.write(b'ITEM: BOX BOUNDS xy xz yz pp pp pp\n0.0\t0.0\t0.0\n0.0\t0.0\t0.0\n0.0\t0.0\t0.0\n')
+        sfile.write(b'ITEM: ATOMS id\ttype\tJ\tJtype\tDIST\tDX\tDY\tDZ\tPBC_SHIFT_X\tPBC_SHIFT_Y\tPBC_SHIFT_Z\n')
+#        pdb.set_trace()
+        np.savetxt(sfile,np.c_[ atomi_id, atomi_type, atomj_id, atomj_type, pairij[:,2:]],
+                   fmt='%i %i %i %i %7.6e %7.6e %7.6e %7.6e %i %i %i' )
                     
 #         for index in range(data.number_of_particles):
 #             atomi_id = data.particle_properties.particle_identifier.array[index]
