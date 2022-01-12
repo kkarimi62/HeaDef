@@ -107,7 +107,8 @@ if __name__ == '__main__':
 				2:[0,'p0',10,'p1'],	   #--- local elastic constants (zero temp)
 				3:[5,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
 				4:['p2',5,7,4,71,8], #--- put disc. by atomsk, minimize, thermalize, anneal, thermalize, and shear
-			  }[4]
+				5:[0,7,4],	   #--- minimize, thermalize, anneal
+			  }[5]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
