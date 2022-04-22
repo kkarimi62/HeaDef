@@ -924,7 +924,7 @@ class ComputeRdf( Compute, Wrap ):
                   rlist=neigh_list[filtr_ij].DIST )
         nij = self.count.copy()
         
-        return self.rmean, nij/ntot
+        return self.rmean, nij/ntot, (1.0/nij**0.5-1.0/ntot**0.5)*nij/ntot
 
     def Get( self ):
         return self.rmean, self.hist, self.err
