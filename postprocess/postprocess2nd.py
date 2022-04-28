@@ -16,7 +16,7 @@ if __name__ == '__main__':
 #
 	nruns	 = range(1)
 	jobname  = ['NiCoCrNatom100KTakeOneOutRlxd','NiCoCrNatom200KTemp600Annealed', 'NiCoCrNatom200KTemp600'][1]
-	DeleteExistingFolder = True
+	DeleteExistingFolder = False
 	readPath = os.getcwd() + [	'/../lammpsRuns/NiCoCrNatom100KTakeOneOutRlxd',
 								'/../lammpsRuns/NiCoCrNatom200KTemp600Annealed',
 								'/../lammpsRuns/NiCoCrNatom200KTemp600',
