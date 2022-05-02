@@ -15,19 +15,19 @@ if __name__ == '__main__':
 	import os
 #
 	nruns	 = range(1)
-	jobname  = ['NiCoCrNatom100KTakeOneOutRlxd','NiCoCrNatom200KTemp600Annealed', 'NiCoCrNatom100KTemp400'][2]
+	jobname  = ['NiCoCrNatom100KTakeOneOutRlxd','NiCoCrNatom200KTemp600Annealed', 'NiCoCrNatom100KTemp1200'][2]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + [	'/../lammpsRuns/NiCoCrNatom100KTakeOneOutRlxd',
 								'/../lammpsRuns/NiCoCrNatom200KTemp600Annealed',
 								'/../lammpsRuns/NiCoCrNatom200KTemp600',
-								'/../lammpsRuns/AmirData/shengAnnealed/Temp400'
+								'/../lammpsRuns/AmirData/shengAnnealed/Temp1200'
 							 ][3] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '11:59:59'
 	mem = '64gb'
 	partition = ['single','cpu2019','bigmem','parallel'][2] 
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=7\ntemperature=400.0"
+	argv2nd = "indx=7\ntemperature=1200.0"
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
