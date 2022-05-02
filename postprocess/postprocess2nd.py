@@ -15,7 +15,7 @@ if __name__ == '__main__':
 	import os
 #
 	nruns	 = range(1)
-	jobname  = ['NiCoCrNatom100KTakeOneOutRlxd','NiCoCrNatom200KTemp600Annealed', 'NiCoCrNatom200KTemp600'][1]
+	jobname  = ['NiCoCrNatom100KTakeOneOutRlxd','NiCoCrNatom200KTemp600Annealed', 'NiCoCrNatom100KTemp400'][1]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + [	'/../lammpsRuns/NiCoCrNatom100KTakeOneOutRlxd',
 								'/../lammpsRuns/NiCoCrNatom200KTemp600Annealed',
