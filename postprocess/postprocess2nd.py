@@ -20,14 +20,14 @@ if __name__ == '__main__':
 	readPath = os.getcwd() + [	'/../lammpsRuns/NiCoCrNatom100KTakeOneOutRlxd',
 								'/../lammpsRuns/NiCoCrNatom200KTemp600Annealed',
 								'/../lammpsRuns/NiCoCrNatom200KTemp600',
-								'/../lammpsRuns/AmirData/shengAnnealed/Temp800'
+								'/../lammpsRuns/AmirData/shengAnnealed/Temp400'
 							 ][3] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '11:59:59'
 	mem = '64gb'
 	partition = ['single','cpu2019','bigmem','parallel'][2] 
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=5"
+	argv2nd = "indx=7"
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
