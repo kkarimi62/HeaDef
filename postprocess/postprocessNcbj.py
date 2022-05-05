@@ -16,7 +16,7 @@ if __name__ == '__main__':
 	nruns	 = range(1)
 	jobname  = ['NiCoCrNatom100KTakeOneOutRlxd',
 				'NiCoCrNatom200KTemp600Annealed', 
-				'NiCoCrNatom100KTemp12002nd'
+				'NiCoCrNatom100KTemp12003rd'
 				][2]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + ['/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 							][1] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:59:59'
-	resources = {'mem':'16gb', 'partition':['o12h','a12h','i12h'][1],'nodes':1,'ppn':1}
+	resources = {'mem':'16gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
 	argv = "path=%s"%(readPath) #--- don't change! 
 	argv2nd = "indx=7\ntemperature=1200" 
 	PYFILdic = { 
