@@ -31,7 +31,7 @@ def PltErr( xdata, ydata,
             xstr = '',
             ystr = '',
             Plot = True,
-            **kwargs,
+            **kwargs
             ):
     fontsize=kwargs['fontsize'] if 'fontsize' in kwargs else 20
     if not 'ax' in kwargs:
