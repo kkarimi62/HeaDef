@@ -24,7 +24,7 @@ if __name__ == '__main__':
 								'/../lammpsRuns/AmirData/shengAnnealed/Temp1200',
 							][1] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
-	durtn = '00:59:59'
+	durtn = '02:59:59'
 	resources = {'mem':'16gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
 	argv = "path=%s"%(readPath) #--- don't change! 
 	argv2nd = "indx=7\ntemperature=1200" 
