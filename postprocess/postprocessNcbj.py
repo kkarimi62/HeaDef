@@ -39,7 +39,8 @@ if __name__ == '__main__':
 	PYFIL = PYFILdic[ keyno ] 
 	#--- update argV
 	#---
-	os.system( 'rm -rf %s' % jobname ) # --- rm existing
+	if DeleteExistingFolder:
+		os.system( 'rm -rf %s' % jobname ) # --- rm existing
 	# --- loop for submitting multiple jobs
 	for counter in nruns:
 		print(' i = %s' % counter)
