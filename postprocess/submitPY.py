@@ -4,7 +4,7 @@ if __name__ == '__main__':
 	import numpy as np
 	#---
 	lnums = [ 21,26,32 ]
-	string=open('postprocess.py').readlines() #--- python script
+	string=open('postprocessNcbj.py').readlines() #--- python script
 	#---
 	PHI = [400,600,800,1000,1200,1400]
 	nphi = len(PHI)
