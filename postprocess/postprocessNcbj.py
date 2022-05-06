@@ -15,14 +15,16 @@ if __name__ == '__main__':
 	import os
 
 	nruns	 = range(1)
-	jobname  = ['NiCoCrNatom100KTakeOneOutRlxd',
-				'NiCoCrNatom200KTemp600Annealed', 
-				'NiCoCrNatom100KTemp1200'
-				][2]
+	jobname  = {
+				0:'NiCoCrNatom100KTakeOneOutRlxd',
+				1:'NiCoCrNatom200KTemp600Annealed', 
+				2:'NiCoCrNatom100KTemp1200',
+				}[2]
 	DeleteExistingFolder = False
-	readPath = os.getcwd() + ['/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
-								'/../lammpsRuns/AmirData/shengAnnealed/Temp1200',
-							][1] # --- source
+	readPath = os.getcwd() + {
+								0:'/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
+								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp1200',
+							}[1] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '02:59:59'
 	resources = {'mem':'16gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}

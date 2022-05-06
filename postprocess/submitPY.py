@@ -3,19 +3,22 @@ if __name__ == '__main__':
 	import os
 	import numpy as np
 	#---
-	lnums = [ 18,26 ]
+	lnums = [ 21,26,32 ]
 	string=open('postprocess.py').readlines() #--- python script
 	#---
-	PHI = np.logspace(np.log10(0.1),np.log10(0.9),8)
+	PHI = [400,600,800,1000,1200,1400]
 	nphi = len(PHI)
 	#---
 	for iphi in range( nphi ):
 		#---	
 		inums = lnums[ 0 ] - 1
-		string[ inums ] = "\tjobname=\'HeaNiCoCrNatom10KTakeOneOutFreezeFract%s\'\n" % (iphi) #--- change job name
-		#---	densities
+		string[ inums ] = "\t2:\'NiCoCrNatom100KTemp%s\',\n" % (PHI[iphi]) #--- change job name
+		#---	
 		inums = lnums[ 1 ] - 1
-		string[ inums ] = "\targv2nd = \'fract=%s\'\n"%(PHI[iphi])
+		string[ inums ] = "\t1:\'/../lammpsRuns/AmirData/shengAnnealed/Temp%s\',\n" % (PHI[iphi]) #--- change job name
+		#---	densities
+		inums = lnums[ 2 ] - 1
+		string[ inums ] = "\targv2nd = \'indx=7\\ntemperature=%s\'\n"%(PHI[iphi])
 
 		sfile=open('junk%s.py'%iphi,'w');sfile.writelines(string);sfile.close()
 		os.system( 'python3 junk%s.py'%iphi )
