@@ -19,7 +19,7 @@ if __name__ == '__main__':
 				'NiCoCrNatom200KTemp600Annealed', 
 				'NiCoCrNatom100KTemp1200'
 				][2]
-	DeleteExistingFolder = True
+	DeleteExistingFolder = False
 	readPath = os.getcwd() + ['/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
 								'/../lammpsRuns/AmirData/shengAnnealed/Temp1200',
 							][1] # --- source
