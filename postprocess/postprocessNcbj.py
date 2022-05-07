@@ -27,7 +27,7 @@ if __name__ == '__main__':
 							}[1] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '04:59:59'
-	resources = {'mem':'64gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
+	resources = {'mem':'64gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':8}
 	argv = "path=%s"%(readPath) #--- don't change! 
 	argv2nd = "indx=7\ntemperature=1200" 
 	PYFILdic = { 
