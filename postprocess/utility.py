@@ -26,6 +26,283 @@ import time
 #
 warnings.filterwarnings('ignore')
 
+
+def PlotPaperVersion(pathh_indx,
+                     file0_indx,
+                     runs = [0],
+                     times = range(0,200+1,2),
+                     **kwargs):
+    
+    verbose = True if 'verbose' in kwargs and kwargs['verbose'] == True else False
+    timeseries = True if not 'timeseries' in kwargs else kwargs['timeseries']
+    drawstyle = 'default' if not 'drawstyle' in kwargs else kwargs['drawstyle']
+    xstr = '' if not 'xlabel' in kwargs else kwargs['xlabel']
+    ystr = '' if not 'ylabel' in kwargs else kwargs['ylabel']
+    nevery = kwargs['nevery'] if 'nevery' in kwargs else 1
+    #--- setup symbols
+    colors = ['C0','red','green','blue','cyan','brown','grey','magenta','orange','yellow']
+    fillstyles=['white',None,'white',None,'white',None,'white',None,'white',None,'white',None,'white',None,'white',None]
+    markers=['o','s','D','^','<','>','v']
+    markersizes=[10,10,10,12,12,12,10]
+    #--- plot
+    fig = plt.figure(figsize=(4,4))
+    ax = fig.add_subplot(111)
+    #
+
+    
+    for mg, marker, color, fillstyle, markersize in list(zip( [ 
+                                         'FeNi',
+                                           'CoNiFe',
+                                           'CoNiCrFe',
+                                            'CoCrFeMn',
+                                            'CoNiCrFeMn',
+                                            'Co5Cr2Fe40Mn27Ni26',
+                                            'Co5Cr2Fe40Mn27Ni262nd',
+#                                             'CuZr3'
+                                        ],markers, colors, fillstyles, markersizes )):
+        if 'glass' in kwargs and kwargs['glass'] != mg:
+            continue
+        print(mg)
+        Xdata = []
+        Ydata = []
+        #--- loop over realizations 
+        for irun in runs:
+            xdata_timeseries = []
+            ydata_timeseries = []
+            erry_timeseries = []
+            errx_timeseries = []
+            
+            #--- loop over time
+            for itimee, count in\
+            list(zip(times, range(len(times)))): 
+
+                pathh = { 
+                          0:'%s/PairCrltnT300/%s/Run%s'%(os.getcwd(),mg,irun),
+                          1:'%s/VorAnlT300/%s/Run%s'%(os.getcwd(),mg,irun),
+                          2:'%s/D2minAnalysisT300/%s/Run%s'%(os.getcwd(),mg,irun),
+                          3:'%s/ElasticityT300/%s/eps2/itime%s/Run%s'%(os.getcwd(),mg,itimee,irun),
+                          4:'%s/ElasticityT300/%s/eps2/itime%s/Run%s/ModuAnl'%(os.getcwd(),mg,itimee,irun),
+                          5:'%s/Exponents/%s'%(os.getcwd(),mg),
+                        }[pathh_indx]
+                file0 = {
+                          0:'%s/gr.txt'%pathh,
+                          1:'%s/icoPercentageWithStrain.txt'%pathh,
+                          2:'%s/d2min_gamma.txt'%pathh,
+                          3:'%s/rc_d2min.txt'%pathh,
+                          4:'%s/crsD2minRhoSro.txt'%pathh,
+                          5:'%s/NegativeModulus.txt'%pathh, 
+                          6:'%s/YieldDelta.txt'%pathh, 
+                          7:'%s/gr_peak_gamma.txt'%pathh, 
+                          8:'%s/muClustersize_gamma.txt'%pathh, 
+                          9:'%s/pdfMu.txt'%pathh, 
+                          10:'%s/mu_mean_std.txt'%pathh, 
+                          11:'%s/mu_mean_std.txt'%pathh, 
+                          12:'%s/pdfClsSize.txt'%pathh,
+                          13:'%s/muClustersize_gamma.txt'%pathh, 
+                          14:'%s/muClustersize_gamma.txt'%pathh, 
+                          15:'%s/muClustersize_gamma.txt'%pathh, 
+                          16:'%s/ps.txt'%pathh, 
+                          17:'%s/muClustersize_gamma.txt'%pathh, 
+                          18:'%s/ps.txt'%pathh, 
+                          19:'%s/pinf.txt'%pathh, 
+                          20:'%s/pinf.txt'%pathh, 
+                          21:'%s/pinf.txt'%pathh, 
+                          22:'%s/crltnl_gamma.txt'%pathh, 
+                          23:'%s/crltnl_gamma.txt'%pathh, 
+                          24:'%s/crltnl_gamma.txt'%pathh, 
+                          25:'%s/hmin_gamma_exp.txt'%pathh, 
+                          26:'%s/hmin_nu_exp.txt'%pathh, 
+                          27:'%s/hmin_beta_exp.txt'%pathh, 
+                          28:'%s/s_rg.txt'%pathh, 
+                        }[file0_indx]
+                
+                #--- read data
+                xdata, ydata, erry, errx = ReadDataa(file0,file0_indx)
+                Rescale(file0_indx,xdata, ydata, erry)
+
+                    
+                if not timeseries:   #--- plot each time  
+                    if verbose:
+                        print('xdata=',xdata,'\nydata=',ydata,'\nerry=',erry,'\nerrx=',errx)                        
+                    attrs={ 'color':colors[count],
+                            'markersize':markersizes[count],
+                            'marker':markers[count],
+                            'markerfacecolor':colors[count],
+                            'markeredgecolor':'white', #'black' if not fillstyles[count] else None,
+                            'label':'%s/irun%s/itime%s'%(mg,irun,itimee),
+                           'markevery':nevery,
+                           'errorevery':nevery,
+                           'markeredgewidth':kwargs['markeredgewidth'] if 'markeredgewidth' in kwargs else 1.75,
+                            'linewidth':1, 
+                           'barsabove':None,
+                           'capsize':5,
+                           'capthick':1,
+                           'elinewidth':1,
+                           'fmt':kwargs['fmt'] if 'fmt' in kwargs else '.',
+                           'drawstyle':drawstyle,
+                          }
+                    #--- rescale
+                    if 'scaley' in kwargs:
+                        ydata /= kwargs['scaley'][count]
+                        erry /= kwargs['scaley'][count]
+                    
+                    if verbose:
+                        print('plot itime=%s,irun=%s,len(ax.lines)=%s'%(itimee,irun,len(ax.lines)))
+#                     if erry == [np.nan]:
+#                         erry = None
+                    PltErr(xdata,ydata, 
+                       yerr=erry,      
+                       xerr=errx, #None if not 'xerr' in kwargs or not kwargs['xerr'] else  errx,      
+                       ax = ax,
+                       xstr = xstr,
+                       ystr = ystr,
+                       attrs = attrs,
+                       Plot = False,
+                       **kwargs,
+                      )
+
+                else:
+                    assert timeseries #--- concat different times
+                    xdata_timeseries += list(xdata)
+                    ydata_timeseries += list(ydata)
+                    erry_timeseries  += list(erry)
+                    errx_timeseries  += list(errx)
+
+                    
+            if timeseries: #--- plot timeseries
+                xdata_timeseries = np.array(xdata_timeseries)
+                ydata_timeseries = np.array(ydata_timeseries)
+                erry_timeseries = np.array(erry_timeseries)
+                errx_timeseries = np.array(errx_timeseries)
+            #--------------------
+            #--- rescale data
+            #--------------------
+                if file0_indx in [ 15, 24 ]:
+                    if np.any(~np.isnan(ydata_timeseries)):
+                        pmax = np.max(xdata_timeseries)
+                        #
+                        tmp = np.array(xdata_timeseries)
+                        tmp.sort()
+                        q=0.95
+                        ns=len(tmp)
+                        pmax = tmp[int(q*ns)]
+                        #
+                        if 'pmax' in kwargs:
+                            pmax = kwargs['pmax']
+
+                        if verbose:
+                            print('pmax=',pmax)
+                        xdata_timeseries = 1.0 - np.array( xdata_timeseries ) / pmax 
+                elif file0_indx in [21]:
+                    if np.any(~np.isnan(ydata_timeseries)):
+#                        pc = xdata_timeseries[ydata_timeseries>0.0][0]
+                        ind = np.arange(len(ydata_timeseries))[ydata_timeseries>0.0][0]
+                        pc = xdata_timeseries[ind-1]
+                        if 'pc' in kwargs:
+                            pc = kwargs['pc']
+                        if verbose:
+                            print('pc=',pc)
+                        xdata_timeseries = np.array( xdata_timeseries ) / pc - 1.0
+
+        
+                #--- concat different realizations
+                try:
+                    Xdata = np.concatenate((Xdata,xdata_timeseries),axis=0) #--- concat different realizations
+                    Ydata = np.concatenate((Ydata,ydata_timeseries),axis=0) 
+                except:
+                    traceback.print_exc()
+                    Xdata = xdata_timeseries.copy()
+                    Ydata = ydata_timeseries.copy()
+                
+
+                #--- plot
+                if 'PlotEvery' in kwargs and kwargs['PlotEvery']:
+                #--- graph-related attribute
+                    attrs={ 'color':color,
+                            'markersize':markersize,
+                            'marker':marker,
+#                            'markerfacecolor':fillstyle,
+                            'markeredgecolor':'white', #'black' if not fillstyle else None,
+                            'label':'%s/irun%s'%(mg,irun),
+                           'markevery':nevery,
+                           'errorevery':nevery,
+                           'markeredgewidth':1.75,
+                            'linewidth':1, 
+                           'barsabove':None,
+                           'capsize':5,
+                           'capthick':1,
+                           'elinewidth':1,
+                           'fmt':kwargs['fmt'] if 'fmt' in kwargs else '.',
+                           'zorder':1,
+                          }                    
+                    #--- plot ydata
+                    if verbose:
+                        print('ydata=',ydata_timeseries)
+                        print('plot irun=%s,len(ax.lines)=%s'%(irun,len(ax.lines)))
+                    PltErr(xdata_timeseries,ydata_timeseries, 
+                           yerr=erry_timeseries,      
+                           xerr=errx_timeseries,      
+                           ax = ax,
+                           xstr = xstr,
+                           ystr = ystr,
+                           attrs = attrs,
+                           Plot = False,
+                           **kwargs,
+    #                           xerr=yerr0,
+                          )
+
+        #
+        if 'PlotMean' in kwargs and kwargs['PlotMean']:
+            Xdata = Xdata[~np.isnan(Ydata)]
+            Ydata = Ydata[~np.isnan(Ydata)]
+            #---
+#             if file0_indx in [21]: #--- include positive vals
+#                 Xdata = Xdata[Ydata>0]
+#                 Ydata = Ydata[Ydata>0]
+            if verbose:
+                print('ydata=',Ydata)
+                print('plot len(ax.lines)=%s'%(len(ax.lines)))
+            try:
+                #--- take average
+                nbins=1024 if not 'nbins' in kwargs else kwargs['nbins']
+                if file0_indx == 8:
+                    nbins=1
+                Xbin, Ybin, Yerr = BinData(Xdata,Ydata,nbins=nbins,scale='linear' if not 'scale' in kwargs else kwargs['scale'])
+                attrs={ 'color':color,
+                        'markersize':markersize,
+                        'marker':marker,
+                        'markerfacecolor':fillstyle,
+                        'markeredgecolor':'black' if not fillstyle else None,
+                        'label':'%s'%(mg),
+                       'markevery':nevery,
+                       'errorevery':nevery,
+                       'markeredgewidth':0.7,
+                        'linewidth':1, 
+                       'barsabove':None,
+                       'capsize':5,
+                       'capthick':1,
+                       'elinewidth':1,
+                       'zorder':2,
+                      }
+
+                PltErr(Xbin,Ybin, 
+                       yerr=Yerr,      
+                       ax = ax,
+                       attrs = attrs,
+                       xstr = xstr,
+                       ystr = ystr,
+                       Plot = False,
+                       **kwargs,
+                #      xerr=yerr0,
+                      )
+            except:
+#                    traceback.print_exc()
+                pass
+
+
+    return ax
+
+
 def PltErr( xdata, ydata, 
             yerr = None,
             xstr = '',
@@ -37,8 +314,14 @@ def PltErr( xdata, ydata,
     if not 'ax' in kwargs:
         fig = plt.figure( figsize = (4,4))
         ax = fig.add_subplot(111)
+        ax.count = 0
+        ax.markerss=['o','s','D','^','<','>','v']
+
+#        ax.set_prop_cycle(marker=['o', '+', 'x', '*', '.', 'X'])
     else:
         ax = kwargs['ax']
+        ax.count += 1
+
         if 'twinx' in kwargs and kwargs['twinx']:
                 ax = kwargs['ax'].twinx()
     #--- setting   
@@ -50,11 +333,17 @@ def PltErr( xdata, ydata,
 #
     if 'attrs' in kwargs:
         ax.errorbar( xdata, ydata,yerr = yerr, xerr = xerr, **kwargs['attrs'])
-        if 'fill_between' in kwargs and kwargs['fill_between']:   
+        if 'fill_between' in kwargs and kwargs['fill_between']:
             ax.fill_between(xdata, ydata-yerr, ydata+yerr)
-
     else:
-        ax.errorbar( xdata, ydata,yerr = yerr, xerr = xerr, fmt='-o',label=r'$x$')       
+        ax.errorbar( xdata, ydata,yerr = yerr, xerr = xerr,
+                    fmt=kwargs['fmt'] if 'fmt' in kwargs else '-o',
+                    label=kwargs['label'] if 'label' in kwargs else '',
+                    markevery=kwargs['markevery'] if 'markevery' in kwargs else 1,
+                    markersize=kwargs['markersize'] if 'markersize' in kwargs else 10,
+                    marker=kwargs['marker'] if 'marker' in kwargs else ax.markerss[ax.count],
+                   )
+
     #--- plot
     #
 #    ax.plot(ax.axis()[:2],[0.0,0.0],'-.',color='black')
