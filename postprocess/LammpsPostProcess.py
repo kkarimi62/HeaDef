@@ -91,9 +91,9 @@ class ReadDumpFile:
         try:
             while True and count <= ncount:
                 sarr, cell_vector, itime, cols  = self.GetCordsTimeStep( slist ) #--- get coord
-
+#                 pdb.set_trace()
                 #--- insert in a data frame
-                self.coord_atoms_broken[ itime ] = pd.DataFrame( np.c_[sarr].astype('float'), columns = cols )
+                self.coord_atoms_broken[ itime ] = pd.DataFrame( sarr.astype('float'), columns = cols )
 
                 #--- cast id and type to 'int'
                 self.coord_atoms_broken[ itime ]['id'] = list(map(int,self.coord_atoms_broken[ itime ]['id'].tolist()))[:]
@@ -113,7 +113,7 @@ class ReadDumpFile:
 
                 count += 1
         except:
-#            traceback.print_exc()
+            traceback.print_exc()
             pass
 
     
@@ -129,8 +129,9 @@ class ReadDumpFile:
         CellVector = np.array([slist.readline().split() for i in range( 3 )])
 
         cols = slist.readline().split()[2:]
+#        print(np.array([slist.readline().split() for i in range( nrows )]))
 
-        return np.array([slist.readline().split() for i in range( nrows )]), CellVector, itime, cols
+        return np.c_[[slist.readline().split() for i in range( nrows )]], CellVector, itime, cols
     
     def ReadData( self, ncount = 1, columns = {} ):
         itime = 0

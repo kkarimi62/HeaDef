@@ -81,6 +81,14 @@ if AnalysisType == 3:
 if AnalysisType == 4:
     sfile = open(OutputFile,'ab')
 
+if AnalysisType == 5:
+    disl = md.DislocationAnalysisModifier(line_coarsening_enabled=False,
+                                         line_smoothing_enabled=False,
+                                         )
+    disl.input_crystal_structure = md.DislocationAnalysisModifier.Lattice.FCC
+    pipeline.modifiers.append(disl)
+#    pdb.set_trace()
+
 
 for frame in range(0,pipeline.source.num_frames,nevery):
     # This loads the input data for the current frame and
@@ -175,6 +183,15 @@ if AnalysisType == 3:
                     multiple_frames=True 
                   )   
 
+if AnalysisType == 5: 
+    io.export_file( pipeline, '%s.*'%OutputFile, "ca",
+                     start_frame = 0,
+                     end_frame = pipeline.source.num_frames,
+                     every_nth_frame = nevery,
+                    multiple_frames=True 
+                  )   
+
+    
 # Export the computed RDF data to a text file.
 
 '''

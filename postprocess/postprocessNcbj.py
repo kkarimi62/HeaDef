@@ -18,18 +18,18 @@ if __name__ == '__main__':
 	jobname  = {
 				0:'NiCoCrNatom100KTakeOneOutRlxd',
 				1:'NiCoCrNatom200KTemp600Annealed', 
-				2:'NiCoCrNatom100KTemp800',
+				2:'NiCoCrNatom100KTemp600/dislocated',
 				}[2]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
 								0:'/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
-								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800',
+								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp600/dislocated',
 							}[1] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '11:59:59'
 	resources = {'mem':'64gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=7\ntemperature=800" 
+	argv2nd = "indx=9\ntemperature=600" 
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
