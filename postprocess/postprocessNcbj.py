@@ -18,8 +18,9 @@ if __name__ == '__main__':
 	jobname  = {
 				0:'NiCoCrNatom100KTakeOneOutRlxd',
 				1:'NiCoCrNatom200KTemp600Annealed', 
-				2:'NiCoCrNatom100KTemp600/dislocated',
-				}[2]
+				2:'NiCoCrNatom100KTemp600',
+				3:'NiCoCrNatom100KTemp600/dislocated/load500',
+				}[3]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
 								0:'/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
