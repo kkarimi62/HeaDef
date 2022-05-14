@@ -17,7 +17,8 @@ if __name__ == '__main__':
 
 	nphi = len(PHI)
 	#---
-	for key, val in PHI:
+	for key in PHI:
+		val = PHI[key]
 		#---	
 		inums = lnums[ 0 ] - 1
 #		string[ inums ] = "\t2:\'NiCoCrNatom100KTemp%s\',\n" % (PHI[iphi]) #--- change job name
