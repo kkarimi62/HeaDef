@@ -113,7 +113,8 @@ class ReadDumpFile:
 
                 count += 1
         except:
-            traceback.print_exc()
+            print('reached end of file!')
+#            traceback.print_exc()
             pass
 
     
