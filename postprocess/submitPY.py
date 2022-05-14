@@ -17,6 +17,7 @@ if __name__ == '__main__':
 
 	nphi = len(PHI)
 	#---
+	count = 0
 	for key in PHI:
 		val = PHI[key]
 		#---	
@@ -31,6 +32,7 @@ if __name__ == '__main__':
 #		string[ inums ] = "\targv2nd = \'indx=7\\ntemperature=%s\'\n"%(PHI[iphi])
 		string[ inums ] = "\targv2nd = \'indx=%s\\ntemperature=600\'\n"%(key)
 
-		sfile=open('junk%s.py'%iphi,'w');sfile.writelines(string);sfile.close()
-		os.system( 'python3 junk%s.py'%iphi )
-		os.system( 'rm junk%s.py'%iphi )
+		sfile=open('junk%s.py'%count,'w');sfile.writelines(string);sfile.close()
+		os.system( 'python3 junk%s.py'%count )
+		os.system( 'rm junk%s.py'%count )
+		count += 1
