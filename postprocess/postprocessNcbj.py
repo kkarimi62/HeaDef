@@ -21,7 +21,7 @@ if __name__ == '__main__':
 				2:'NiCoCrNatom100KTemp600',
 				3:'NiCoCrNatom100KTemp600/dislocated/load900',
 				}[3]
-	DeleteExistingFolder = False
+	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								0:'/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp600/dislocated',
