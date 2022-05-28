@@ -30,7 +30,7 @@ if __name__ == '__main__':
 	durtn = '11:59:59'
 	resources = {'mem':'64gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=13\ntemperature=600" 
+	argv2nd = "indx=15\ntemperature=600" 
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
