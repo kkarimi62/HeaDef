@@ -3,22 +3,23 @@ if __name__ == '__main__':
 	import os
 	import numpy as np
 	#---
-	lnums = [ 22, 33 ]
+	lnums = [ 22, 27, 33 ]
 	string=open('postprocessNcbj.py').readlines() #--- python script
 	#---
-#	PHI = [400,600,800,1000,1200,1400]
 	PHI={
-            9: '500',
-            10:'600',
-            11:'650',
-            12:'700',
-            13:'750',
-            14:'800',
-            15:'850',
-            16:'900',
-            17:'950',
-		}
-
+	-3:400,
+	-1:450,
+	0:500, 
+	-2:550, 
+	1:600, 
+	2:650, 
+	3:700, 
+	4:750, 
+#	5:800,
+#	6:850,
+#	7:900,
+#	8:950,
+	}
 	nphi = len(PHI)
 	#---
 	count = 0
@@ -27,14 +28,14 @@ if __name__ == '__main__':
 		#---	
 		inums = lnums[ 0 ] - 1
 #		string[ inums ] = "\t2:\'NiCoCrNatom100KTemp%s\',\n" % (PHI[iphi]) #--- change job name
-		string[ inums ] = "\t3:\'NiCoCrNatom100KTemp600/dislocated/load%s\',\n" % (val) #--- change job name
+		string[ inums ] = "\t3:\'NiCoCrNatom100Krss/dislocated/load%s\',\n" % (val) #--- change job name
 		#---	
-#		inums = lnums[ 1 ] - 1
-#		string[ inums ] = "\t1:\'/../lammpsRuns/AmirData/shengAnnealed/Temp%s\',\n" % (PHI[iphi]) #--- change job name
-		#---	densities
 		inums = lnums[ 1 ] - 1
+		string[ inums ] = "\t1:\'/../lammpsRuns/AmirData/shengRss/Temp%s/dislocated\',\n" % (600) #--- change job name
+		#---	densities
+		inums = lnums[ 2 ] - 1
 #		string[ inums ] = "\targv2nd = \'indx=7\\ntemperature=%s\'\n"%(PHI[iphi])
-		string[ inums ] = "\targv2nd = \'indx=%s\\ntemperature=600\'\n"%(key)
+		string[ inums ] = "\targv2nd = \'indx=%s\\ntemperature=%s\\nload=%s\'\n"%(10,600,PHI[key])
 
 		sfile=open('junk%s.py'%count,'w');sfile.writelines(string);sfile.close()
 		os.system( 'python3 junk%s.py'%count )

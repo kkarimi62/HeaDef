@@ -6,7 +6,6 @@ if __name__ == '__main__':
 	lnums = [ 22, 33 ]
 	string=open('postprocessNcbj.py').readlines() #--- python script
 	#---
-#	PHI = [400,600,800,1000,1200,1400]
 	PHI={
 	0:500, 
 	1:600, 
