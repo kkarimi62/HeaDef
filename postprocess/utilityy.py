@@ -490,7 +490,7 @@ def exponents(xdata,ydata, verbose=False, Plot = False, **kwargs):
         nonlinfit( xdata,
                    ydata,
                   2, #--- fit index
-                  **kwargs,
+                  **kwargs
                  )
         (a,alpha,rc) = popt2
         
@@ -724,8 +724,7 @@ def Pltt(ax_s,ax_m,**kwargs):
             attrs = attrs,
             ax=ax,
 #            zorder=5,
-            **kwargs,
-#           yticks=(['0','10','20'],['0','10000','20000'])
+            **kwargs
       )
 
 
@@ -860,7 +859,7 @@ def PltBinary(xlin,ylin,zlin,
               val,
               box0,
               thresh = 0.0,
-              **kwargs,
+              **kwargs
              ):
     #--- reshape value
     (nx,ny,nz) = len(xlin), len(ylin),len(zlin) 
@@ -1239,7 +1238,7 @@ def PlotPaperVersion(pathh_indx,
                        ystr = ystr,
                        attrs = attrs,
                        Plot = False,
-                       **kwargs,
+                       **kwargs
                       )
 
                 else:
@@ -1328,8 +1327,7 @@ def PlotPaperVersion(pathh_indx,
                            ystr = ystr,
                            attrs = attrs,
                            Plot = False,
-                           **kwargs,
-    #                           xerr=yerr0,
+                           **kwargs
                           )
 
         #
@@ -1373,8 +1371,7 @@ def PlotPaperVersion(pathh_indx,
                        xstr = xstr,
                        ystr = ystr,
                        Plot = False,
-                       **kwargs,
-                #      xerr=yerr0,
+                       **kwargs
                       )
             except:
 #                    traceback.print_exc()
@@ -1537,8 +1534,7 @@ def PlotPaperVersionScatter(pathh_indx,
                        ax = ax,
                        attrs = attrs,
                        Plot = False,
-                       **kwargs,
-#                           xerr=yerr0,
+                       **kwargs
                       )
             
     #
@@ -1681,8 +1677,7 @@ def GetMetrics(pathh_indx,file0_indx,**kwargs):
                            ax = ax,
                            attrs = attrs,
                            Plot = False,
-                           **kwargs,
-#                           xerr=yerr0,
+                           **kwargs
                           )
                     #--- plot ydata2
 #                         PltErr(xdata,ydata2, 
@@ -1719,8 +1714,7 @@ def GetMetrics(pathh_indx,file0_indx,**kwargs):
                    ax = ax,
                    attrs = attrs,
                    Plot = False,
-                   **kwargs,
-            #      xerr=yerr0,
+                   **kwargs
                   )
 
         
@@ -2005,7 +1999,7 @@ def PltErr( xdata, ydata,
             xstr = '',
             ystr = '',
             Plot = True,
-            **kwargs,
+            **kwargs
             ):
     fontsize=kwargs['fontsize'] if 'fontsize' in kwargs else 20
     if not 'ax' in kwargs:
@@ -2080,7 +2074,7 @@ def PltScatter( xdata, ydata,
             xstr = '',
             ystr = '',
             Plot = True,
-            **kwargs,
+            **kwargs
             ):
     fontsize=kwargs['fontsize'] if 'fontsize' in kwargs else 20
     if not 'ax' in kwargs:
@@ -2168,8 +2162,7 @@ def ScatterXY( vor, d2min,
                   Plot = True, PLOT_AVERAGE = True, title='scatterD2minRho.png',
                  GetAx = False,
                 nbins_per_decade = 8,
-                 **kwargs,
-               
+                 **kwargs
                 ):
 
             #
@@ -3411,7 +3404,7 @@ def GetAverage( X, y, nbins ):
 
 def sroDensityDiscrete( vor, box,
                 AtomicRadius,     
-                 **kwargs,
+                 **kwargs
                
                 ):
 

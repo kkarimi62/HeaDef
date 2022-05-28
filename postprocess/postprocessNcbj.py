@@ -19,7 +19,7 @@ if __name__ == '__main__':
 				0:'NiCoCrNatom100KTakeOneOutRlxd',
 				1:'NiCoCrNatom200KTemp600Annealed', 
 				2:'NiCoCrNatom100KTemp600',
-				3:'NiCoCrNatom100KTemp600/dislocated/load900',
+				3:'NiCoCrNatom100KTemp600/dislocated/load850',
 				}[3]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
