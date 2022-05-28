@@ -8,16 +8,17 @@ if __name__ == '__main__':
 	#---
 #	PHI = [400,600,800,1000,1200,1400]
 	PHI={
-	0:500, 
-	1:600, 
-	2:650, 
-	3:700, 
-	4:750, 
-	5:800,
-	6:850,
-	7:900,
-	8:950,
-	}
+            9: '500',
+            10:'600',
+            11:'650',
+            12:'700',
+            13:'750',
+            14:'800',
+            15:'850',
+            16:'900',
+            17:'950',
+		}
+
 	nphi = len(PHI)
 	#---
 	count = 0
@@ -33,7 +34,7 @@ if __name__ == '__main__':
 		#---	densities
 		inums = lnums[ 1 ] - 1
 #		string[ inums ] = "\targv2nd = \'indx=7\\ntemperature=%s\'\n"%(PHI[iphi])
-		string[ inums ] = "\targv2nd = \'indx=%s\\ntemperature=%s\\nload=%s\'\n"%(9,600,PHI[key])
+		string[ inums ] = "\targv2nd = \'indx=%s\\ntemperature=600\'\n"%(key)
 
 		sfile=open('junk%s.py'%count,'w');sfile.writelines(string);sfile.close()
 		os.system( 'python3 junk%s.py'%count )
