@@ -186,7 +186,7 @@ if AnalysisType == 3:
 if AnalysisType == 5: 
     io.export_file( pipeline, '%s.*'%OutputFile, "ca",
                      start_frame = 0,
-                     end_frame = pipeline.source.num_frames,
+#                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
                     multiple_frames=True 
                   )   
