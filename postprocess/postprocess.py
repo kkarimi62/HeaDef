@@ -53,8 +53,7 @@ if __name__ == '__main__':
 	# --- loop for submitting multiple jobs
 	counter = init = 0
 	for counter in nruns:
-		if not SingleHea:
-			init = counter
+		init = counter
 		print(' i = %s' % counter)
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
