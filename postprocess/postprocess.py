@@ -29,7 +29,9 @@ if __name__ == '__main__':
 					11:'NiCoCrNatom100KTemp600',
 				}[11]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/AmirData/shengAnnealed/Temp600' #--- source
+	readPath = os.getcwd() + {
+								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp600', #--- source
+							}[1]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
 	mem = '64gb'
