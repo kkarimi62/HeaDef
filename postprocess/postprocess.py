@@ -26,17 +26,16 @@ if __name__ == '__main__':
 					8:'NiNatom1KEdgeDisl',
 					9:'NiCoCrNatom1KT0Elastic',
 					10:'FeNiT300Elasticity',
-					11:'NiCoCrNatom100KAnnealedT600Elastic',
+					11:'NiCoCrNatom100KTemp600',
 				}[11]
 	DeleteExistingFolder = True
-	readPath = os.getcwd() + '/../lammpsRuns/NiCoCrNatom100KAnnealedT600Elastic' #--- source
+	readPath = os.getcwd() + '/../lammpsRuns/AmirData/shengAnnealed/Temp600' #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
 	mem = '64gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=5" #"fileName=data_init.txt\ndmean=10.0" 
-	SingleHea = True #--- remove atoms from a single realization
+	argv2nd = "indx=7\ntemperature=600\nload=500" 
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
 		1:'partition.ipynb',
@@ -59,7 +58,7 @@ if __name__ == '__main__':
 		print(' i = %s' % counter)
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
-		os.system( 'cp LammpsPostProcess.py OvitosCna.py %s' % ( writPath ) ) #--- cp python module
+		os.system( 'cp LammpsPostProcess*.py OvitosCna.py utility*.py %s' % ( writPath ) ) #--- cp python module
 		makeOAR( writPath, 1, 1, durtn, PYFIL, argv+"/Run%s"%init, argv2nd) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh .env %s; cp %s/%s %s' % ( writPath, EXEC_DIR, PYFIL, writPath ) ) # --- create folder & mv oar scrip & cp executable
 		os.system( 'sbatch --partition=%s --mem=%s --time=%s --job-name %s.%s --output %s.%s.out --error %s.%s.err \

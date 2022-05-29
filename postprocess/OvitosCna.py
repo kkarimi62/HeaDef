@@ -32,6 +32,7 @@ if AnalysisType == 3:
     radii=list(map(float,sys.argv[5:]))
 if AnalysisType == 4:
     cutoff = float(sys.argv[5])
+    natoms = int(sys.argv[6])
 
     
 print('InputFile=',InputFile)
@@ -108,8 +109,8 @@ for frame in range(0,pipeline.source.num_frames,nevery):
     if AnalysisType == 4:
         type_property = pipeline.source.particle_properties.particle_type
         finder = CutoffNeighborFinder(cutoff, data)        
-        neighList = list(map(lambda x: finder.find(x) , range(data.number_of_particles) ))
-        zipp = zip(neighList,range(data.number_of_particles))
+        neighList = list(map(lambda x: finder.find(x) , range(natoms) )) #range(data.number_of_particles) ))
+        zipp = zip(neighList,range(natoms)) #data.number_of_particles))
         pairij = np.concatenate(list(map(lambda x: GetPairAttrs( data, x[0],x[1] ), zipp))) #,dtype=object)
         #
         indexi = list(map(int,pairij[:,0]))
