@@ -34,7 +34,7 @@ if __name__ == '__main__':
 							}[1]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
-	mem = '64gb'
+	mem = '512gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
 	argv = "path=%s"%(readPath) #--- don't change! 
 	argv2nd = "indx=7\ntemperature=600\nload=500" 
