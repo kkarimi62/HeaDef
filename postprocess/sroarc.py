@@ -7,12 +7,12 @@ if __name__ == '__main__':
 	string=open('postprocess.py').readlines() #--- python script
 	#---
 	PHI={
-	0:400, 
-#	1:600, 
-	2:800, 
-	3:1000, 
-	4:1200, 
-	5:1400,
+#	0:400, 
+	1:600, 
+#	2:800, 
+#	3:1000, 
+#	4:1200, 
+#	5:1400,
 	}
 	nphi = len(PHI)
 	#---
