@@ -28,7 +28,7 @@ if __name__ == '__main__':
 					10:'FeNiT300Elasticity',
 					11:'NiCoCrNatom100KTemp800sro',
 				}[11]
-	DeleteExistingFolder = False,
+	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
 							}[1]
