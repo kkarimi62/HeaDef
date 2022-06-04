@@ -16,7 +16,7 @@ if __name__ == '__main__':
 #
 	nruns	 = range(1)
 	jobname  = {
-					1:'HeaNiCoCrNatom10KTakeOneOutFreeze',
+					1:'NiCoCrNatom100KTemp600RhoFluc',
 					2:'NiCoCrNatom100KTakeOneOut', 
 					3:'NiNatom100KTakeOneOut',
 					4:'NiNatom100KReplaceCr',
@@ -27,14 +27,14 @@ if __name__ == '__main__':
 					9:'NiCoCrNatom1KT0Elastic',
 					10:'FeNiT300Elasticity',
 					11:'NiCoCrNatom100KTemp600',
-				}[11]
-	DeleteExistingFolder = False
+				}[1]
+	DeleteExistingFolder = True, #False
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp600', #--- source
 							}[1]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
-	mem = '512gb'
+	mem = '64gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
 	argv = "path=%s"%(readPath) #--- don't change! 
 	argv2nd = "indx=7\ntemperature=600\nload=500" 
