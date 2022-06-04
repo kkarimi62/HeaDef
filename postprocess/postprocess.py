@@ -16,7 +16,7 @@ if __name__ == '__main__':
 #
 	nruns	 = range(1)
 	jobname  = {
-					1:'test',#'NiCoCrNatom100KTemp600RhoFluc',
+					1:'NiCoCrNatom100KTemp600RhoFluc',
 					2:'NiCoCrNatom100KTemp600RhoFlucRss', 
 					3:'NiNatom100KTakeOneOut',
 					4:'NiNatom100KReplaceCr',
