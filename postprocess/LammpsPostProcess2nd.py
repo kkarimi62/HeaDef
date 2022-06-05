@@ -51,13 +51,13 @@ def GetCubicGrid( CellOrigin, CellVector, dmean, margin, odd=True  ):
 
     [nx, ny, nz] = list(map( int, (np.array(VectorNorm)+2*margin) / dmean ))
 #    print('nx=',nx)
-    if odd:
-        if nx%2 == 0:
-            nx += 1
-        if ny%2 == 0:
-            ny += 1
-        if nz%2 == 0:
-            nz += 1
+#     if odd:
+#         if nx%2 == 0:
+#             nx += 1
+#         if ny%2 == 0:
+#             ny += 1
+#         if nz%2 == 0:
+#             nz += 1
     
     x = np.linspace( CellOrigin[0] - margin, CellOrigin[0] + VectorNorm[ 0 ] + margin, nx+1)[:-1]#,endpoint=True)
     y = np.linspace( CellOrigin[1] - margin, CellOrigin[1] + VectorNorm[ 1 ] + margin, ny+1)[:-1]#,endpoint=True)
