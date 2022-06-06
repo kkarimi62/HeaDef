@@ -889,14 +889,17 @@ class ComputeRdf( Compute, Wrap ):
             bins=kwargs['bins']
         else:
             bins = np.linspace(rmin,rmax,nbins) #np.logspace(np.log10(rmin),np.log10(rmax),ndecades*4)
+
+        rmean, bin_edges = np.histogram( slist, bins = bins, weights = slist ) #--- \sum r_i
         hist, bin_edges = np.histogram( slist, bins = bins) #, density=True  ) #--- normalized g(r)
 
         #--- mean r
         dr = bin_edges[1]-bin_edges[0]
-        rmean=0.5*(bin_edges[:-1]+bin_edges[1:])
+#        rmean=0.5*(bin_edges[:-1]+bin_edges[1:])
 
         #--- normalize
         count = hist.copy()
+        rmean /= count #--- average distance: \sum r_i/n_i
         hist = hist.astype(float)
         hist /= 4*np.pi*rmean*rmean*dr
         hist /= self.rho    
