@@ -27,8 +27,8 @@ if __name__ == '__main__':
 					9:'NiCoCrNatom1KT0Elastic',
 					10:'FeNiT300Elasticity',
 					11:'NiCoCrNatom100KTemp400sro',
-				}[2]
-	DeleteExistingFolder = True
+				}[11]
+	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp400', #--- source
 							}[1]
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	mem = '512gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=8\ntemperature=400\nload=500" 
+	argv2nd = "indx=7\ntemperature=400\nload=500" 
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
 		1:'partition.ipynb',
