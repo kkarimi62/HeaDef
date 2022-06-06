@@ -17,7 +17,7 @@ if __name__ == '__main__':
 	nruns	 = range(1)
 	jobname  = {
 					1:'NiCoCrNatom100KTemp600RhoFluc',
-					2:'NiCoCrNatom100KTemp600RhoFlucRss', 
+					2:'NiCoCrNatom100KTemp400RhoFlucRss', 
 					3:'NiNatom100KTakeOneOut',
 					4:'NiNatom100KReplaceCr',
 					5:'NiNatom100KReplaceCo',
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	mem = '512gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
 	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=7\ntemperature=400\nload=500" 
+	argv2nd = "indx=8\ntemperature=400\nload=500" 
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
 		1:'partition.ipynb',
