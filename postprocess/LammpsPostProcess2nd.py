@@ -787,10 +787,10 @@ class ComputeRdf( Compute, Wrap ):
         dr = bin_edges[1]-bin_edges[0]
         
         
-#        rmean, bin_edges = np.histogram( slist, bins = bins, weights = slist ) #--- \sum r_i
+        rmean, bin_edges = np.histogram( slist, bins = bins, weights = slist ) #--- \sum r_i
         count, bin_edges = np.histogram( slist, bins = bins ) #--- n_i
-#         rmean /= count #--- average distance: \sum r_i/n_i
-        rmean=0.5*(bin_edges[:-1]+bin_edges[1:])
+        rmean /= count #--- average distance: \sum r_i/n_i
+#        rmean=0.5*(bin_edges[:-1]+bin_edges[1:])
 
 
 
