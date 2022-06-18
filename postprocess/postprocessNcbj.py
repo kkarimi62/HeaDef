@@ -1,8 +1,18 @@
+from backports import configparser
+
 def makeOAR( EXEC_DIR, node, core, partitionime, PYFIL, argv,argv2nd):
-	#--- set environment variables
-	sfile = open('.env','w')
-	print('%s\n%s'%(argv,argv2nd),file=sfile)
-	sfile.close()
+	#--- parse conf. file
+	confParser = configparser.ConfigParser()
+	confParser.read('.env')
+	#--- set parameters
+	confParser.set('parameters','temperature','600.0')
+	confParser.set('parameters','load','850')
+	confParser.set('input files','path',argv)
+	#--- write
+	confParser.write(open('.env','w'))	
+#	sfile = open('.env','w')
+#	print('%s\n%s'%(argv,argv2nd),file=sfile)
+#	sfile.close()
 	#---
 	someFile = open( 'oarScript.sh', 'w' )
 	print('#!/bin/bash\n', file=someFile)
@@ -29,8 +39,8 @@ if __name__ == '__main__':
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '11:59:59'
 	resources = {'mem':'128gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
-	argv = "path=%s"%(readPath) #--- don't change! 
-	argv2nd = "indx=15\ntemperature=600\nload=500" 
+#	argv = "path=%s"%(readPath) #--- don't change! 
+#	argv2nd = "indx=15\ntemperature=600\nload=500" 
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
@@ -47,7 +57,7 @@ if __name__ == '__main__':
 		print(' i = %s' % counter)
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
-		os.system( 'cp LammpsPostProcess*.py OvitosCna.py utility*.py %s' % ( writPath ) ) #--- cp python module
+		os.system( 'cp .env LammpsPostProcess*.py OvitosCna.py utility*.py %s' % ( writPath ) ) #--- cp python module
 		makeOAR( writPath, 1, 1, durtn, PYFIL, argv+"/Run%s"%counter, argv2nd) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh .env %s; cp %s/%s %s' % ( writPath, EXEC_DIR, PYFIL, writPath ) ) # --- create folder & mv oar scrip & cp executable
 		os.system( 'qsub -q %s -l nodes=%s:ppn=%s -l walltime=%s -N %s.%s -o %s -e %s -d %s  %s/oarScript.sh'\
