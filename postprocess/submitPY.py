@@ -3,7 +3,7 @@ if __name__ == '__main__':
 	import os
 	import numpy as np
 	#---
-	lnums = [ 22, 33 ]
+	lnums = [ 29, 8, 9 ]
 	string=open('postprocessNcbj.py').readlines() #--- python script
 	#---
 	PHI={
@@ -15,7 +15,12 @@ if __name__ == '__main__':
 #	5:800,
 #	6:850,
 #	7:900,
-	8:950,
+#	8:950,
+	9:1000,
+#	10:1100,
+#	11:1200,
+#	12:1300,
+#	13:1400,
 	}
 	nphi = len(PHI)
 	#---
@@ -31,8 +36,10 @@ if __name__ == '__main__':
 #		string[ inums ] = "\t1:\'/../lammpsRuns/AmirData/shengAnnealed/Temp%s\',\n" % (PHI[iphi]) #--- change job name
 		#---	densities
 		inums = lnums[ 1 ] - 1
-#		string[ inums ] = "\targv2nd = \'indx=7\\ntemperature=%s\'\n"%(PHI[iphi])
-		string[ inums ] = "\targv2nd = \'indx=%s\\ntemperature=%s\\nload=%s\'\n"%(9,600,PHI[key])
+		string[ inums ] = "\tconfParser.set(\'parameters\',\'temperature\',\'%s\')\n"%(600)
+
+		inums = lnums[ 2 ] - 1
+		string[ inums ] = "\tconfParser.set(\'parameters\',\'load\',\'%s\')\n"%(val)
 
 		sfile=open('junk%s.py'%count,'w');sfile.writelines(string);sfile.close()
 		os.system( 'python3 junk%s.py'%count )

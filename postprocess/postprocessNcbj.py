@@ -5,14 +5,11 @@ def makeOAR( EXEC_DIR, node, core, partitionime, PYFIL, argv):
 	confParser = configparser.ConfigParser()
 	confParser.read('.env')
 	#--- set parameters
-	confParser.set('parameters','temperature','600.0')
+	confParser.set('parameters','temperature','600')
 	confParser.set('parameters','load','850')
 	confParser.set('input files','path',argv)
 	#--- write
 	confParser.write(open('.env','w'))	
-#	sfile = open('.env','w')
-#	print('%s\n%s'%(argv,argv2nd),file=sfile)
-#	sfile.close()
 	#---
 	someFile = open( 'oarScript.sh', 'w' )
 	print('#!/bin/bash\n', file=someFile)
@@ -39,8 +36,6 @@ if __name__ == '__main__':
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '11:59:59'
 	resources = {'mem':'128gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
-#	argv = '%s'%readPath #--- don't change! 
-#	argv2nd = "indx=15\ntemperature=600\nload=500" 
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
