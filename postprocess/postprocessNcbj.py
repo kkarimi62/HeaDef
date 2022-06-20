@@ -56,7 +56,7 @@ if __name__ == '__main__':
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
 		os.system( 'cp configuration.ini LammpsPostProcess*.py OvitosCna.py utility*.py %s' % ( writPath ) ) #--- cp python module
 		makeOAR( writPath, 1, 1, durtn, PYFIL, readPath+"/Run%s"%counter) # --- make oar script
-		os.system( 'chmod +x oarScript.sh; mv oarScript.sh configuration.ini %s; cp %s/%s %s' % ( writPath, EXEC_DIR, PYFIL, writPath ) ) # --- create folder & mv oar scrip & cp executable
+		os.system( 'chmod +x oarScript.sh; cp oarScript.sh configuration.ini %s; cp %s/%s %s' % ( writPath, EXEC_DIR, PYFIL, writPath ) ) # --- create folder & mv oar scrip & cp executable
 		os.system( 'qsub -q %s -l nodes=%s:ppn=%s -l walltime=%s -N %s.%s -o %s -e %s -d %s  %s/oarScript.sh'\
 			%( resources['partition'], resources['nodes'], resources['ppn'], durtn, jobname, counter, writPath, writPath, writPath , writPath ) ) # --- runs oarScript.sh!
 											 
