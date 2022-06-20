@@ -3,15 +3,18 @@ if __name__ == '__main__':
 	import os
 	import numpy as np
 	#---
-	lnums = [ 29, 8, 9 ]
+	lnums = [ 31, 8, 9 ]
 	string=open('postprocessNcbj.py').readlines() #--- python script
 	#---
 	PHI={
-#	0:500, 
-#	1:600, 
-#	2:650, 
-#	3:700, 
-#	4:750, 
+	-1:400,
+#	-2:450,
+	0:500, 
+	-3:550, 
+	1:600, 
+	2:650, 
+	3:700, 
+	4:750, 
 #	5:800,
 #	6:850,
 #	7:900,
@@ -19,7 +22,7 @@ if __name__ == '__main__':
 #	9:1000,
 #	10:1100,
 #	11:1200,
-	12:1300,
+#	12:1300,
 #	13:1400,
 	}
 	nphi = len(PHI)
@@ -29,8 +32,7 @@ if __name__ == '__main__':
 		val = PHI[key]
 		#---	
 		inums = lnums[ 0 ] - 1
-#		string[ inums ] = "\t2:\'NiCoCrNatom100KTemp%s\',\n" % (PHI[iphi]) #--- change job name
-		string[ inums ] = "\t3:\'NiCoCrNatom100KTemp600/dislocated/load%s\',\n" % (val) #--- change job name
+		string[ inums ] = "\t4:\'NiCoCrNatom100KTemp600Rss/dislocated/load%s\',\n" % (val) #--- change job name
 		#---	
 #		inums = lnums[ 1 ] - 1
 #		string[ inums ] = "\t1:\'/../lammpsRuns/AmirData/shengAnnealed/Temp%s\',\n" % (PHI[iphi]) #--- change job name
