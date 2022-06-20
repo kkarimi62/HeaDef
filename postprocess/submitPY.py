@@ -3,7 +3,7 @@ if __name__ == '__main__':
 	import os
 	import numpy as np
 	#---
-	lnums = [ 31, 8, 9 ]
+	lnums = [ 30, 8, 9 ]
 	string=open('postprocessNcbj.py').readlines() #--- python script
 	#---
 	PHI={
