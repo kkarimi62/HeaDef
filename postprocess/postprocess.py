@@ -5,7 +5,7 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv):
 	confParser = configparser.ConfigParser()
 	confParser.read('configuration.ini')
 	#--- set parameters
-	confParser.set('parameters','temperature','400')
+	confParser.set('parameters','temperature','800')
 	confParser.set('parameters','load','450')
 	confParser.set('input files','path',argv)
 	#--- write
@@ -24,8 +24,8 @@ if __name__ == '__main__':
 #
 	nruns	 = range(1)
 	jobname  = {
-					1:'NiCoCrNatom100KTemp400RhoFluc',
-					2:'NiCoCrNatom100KTemp400RhoFlucRss', 
+					1:'NiCoCrNatom100KTemp800RhoFluc',
+					2:'NiCoCrNatom100KTemp800RhoFlucRss', 
 					3:'NiNatom100KTakeOneOut',
 					4:'NiNatom100KReplaceCr',
 					5:'NiNatom100KReplaceCo',
@@ -34,11 +34,11 @@ if __name__ == '__main__':
 					8:'NiNatom1KEdgeDisl',
 					9:'NiCoCrNatom1KT0Elastic',
 					10:'FeNiT300Elasticity',
-					11:'NiCoCrNatom100KTemp400sro2nd',
+					11:'NiCoCrNatom100KTemp800sro2nd',
 				}[2]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
-								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp400', #--- source
+								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
 							}[1]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
