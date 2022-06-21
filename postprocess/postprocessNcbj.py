@@ -6,7 +6,7 @@ def makeOAR( EXEC_DIR, node, core, partitionime, PYFIL, argv):
 	confParser.read('configuration.ini')
 	#--- set parameters
 	confParser.set('parameters','temperature','600')
-	confParser.set('parameters','load','850')
+	confParser.set('parameters','load','450')
 	confParser.set('input files','path',argv)
 	#--- write
 	confParser.write(open('configuration.ini','w'))	
