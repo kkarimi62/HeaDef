@@ -312,7 +312,7 @@ def PltErr( xdata, ydata,
             ):
     fontsize=kwargs['fontsize'] if 'fontsize' in kwargs else 20
     if not 'ax' in kwargs:
-        fig = plt.figure( figsize = (4,4))
+        fig = plt.figure( figsize = (4,4) if 'figsize' not in kwargs else kwargs['figsize'] )
         ax = fig.add_subplot(111)
         ax.count = 0
         ax.markerss=['o','s','D','^','<','>','v']
