@@ -28,13 +28,13 @@ if __name__ == '__main__':
 				2:'NiCoCrNatom100KTemp600',
 				3:'NiCoCrNatom100KTemp600/dislocated/load1200',
 				4:'NiCoCrNatom100KTemp600Rss/dislocated/load1200',
-				}[4]
+				}[3]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
 								0:'/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp600/dislocated',
 								2:'/../lammpsRuns/AmirData/shengRss/Temp600/dislocated',
-							}[2] # --- source
+							}[1] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '11:59:59'
 	resources = {'mem':'128gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
