@@ -6,7 +6,7 @@ def makeOAR( EXEC_DIR, node, core, partitionime, PYFIL, argv):
 	confParser.read('configuration.ini')
 	#--- set parameters
 	confParser.set('parameters','temperature','600')
-	confParser.set('parameters','load','400')
+	confParser.set('parameters','load','550')
 	confParser.set('input files','path',argv)
 	#--- write
 	confParser.write(open('configuration.ini','w'))	
@@ -26,8 +26,8 @@ if __name__ == '__main__':
 				0:'NiCoCrNatom100KTakeOneOutRlxd',
 				1:'NiCoCrNatom200KTemp600Annealed', 
 				2:'NiCoCrNatom100KTemp600',
-				3:'NiCoCrNatom100KTemp600/dislocated/load400',
-				4:'NiCoCrNatom100KTemp600Rss/dislocated/load400',
+				3:'NiCoCrNatom100KTemp600/dislocated/load550',
+				4:'NiCoCrNatom100KTemp600Rss/dislocated/load550',
 				}[4]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
