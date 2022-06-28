@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	nNode	 = 1
 	#
 	jobname  = {
-				1:'NiNatom100KTwin2nd',
+				1:'NiNatom100KTwin3rd',
 				2:'NiCoCrNatom100KTemp300', 
 				3:'NiNatom1KT0EdgeDisl', 
 				4:'NiCoCrNatom1000KEdgeDisl', 
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 	#
 	Variable = {
 				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
-				6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.15 -var GammaDot 1.0e-05 -var ndump 1000 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
+				6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.15 -var GammaDot 1.0e-06 -var ndump 1000 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
 				7:' -var buff 0.0 -var buffy 5.0 -var T 5.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_5K.dat',
@@ -119,7 +119,7 @@ if __name__ == '__main__':
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
 	#
 	EXEC_lmp = ['lmp_mpi','lmp_serial'][0]
-	durtn = ['95:59:59','00:59:59'][1]
+	durtn = ['95:59:59','00:59:59'][0]
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#---
