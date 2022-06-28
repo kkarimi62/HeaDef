@@ -57,7 +57,8 @@ import LammpsPostProcess as lp
 
 
 #--- modify atom types and associated masses 
-if 1: #Atomsk:
+if __name__ == '__main__':
+
     mass={1:58.693, # Ni
         2:58.933195, # Co
         3:51.9961 #Cr,
