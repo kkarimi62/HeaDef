@@ -3,7 +3,8 @@ def makeOAR( EXEC_DIR, node, core, time ):
 	print >> someFile, '#!/bin/bash\n'
 	print >> someFile, 'EXEC_DIR=%s\n' %( EXEC_DIR )
 	print >> someFile, 'MEAM_library_DIR=%s\n' %( MEAM_library_DIR )
-	print >> someFile, 'module load mpich/3.2.1-gnu\n'
+#	print >> someFile, 'module load mpich/3.2.1-gnu\n'
+	print >> someFile, 'module load openmpi/4.0.2-gnu730\n'
 
 	#--- run python script 
 #	 print >> someFile, "$EXEC_DIR/%s < in.txt -var OUT_PATH %s -var MEAM_library_DIR %s"%( EXEC, OUT_PATH, MEAM_library_DIR )
