@@ -30,4 +30,6 @@ velocity downn set 0 0 0
 velocity lg set 0 0 0
 velocity rg set 0 0 0
 
+group bulk subtract all upp downn lg rg
+
 
