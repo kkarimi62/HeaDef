@@ -21,8 +21,8 @@ dump_modify 1 flush yes format line "%d %d %5.4e %5.4e %5.4e %4.3e %4.3e %4.3e %
 
 
 # ----------------------------------- NVT Equilibration -----------------------------------------#
-velocity	all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
-fix			FixTherm        all        nvt temp   $T  $T  ${damp_t}  
+velocity	bulk       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
+fix			FixTherm        bulk        nvt temp   $T  $T  ${damp_t}  
  
 #--- shear deformation
 fix		FixShear all deform 1 xy erate ${GammaDot} units box
