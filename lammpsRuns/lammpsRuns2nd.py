@@ -91,7 +91,7 @@ if __name__ == '__main__':
 	#
 	Variable = {
 				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
-				6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.03 -var GammaDot 1.0e-04 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
+				6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.2 -var GammaDot 1.0e-04 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
 				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
 				5:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
 				7:' -var buff 0.0 -var buffy 5.0 -var T 5.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_5K.dat',
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
 				'p2':' %s 3.52 135.0 67.0 135.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
-				'p3':' %s 3.52 10.0 20.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
+				'p3':' %s 3.52 14.0 40.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
