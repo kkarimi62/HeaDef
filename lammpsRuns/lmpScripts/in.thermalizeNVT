@@ -27,11 +27,11 @@ run	0
 variable tmp equal press
 variable p0 equal ${tmp}
 
-velocity                  all       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
+velocity                  bulk       create     $T     97364  mom    yes  rot  yes  dist  gaussian  # Dynamics starts
  
 #thermo                    100
 #thermo_style              custom    step temp etotal pe press vol
-fix                      f1        all        nvt temp   $T  $T  ${damp_t}  drag	1.0 ##fixedpoint 0.0 0.0 0.0
+fix                      f1        bulk        nvt temp   $T  $T  ${damp_t}  drag	1.0 ##fixedpoint 0.0 0.0 0.0
 
 #-----------------------------
 #--- compute & dump variables
