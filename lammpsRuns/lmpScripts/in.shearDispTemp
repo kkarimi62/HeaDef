@@ -1,5 +1,5 @@
 # ---------- Initialize Simulation --------------------- 
-include ${INC}/init.mod
+include ${INC}/initSoftWall.mod
 # ---------- Create Atoms ---------------------
 include ${INC}/CreateBox.mod
 change_box all triclinic
