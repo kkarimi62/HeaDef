@@ -75,12 +75,13 @@ if __name__ == '__main__':
     os.system('rm *.cfg *.lmp *.xyz *.xsf')
     #--- Crystallographic orientation of the system
 	#--- construct unit cell
-    os.system('atomsk --create fcc %s Ni orient 11-2 111 -110 Al_unitcell.cfg'%a)
+#    os.system('atomsk --create fcc %s Ni orient 11-2 111 -110 Al_unitcell.cfg'%a)
+    os.system('atomsk --create fcc %s Ni orient 111 11-2 -110 Al_unitcell.cfg'%a)
 	#--- duplicate
     os.system('atomsk Al_unitcell.cfg -duplicate %s %s %s Al_supercell.cfg'%(m,n,k))
 	#--- build twin boundary
-    os.system('atomsk Al_supercell.cfg -mirror 0 X -wrap Al_supercell_mirror.cfg')
-    os.system('atomsk --merge X 2 Al_supercell.cfg Al_supercell_mirror.cfg data.cfg')
+    os.system('atomsk Al_supercell.cfg -mirror 0 Y -wrap Al_supercell_mirror.cfg')
+    os.system('atomsk --merge Y 2 Al_supercell.cfg Al_supercell_mirror.cfg data.cfg')
 	#--- output
     os.system('atomsk data.cfg -center com final.cfg')
     os.system('atomsk final.cfg lmp')
