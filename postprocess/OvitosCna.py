@@ -30,10 +30,13 @@ nevery = int(sys.argv[3])
 AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis 1:g(r) 2:d2min 3:voronoi analysis
 if AnalysisType == 3:
     radii=list(map(float,sys.argv[5:]))
-if AnalysisType == 4:
+if AnalysisType == 4 or AnalysisType == 6:
     cutoff = float(sys.argv[5])
-    natoms = int(sys.argv[6])
-
+    if AnalysisType == 4:
+        natoms = int(sys.argv[6])
+    elif AnalysisType == 6:
+        atom_indices = np.array(list(map(int,sys.argv[6:])))
+#        print(atom_indices)
     
 print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
@@ -79,7 +82,7 @@ if AnalysisType == 3:
     pipeline.modifiers.append(voro)
 
 #--- neighbor list
-if AnalysisType == 4:
+if AnalysisType == 4 or AnalysisType == 6:
     sfile = open(OutputFile,'ab')
 
 if AnalysisType == 5:
@@ -105,12 +108,18 @@ for frame in range(0,pipeline.source.num_frames,nevery):
         np.savetxt(sfile, cnm.rdf, header='r\tg(r)')
         
         
+    
+        
     #--- compute neighbor list
-    if AnalysisType == 4:
+    if AnalysisType == 4 or AnalysisType == 6:
         type_property = pipeline.source.particle_properties.particle_type
-        finder = CutoffNeighborFinder(cutoff, data)        
-        neighList = list(map(lambda x: finder.find(x) , range(natoms) )) #range(data.number_of_particles) ))
-        zipp = zip(neighList,range(natoms)) #data.number_of_particles))
+        finder = CutoffNeighborFinder(cutoff, data)
+        if AnalysisType == 4:
+            atom_indices = range(natoms)
+#        elif AnalysisType == 6:
+#            atom_indices = np.arange(data.number_of_particles)[filtr_atoms]
+        neighList = list(map(lambda x: finder.find(x) , atom_indices )) #range(data.number_of_particles) ))
+        zipp = zip(neighList,atom_indices) #data.number_of_particles))
         pairij = np.concatenate(list(map(lambda x: GetPairAttrs( data, x[0],x[1] ), zipp))) #,dtype=object)
         #
         indexi = list(map(int,pairij[:,0]))

@@ -24,17 +24,17 @@ if __name__ == '__main__':
 	nruns	 = range(1)
 	jobname  = {
 				0:'NiCoCrNatom100KDistortions/Temp600',
-				1:'NiCoCrNatom200KTemp600Annealed', 
+				1:'NiCoCrNatom100KTemp600AgingSro', 
 				2:'NiCoCrNatom100KTemp600',
 				3:'NiCoCrNatom100KTemp600/dislocated/load600',
 				4:'NiCoCrNatom100KTemp600Rss/dislocated/load600',
-				}[0]
+				}[1]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
 								0:'/../testRuns/glassCo5Cr2Fe40Mn27Ni26',
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp600/dislocated',
 								2:'/../lammpsRuns/AmirData/shengRss/Temp600/dislocated',
-								3:'/../lammpsRuns/AmirData/shengAnnealed/Temp600',
+								3:'/../lammpsRuns/AmirData/shengAnnealed/Temp600/dislocated',
 							}[3] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '00:59:59'

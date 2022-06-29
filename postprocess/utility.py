@@ -362,7 +362,8 @@ def PltErr( xdata, ydata,
     #
     if 'xticks' in kwargs:
         ax.set_xticks(list(map(float,kwargs['xticks'][1])))
-        ax.set_xticklabels(list(map(lambda x:'$%s$'%x,kwargs['xticks'][0])))
+#        ax.set_xticklabels(list(map(lambda x:'$%s$'%x,kwargs['xticks'][0])))
+        ax.set_xticklabels(kwargs['xticks'][0])
     #
     if 'yticks' in kwargs:
         ax.set_yticks(list(map(float,kwargs['yticks'][1])))
