@@ -37,7 +37,7 @@ if __name__ == '__main__':
 								3:'/../lammpsRuns/AmirData/shengAnnealed/Temp600/dislocated',
 							}[3] # --- source
 	EXEC_DIR = '.'     #--- path for executable file
-	durtn = '00:59:59'
+	durtn = '11:59:59'
 	resources = {'mem':'128gb', 'partition':['o12h','a12h','i12h'][2],'nodes':1,'ppn':1}
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
