@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	nNode	 = 1
 	#
 	jobname  = {
-				1:'NiNatom100KTwin3rd',
+				1:'NiNatom100KTwin4th',
 				2:'NiCoCrNatom100KTemp300', 
 				3:'NiNatom1KT0EdgeDisl', 
 				4:'NiCoCrNatom1000KEdgeDisl', 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
 				2:[0,'p0',10,'p1'],	   #--- local elastic constants (zero temp)
 				3:[5,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
 				4:['p2',5,7,4,71,8], #--- put disc. by atomsk, minimize, thermalize, anneal, thermalize, and shear
-				5:['p3', 5, 11, 6], #--- put disc. by atomsk, minimize, thermalize, and shear
+				5:['p3', 5, 11, 6], #--- twin boundary by atomsk, minimize, thermalize, and shear
 			  }[5]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
