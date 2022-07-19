@@ -24,13 +24,15 @@ def GetPairAttrs(data, neigh,iatom):
         
         
 #--- command-line args
-InputFile = sys.argv[1] 
-OutputFile = sys.argv[2]
-nevery = int(sys.argv[3])
-AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis 1:g(r) 2:d2min 3:voronoi analysis
-if AnalysisType == 3:
+InputFile = sys.argv[1] #--- input lammps file 
+OutputFile = sys.argv[2] #--- output
+nevery = int(sys.argv[3]) #--- process. frequency
+AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements
+if AnalysisType == 8: 
+    RefFile = sys.argv[5]
+if AnalysisType == 3: #--- voronoi analysis
     radii=list(map(float,sys.argv[5:]))
-if AnalysisType == 4 or AnalysisType == 6:
+if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
     cutoff = float(sys.argv[5])
     if AnalysisType == 4:
         natoms = int(sys.argv[6])
@@ -40,7 +42,12 @@ if AnalysisType == 4 or AnalysisType == 6:
     
 print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
-pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
+if AnalysisType == 7:
+	pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
+							 columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
+else:
+	pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
+			
 print('num_frames=',pipeline.source.num_frames)
 
 # Calculate per-particle displacements with respect to initial simulation frame
@@ -63,6 +70,12 @@ if AnalysisType == 2:
                                    )
     d2min.reference.load(InputFile)
     pipeline.modifiers.append(d2min)
+
+if AnalysisType == 8:
+    disp = md.CalculateDisplacementsModifier(
+                                   )
+    disp.reference.load(RefFile, multiple_frames = True)
+    pipeline.modifiers.append(disp)
 
 if AnalysisType == 3:
     # Set atomic radii (required for polydisperse Voronoi tessellation).
@@ -100,7 +113,10 @@ for frame in range(0,pipeline.source.num_frames,nevery):
     print('frame=%s'%frame)
 #    pipeline.compute(frame)
     data = pipeline.compute(frame)
-    itime = pipeline.source.attributes['Timestep']
+    try:
+	    itime = pipeline.source.attributes['Timestep']
+    except:
+        pass
 #    print(itime)
     
     if AnalysisType == 1:
@@ -180,6 +196,15 @@ if AnalysisType == 2:
                      every_nth_frame = nevery,
                      multiple_frames=True )
 
+if AnalysisType == 8:
+    io.export_file( pipeline, OutputFile, "lammps_dump",\
+                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
+                               "Displacement.X","Displacement.Y","Displacement.Z"],
+                     start_frame = 0,
+                     end_frame = pipeline.source.num_frames,
+                     every_nth_frame = nevery,
+                     multiple_frames=True )
+
 if AnalysisType == 3: 
     io.export_file( pipeline, OutputFile, "lammps_dump",\
                     columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
@@ -201,6 +226,15 @@ if AnalysisType == 5:
                     multiple_frames=True 
                   )   
 
+if AnalysisType == 7: 
+    io.export_file( pipeline, OutputFile, "lammps_dump",\
+                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z"],
+                     start_frame = 0,
+                     end_frame = pipeline.source.num_frames,
+                     every_nth_frame = nevery,
+                    
+                    multiple_frames=True 
+                  )   
     
 # Export the computed RDF data to a text file.
 
