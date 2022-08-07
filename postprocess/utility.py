@@ -26,6 +26,77 @@ import time
 #
 warnings.filterwarnings('ignore')
 
+class Symbols:
+    def __init__(self):
+        self.colors = ['black','red','green','blue','cyan','brown','grey','magenta','orange','yellow']
+        self.fillstyles=['white',None,'white',None,'white',None,'white',None,'white',None,'white',None,'white',None,'white',None]
+        self.markers=['o','s','D','^','<','>','v']
+        self.markersizes=[10,10,10,12,12,12,10]
+        self.nmax=7
+        
+    def GetAttrs(self,count=0,label='',nevery=1,fmt='.-',zorder=1,**kwargs):
+        if count > self.nmax:
+            print('index out of list bound!')
+            return 
+        attrs={ 'color':self.colors[count],
+            'markersize':self.markersizes[count],
+            'marker':self.markers[count],
+            'markerfacecolor':self.colors[count],
+            'markeredgecolor':'white', #'black' if not self.fillstyles[count] else None,
+            'label':label,
+           'markevery':nevery,
+           'errorevery':nevery,
+           'markeredgewidth':1.75,
+            'linewidth':1, 
+           'barsabove':None,
+           'capsize':5 if not 'capsize' in kwargs else kwargs['capsize'],
+           'capthick':1,
+           'elinewidth':1,
+           'fmt':fmt,
+             'zorder':zorder,
+         }
+        return attrs
+    
+    def GetAttrs2nd(self,count=0,label='',nevery=1,fmt='.-',zorder=1):
+        if count > self.nmax:
+            print('index out of list bound!')
+            return 
+        attrs={ 'color':self.colors[count],
+            'markersize':self.markersizes[count],
+            'marker':self.markers[count],
+            'markerfacecolor':'white',
+#            'markeredgecolor':'black' if not self.fillstyles[count] else None,
+            'label':label,
+           'markevery':nevery,
+           'errorevery':nevery,
+           'markeredgewidth':1.75,
+            'linewidth':1, 
+           'barsabove':None,
+           'capsize':5,
+           'capthick':1,
+           'elinewidth':1,
+           'fmt':fmt,
+            'zorder':zorder,
+          }
+        return attrs
+
+class Legends:
+    def __init__(self
+                ):
+        pass
+    def Set(self,fontsize=20,
+                 labelspacing=0,
+                 **kwargs
+#                 bbox_to_anchor=(0.5,0.48,0.5,0.5),
+           ):
+        self.attrs = {'frameon':False,'fontsize':fontsize,
+                   'labelspacing':labelspacing,
+                      'handletextpad':.2,
+                   'handlelength':1,
+                    **kwargs,
+                     }
+    def Get(self):
+        return self.attrs
 
 def PlotPaperVersion(pathh_indx,
                      file0_indx,
@@ -341,7 +412,7 @@ def PltErr( xdata, ydata,
                     label=kwargs['label'] if 'label' in kwargs else '',
                     markevery=kwargs['markevery'] if 'markevery' in kwargs else 1,
                     markersize=kwargs['markersize'] if 'markersize' in kwargs else 10,
-                    marker=kwargs['marker'] if 'marker' in kwargs else ax.markerss[ax.count],
+                    marker=kwargs['marker'] if 'marker' in kwargs else ax.markerss[(ax.count)%7],
                    )
 
     #--- plot
@@ -671,8 +742,9 @@ def PltBitmap( value,
 #     ax.axes.xaxis.set_visible(False)
 #     ax.axes.yaxis.set_visible(False)
     #
+    origin = kwargs['origin'] if 'origin' in kwargs else 'lower'
     pos = ax.imshow(val.real,cmap='bwr',
-                     extent=(xlim[0],xlim[1],ylim[0],ylim[1]),origin='lower' ,vmin=vmin, vmax=vmax)
+                     extent=(xlim[0],xlim[1],ylim[0],ylim[1]),origin=origin ,vmin=vmin, vmax=vmax)
     ax.set_xlim(xlim[0]*frac,xlim[1]*frac)
     ax.set_ylim(ylim[0]*frac,ylim[1]*frac)
 
