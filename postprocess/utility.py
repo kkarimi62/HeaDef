@@ -729,7 +729,7 @@ def PltBitmap( value,
     if 'vminmax' in kwargs:
         (vmin,vmax) = kwargs['vminmax']
     else:
-        (vmin,vmax) = (np.min(val), np.max(val))
+        (vmin,vmax) = (np.min(val[~np.isnan(val)]), np.max(val[~np.isnan(val)]))
     #--- plot
     (mgrid,ngrid) = val.shape
     center = (ngrid/2,mgrid/2)
@@ -743,7 +743,7 @@ def PltBitmap( value,
 #     ax.axes.yaxis.set_visible(False)
     #
     origin = kwargs['origin'] if 'origin' in kwargs else 'lower'
-    pos = ax.imshow(val.real,cmap='bwr',
+    pos = ax.imshow(val.real,cmap='bwr' if not 'cmap' in kwargs else kwargs['cmap'],
                      extent=(xlim[0],xlim[1],ylim[0],ylim[1]),origin=origin ,vmin=vmin, vmax=vmax)
     ax.set_xlim(xlim[0]*frac,xlim[1]*frac)
     ax.set_ylim(ylim[0]*frac,ylim[1]*frac)
