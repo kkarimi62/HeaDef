@@ -754,6 +754,20 @@ def PltBitmap( value,
         DrawFrame(ax, *kwargs['DrawFrame'])
     if 'set_title' in kwargs:
         ax.set_title(kwargs['set_title'],fontsize=20)
+    #
+    LOGY = True if ('yscale' in kwargs and kwargs['yscale'] == 'log') else False
+    LOGX = True if ('xscale' in kwargs and kwargs['xscale'] == 'log') else False
+    PutMinorTicks(ax, LOGX=LOGX,LOGY=LOGY)
+    #
+    if 'xticks' in kwargs:
+        ax.set_xticks(list(map(float,kwargs['xticks'][1])))
+#        ax.set_xticklabels(list(map(lambda x:'$%s$'%x,kwargs['xticks'][0])))
+        ax.set_xticklabels(kwargs['xticks'][0])
+    #
+    if 'yticks' in kwargs:
+        ax.set_yticks(list(map(float,kwargs['yticks'][1])))
+        ax.set_yticklabels(list(map(lambda x:'$%s$'%x,kwargs['yticks'][0])))
+
     plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
     plt.show()
     
