@@ -39,6 +39,8 @@ if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
     elif AnalysisType == 6:
         atom_indices = np.array(list(map(int,sys.argv[6:])))
 #        print(atom_indices)
+if AnalysisType == 7:
+	OutputFile_headers = sys.argv[5] 
     
 print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
@@ -47,7 +49,8 @@ if AnalysisType == 7:
 							 columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
 else:
 	pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
-			
+
+#pdb.set_trace()	
 print('num_frames=',pipeline.source.num_frames)
 
 # Calculate per-particle displacements with respect to initial simulation frame
@@ -235,7 +238,10 @@ if AnalysisType == 7:
                     
                     multiple_frames=True 
                   )   
-    
+    io.export_file(pipeline, OutputFile_headers, "txt", multiple_frames=True,
+#         columns = ["Frame", "SelectExpression.num_selected"])
+    	columns=list(pipeline.source.attributes.keys()
+	))
 # Export the computed RDF data to a text file.
 
 '''
