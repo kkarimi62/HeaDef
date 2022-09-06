@@ -57,7 +57,7 @@ if __name__ == '__main__':
 #		string[ inums ] = "\t3:\'/../lammpsRuns/AmirData/shengAnnealed/Temp%s\',\n" % (val) #--- change job name
 
 		#---	densities
-		inums = lnums[ 2 ] - 1
+		inums = lnums[ 1 ] - 1
 		string[ inums ] = "\tconfParser.set(\'parameters\',\'temperature\',\'%s\')\n"%(val)
 
 #		inums = lnums[ 2 ] - 1
