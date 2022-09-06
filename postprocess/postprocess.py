@@ -39,7 +39,7 @@ if __name__ == '__main__':
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
-								2:'/../lammpsRuns/AmirData/farks', #--- source
+								2:'/../lammpsRuns/AmirData/farkas', #--- source
 							}[2]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
