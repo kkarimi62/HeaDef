@@ -34,12 +34,13 @@ if __name__ == '__main__':
 					8:'NiNatom1KEdgeDisl',
 					9:'NiCoCrNatom1KT0Elastic',
 					10:'FeNiT300Elasticity',
-					11:'NiCoCrNatom100KTemp800sro2nd',
-				}[1]
+					11:'NiCoCrNatom100KTemp800sroFarkas',
+				}[11]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
-							}[1]
+								2:'/../lammpsRuns/AmirData/farks', #--- source
+							}[2]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
 	mem = '512gb'
