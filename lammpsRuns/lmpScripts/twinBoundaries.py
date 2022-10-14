@@ -81,7 +81,7 @@ if __name__ == '__main__':
 	#--- duplicate
     os.system('atomsk Al_unitcell.cfg -duplicate %s %s %s Al_supercell.cfg'%(m,n,k))
 	#--- build twin boundary
-    for i in range(2):
+    for i in range(1):
         os.system('atomsk Al_supercell.cfg -mirror 0 Y -wrap Al_supercell_mirror.cfg')
         os.system('atomsk --merge Y 2 Al_supercell.cfg Al_supercell_mirror.cfg data.cfg')
         os.system('mv data.cfg Al_supercell.cfg;rm Al_supercell_mirror.cfg')
