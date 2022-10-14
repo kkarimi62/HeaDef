@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	nNode	 = 1
 	#
 	jobname  = {
-				1:'CuNatom100KTwin5th',
+				1:'CuNatom100KTwin6th',
 				2:'NiCoCrNatom100KTemp300', 
 				3:'NiNatom1KT0EdgeDisl', 
 				4:'NiCoCrNatom1000KEdgeDisl', 
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
 				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
 				'p2':' %s 3.52 135.0 67.0 135.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
-				'p3':' %s 3.52 14.0 40.0 40.0 data.txt'%(os.getcwd()+'/../postprocess'),
+				'p3':' %s 3.52 35.0 20.0 20.0 data.txt'%(os.getcwd()+'/../postprocess'),
 				} 
 	#--- different scripts in a pipeline
 	indices = {
