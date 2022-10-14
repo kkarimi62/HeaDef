@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	nNode	 = 1
 	#
 	jobname  = {
-				1:'CuNatom100KTwin6th',
+				1:'CuNatom100KTwin7th',
 				2:'NiCoCrNatom100KTemp300', 
 				3:'NiNatom1KT0EdgeDisl', 
 				4:'NiCoCrNatom1000KEdgeDisl', 
