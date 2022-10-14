@@ -2,14 +2,14 @@
 # See in.elastic for more info.
 
 # Choose potential
-#pair_style	eam/alloy
-#pair_coeff              * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
+pair_style	eam/alloy
+pair_coeff              * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
 #
 #pair_style                eam
 #pair_coeff                * * ${PathEam}/Ni_u3.eam
 
-pair_style                eam
-pair_coeff                * * ${PathEam}/Cu_u3.eam 
+#pair_style                eam
+#pair_coeff                * * ${PathEam}/Cu_u3.eam 
 
 # Setup neighbor style
 neighbor 1.0 nsq

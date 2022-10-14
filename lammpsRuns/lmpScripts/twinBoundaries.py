@@ -59,10 +59,10 @@ import LammpsPostProcess as lp
 #--- modify atom types and associated masses 
 if __name__ == '__main__':
 
-    mass={1:63.55, #cu
-#		1:58.693, # Ni
-#        2:58.933195, # Co
-#        3:51.9961 #Cr,
+    mass={#1:63.55, #cu
+		1:58.693, # Ni
+        2:58.933195, # Co
+        3:51.9961 #Cr,
        } 
 	#
     a = float(sys.argv[2]) #3.52
@@ -81,7 +81,7 @@ if __name__ == '__main__':
 	#--- duplicate
     os.system('atomsk Al_unitcell.cfg -duplicate %s %s %s Al_supercell.cfg'%(m,n,k))
 	#--- build twin boundary
-    for i in range(1):
+    for i in range(2):
         os.system('atomsk Al_supercell.cfg -mirror 0 Y -wrap Al_supercell_mirror.cfg')
         os.system('atomsk --merge Y 2 Al_supercell.cfg Al_supercell_mirror.cfg data.cfg')
         os.system('mv data.cfg Al_supercell.cfg;rm Al_supercell_mirror.cfg')

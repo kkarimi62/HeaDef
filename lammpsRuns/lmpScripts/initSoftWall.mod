@@ -47,6 +47,6 @@ boundary    	p p p
 variable            dt        equal     0.005         # Time step
 
 #--- thermostat parameters
-variable            damp_t    equal     10*${dt} #100*${dt}     # Thermostat damping
-variable            damp_p    equal     100*${dt} #1000*${dt}    # Barostat damping
+variable            damp_t    equal     100*${dt}     # Thermostat damping
+variable            damp_p    equal     1000*${dt}    # Barostat damping
 
