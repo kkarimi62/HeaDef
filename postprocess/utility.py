@@ -749,6 +749,11 @@ def PltBitmap( value,
                     vmin=vmin, vmax=vmax,
                    interpolation=None if not 'interpolation' in kwargs else kwargs['interpolation']
                    )
+    if 'mask' in kwargs:
+#        print('mask called')
+        assert kwargs['mask'].shape == val.shape
+        ax.contourf(kwargs['mask'], 1, hatches=['','....'], linewidths=1.0,colors='red',alpha=0.0,
+                     extent=(xlim[0],xlim[1],ylim[0],ylim[1]),origin=origin)
     if 'frac' in kwargs:
         frac = kwargs['frac']
         ax.set_xlim(xlim[0]*frac,xlim[1]*frac)
@@ -780,6 +785,8 @@ def PltBitmap( value,
     if 'yticks' in kwargs:
         ax.set_yticks(list(map(float,kwargs['yticks'][1])))
         ax.set_yticklabels(list(map(lambda x:'$%s$'%x,kwargs['yticks'][0])))
+
+
 
     plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
     plt.show()
