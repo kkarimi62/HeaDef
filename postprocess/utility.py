@@ -714,9 +714,9 @@ def PltBitmap( value,
               xlim = (-0.5,0.5), ylim = (-0.5,0.5),
 #              frac = 1.0, #--- plot a patch
               zscore = True,
- #             title = 'cxy.png',
+              title = 'cxy.png',
               colorbar=False,
-            Plot = True,
+ #           Plot = True,
               **kwargs
              ):
         
@@ -735,23 +735,23 @@ def PltBitmap( value,
     (mgrid,ngrid) = val.shape
     center = (ngrid/2,mgrid/2)
     #
-<<<<<<< HEAD
-    if 'ax' in kwargs:
-        ax = kwargs['ax']
-    else:
-	    fig = plt.figure(figsize=(4,4))
-	    ax = fig.add_subplot(111)
-    ax.set_xlabel(xlabel,fontsize=20)
-    ax.set_ylabel(ylabel,fontsize=20)
-    ax.tick_params(labelsize=20,which='both',axis='both', top=True, right=True)
-=======
+#    if 'ax' in kwargs:
+#        ax = kwargs['ax']
+#    else:
     fig = plt.figure(figsize=(4,4))
     ax = fig.add_subplot(111)
+	#
+    ax.set_xlabel(xlabel,fontsize=20)
+    ax.set_ylabel(ylabel,fontsize=20)
+	#
+    ax.tick_params(labelsize=20,which='both',axis='both', top=True, right=True)
+
+#    fig = plt.figure(figsize=(4,4))
+#    ax = fig.add_subplot(111)
     fontsize=20 if not 'fontsize' in kwargs else kwargs['fontsize']
     ax.set_xlabel(xlabel,fontsize=fontsize)
     ax.set_ylabel(ylabel,fontsize=fontsize)
     ax.tick_params(labelsize=fontsize,which='both',axis='both', top=True, right=True)
->>>>>>> e1fad8a6a6bf1e9091516ba0f53b947e2fd20d34
 #     ax.axes.xaxis.set_visible(False)
 #     ax.axes.yaxis.set_visible(False)
     #
@@ -798,23 +798,20 @@ def PltBitmap( value,
         ax.set_yticks(list(map(float,kwargs['yticks'][1])))
         ax.set_yticklabels(list(map(lambda x:'$%s$'%x,kwargs['yticks'][0])))
 
-<<<<<<< HEAD
 	
-    if 'title' in kwargs: #Plot:
-        plt.savefig(kwargs['title'],dpi=300 if not 'dpi' in kwargs else kwargs['dpi'],bbox_inches='tight', 
-                    pad_inches=0.0)
-    if Plot:
-        plt.show()
+#    if 'title' in kwargs: #Plot:
+#        plt.savefig(kwargs['title'],dpi=300 if not 'dpi' in kwargs else kwargs['dpi'],bbox_inches='tight', 
+#                    pad_inches=0.0)
+#    if Plot:
+#     plt.show()
 
 #    plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
 #    plt.show()
-    return ax
-=======
+#    return ax
 
 
     plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
     plt.show()
->>>>>>> e1fad8a6a6bf1e9091516ba0f53b947e2fd20d34
     
     
 def PltCrltn( value,
