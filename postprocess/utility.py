@@ -714,8 +714,9 @@ def PltBitmap( value,
               xlim = (-0.5,0.5), ylim = (-0.5,0.5),
               frac = 1.0, #--- plot a patch
               zscore = True,
-              title = 'cxy.png',
+ #             title = 'cxy.png',
               colorbar=False,
+            Plot = True,
               **kwargs
              ):
         
@@ -734,8 +735,11 @@ def PltBitmap( value,
     (mgrid,ngrid) = val.shape
     center = (ngrid/2,mgrid/2)
     #
-    fig = plt.figure(figsize=(4,4))
-    ax = fig.add_subplot(111)
+    if 'ax' in kwargs:
+        ax = kwargs['ax']
+    else:
+	    fig = plt.figure(figsize=(4,4))
+	    ax = fig.add_subplot(111)
     ax.set_xlabel(xlabel,fontsize=20)
     ax.set_ylabel(ylabel,fontsize=20)
     ax.tick_params(labelsize=20,which='both',axis='both', top=True, right=True)
@@ -768,8 +772,16 @@ def PltBitmap( value,
         ax.set_yticks(list(map(float,kwargs['yticks'][1])))
         ax.set_yticklabels(list(map(lambda x:'$%s$'%x,kwargs['yticks'][0])))
 
-    plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
-    plt.show()
+	
+    if 'title' in kwargs: #Plot:
+        plt.savefig(kwargs['title'],dpi=300 if not 'dpi' in kwargs else kwargs['dpi'],bbox_inches='tight', 
+                    pad_inches=0.0)
+    if Plot:
+        plt.show()
+
+#    plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
+#    plt.show()
+    return ax
     
     
 def PltCrltn( value,
