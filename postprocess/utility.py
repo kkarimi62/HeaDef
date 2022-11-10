@@ -443,7 +443,8 @@ def PltErr( xdata, ydata,
     #
     LOGY = True if ('yscale' in kwargs and kwargs['yscale'] == 'log') else False
     LOGX = True if ('xscale' in kwargs and kwargs['xscale'] == 'log') else False
-    PutMinorTicks(ax, LOGX=LOGX,LOGY=LOGY)
+    ndecade_x = kwargs['ndecade_x'] if 'ndecade_x' in kwargs else 1
+    PutMinorTicks(ax, LOGX=LOGX,LOGY=LOGY,nevery_x=ndecade_x)
     #
     if 'DrawFrame' in kwargs: 
         DrawFrame(ax, *kwargs['DrawFrame'],LOG_Y=LOGY,LOG_X=LOGX)
@@ -479,7 +480,7 @@ def SetTickLabels(ax, **kwargs):
         ax.yaxis.set_ticklabels(['$%s$'%i for i in tickLabels])
         ax.yaxis.set_ticks(tickLabels)
         
-def PutMinorTicks(ax, LOGY=None,LOGX=None):
+def PutMinorTicks(ax, LOGY=None,LOGX=None, nevery_x=1,n_every_y=1):
     ax.xaxis.set_minor_locator(AutoMinorLocator(2))
     ax.yaxis.set_minor_locator(AutoMinorLocator(2))
     if LOGY:
@@ -497,7 +498,10 @@ def PutMinorTicks(ax, LOGY=None,LOGX=None):
         ymin=np.ceil(np.log10(ax.axis()[0]))
         ymax=np.floor(np.log10(ax.axis()[1]))
         nbin = ymax - ymin
-        ax.set_xticks(np.logspace(ymin,ymax,int(nbin)+1))
+        ax.set_xticks(10**np.arange(ymin,ymax+nevery_x,nevery_x))
+#        ax.set_xticks(np.logspace(ymin,ymax,int(nbin)+1))
+#        print(10**np.arange(ymin,ymax,nevery_x))
+#        ax.set_xticks(np.logspace(ymin,ymax,int(nbin/nevery_x)+1))
         #--- put minor bins y
         locmin = matplotlib.ticker.LogLocator(base=10.0,subs=(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1),numticks=12)
         ax.xaxis.set_minor_locator(locmin)
