@@ -444,7 +444,8 @@ def PltErr( xdata, ydata,
     LOGY = True if ('yscale' in kwargs and kwargs['yscale'] == 'log') else False
     LOGX = True if ('xscale' in kwargs and kwargs['xscale'] == 'log') else False
     ndecade_x = kwargs['ndecade_x'] if 'ndecade_x' in kwargs else 1
-    PutMinorTicks(ax, LOGX=LOGX,LOGY=LOGY,nevery_x=ndecade_x)
+    ndecade_y = kwargs['ndecade_y'] if 'ndecade_y' in kwargs else 1
+    PutMinorTicks(ax, LOGX=LOGX,LOGY=LOGY,nevery_x=ndecade_x,nevery_y=ndecade_y)
     #
     if 'DrawFrame' in kwargs: 
         DrawFrame(ax, *kwargs['DrawFrame'],LOG_Y=LOGY,LOG_X=LOGX)
@@ -480,7 +481,7 @@ def SetTickLabels(ax, **kwargs):
         ax.yaxis.set_ticklabels(['$%s$'%i for i in tickLabels])
         ax.yaxis.set_ticks(tickLabels)
         
-def PutMinorTicks(ax, LOGY=None,LOGX=None, nevery_x=1,n_every_y=1):
+def PutMinorTicks(ax, LOGY=None,LOGX=None, nevery_x=1,nevery_y=1):
     ax.xaxis.set_minor_locator(AutoMinorLocator(2))
     ax.yaxis.set_minor_locator(AutoMinorLocator(2))
     if LOGY:
@@ -488,7 +489,8 @@ def PutMinorTicks(ax, LOGY=None,LOGX=None, nevery_x=1,n_every_y=1):
         ymin=np.ceil(np.log10(ax.axis()[2]))
         ymax=np.floor(np.log10(ax.axis()[3]))
         nbin = ymax - ymin
-        ax.set_yticks(np.logspace(ymin,ymax,int(nbin)+1))
+        ax.set_yticks(10**np.arange(ymin,ymax+nevery_y,nevery_y))
+#        ax.set_yticks(np.logspace(ymin,ymax,int(nbin)+1))
         #--- put minor bins y
         locmin = matplotlib.ticker.LogLocator(base=10.0,subs=(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1),numticks=12)
         ax.yaxis.set_minor_locator(locmin)
@@ -1230,10 +1232,10 @@ def GetPDF(slist, n_per_decade=4, ACCUM = None, linscale = None, density=True):
     if ACCUM:
         return np.cumsum((edges[1:]-edges[:-1])*hist), edges
     
-    
-    hist = hist[count>0]
-    edges = edges[:-1][count>0]
-    count = count[count>0]
+    nth=1   
+    hist = hist[count>nth]
+    edges = edges[:-1][count>nth]
+    count = count[count>nth]
     
     return  hist, edges, hist / count**0.5
 
@@ -1326,3 +1328,8 @@ def GetBinnedAverage( a, y, **kwargs ):
     xmean = xsum/xcount
     ymean = ysum/xcount
     return xmean, ymean, xmean / xcount ** 0.5, ymean / xcount ** 0.5
+
+def FilterDataFrame(df,key='id',val=[1,2,3]): #,out='C66'):
+    tmp0 = df.set_index(key,drop=True,append=False).loc[val]
+    return tmp0.reset_index() #.reindex(range(len(tmp0)))
+
