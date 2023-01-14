@@ -11,7 +11,7 @@ import pdb
 
 
 def GetNpairs(data, finder):        
-    Npairs = 0
+    Npairs = 0 #---
     for index in range(data.number_of_particles):
         for neigh in finder.find(index):
             Npairs += (index<neigh.index)
@@ -187,7 +187,7 @@ if AnalysisType == 0:
                     columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
                                "Structure Type"],
                      start_frame = 0,
-                     end_frame = pipeline.source.num_frames,
+#                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
                      multiple_frames=True )
 if AnalysisType == 2:
@@ -195,7 +195,7 @@ if AnalysisType == 2:
                     columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
                                "Nonaffine Squared Displacement"],
                      start_frame = 0,
-                     end_frame = pipeline.source.num_frames,
+#                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
                      multiple_frames=True )
 
@@ -204,7 +204,7 @@ if AnalysisType == 8:
                     columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
                                "Displacement.X","Displacement.Y","Displacement.Z"],
                      start_frame = 0,
-                     end_frame = pipeline.source.num_frames,
+#                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
                      multiple_frames=True )
 
@@ -215,7 +215,7 @@ if AnalysisType == 3:
                                "Voronoi Index.3","Voronoi Index.4","Voronoi Index.5",\
                                "Voronoi Index.6","Voronoi Index.7","Voronoi Index.8", "Atomic Volume"],
                      start_frame = 0,
-                     end_frame = pipeline.source.num_frames,
+#                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
                     
                     multiple_frames=True 
@@ -233,9 +233,8 @@ if AnalysisType == 7:
     io.export_file( pipeline, OutputFile, "lammps_dump",\
                     columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z"],
                      start_frame = 0,
-                     end_frame = pipeline.source.num_frames,
+#                     end_frame = pipeline.source.num_frames-1,
                      every_nth_frame = nevery,
-                    
                     multiple_frames=True 
                   )   
     io.export_file(pipeline, OutputFile_headers, "txt", multiple_frames=True,
