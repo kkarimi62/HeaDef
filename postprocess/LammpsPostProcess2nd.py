@@ -91,7 +91,7 @@ class ReadDumpFile:
         try:
             while True and count <= ncount:
                 sarr, cell_vector, itime, cols  = self.GetCordsTimeStep( slist ) #--- get coord
-
+                pdb.set_trace()
                 #--- insert in a data frame
                 self.coord_atoms_broken[ itime ] = pd.DataFrame( np.c_[sarr].astype('float'), columns = cols )
 
