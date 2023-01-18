@@ -385,13 +385,13 @@ def PltErr( xdata, ydata,
     if not 'ax' in kwargs:
         fig = plt.figure( figsize = (4,4) if 'figsize' not in kwargs else kwargs['figsize'] )
         ax = fig.add_subplot(111)
-        ax.count = 0
+#        ax.count = 0
         ax.markerss=['o','s','D','^','<','>','v']
 
 #        ax.set_prop_cycle(marker=['o', '+', 'x', '*', '.', 'X'])
     else:
         ax = kwargs['ax']
-        ax.count += 1
+#        ax.count += 1
 
         if 'twinx' in kwargs and kwargs['twinx']:
                 ax = kwargs['ax'].twinx()
@@ -412,7 +412,7 @@ def PltErr( xdata, ydata,
                     label=kwargs['label'] if 'label' in kwargs else '',
                     markevery=kwargs['markevery'] if 'markevery' in kwargs else 1,
                     markersize=kwargs['markersize'] if 'markersize' in kwargs else 10,
-                    marker=kwargs['marker'] if 'marker' in kwargs else ax.markerss[(ax.count)%7],
+                    marker=kwargs['marker'] if 'marker' in kwargs else 'o', #ax.markerss[(ax.count)%7],
                    )
 
     #--- plot
