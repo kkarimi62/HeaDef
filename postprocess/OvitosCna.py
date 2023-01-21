@@ -2,7 +2,7 @@ import sys
 import ovito
 import ovito.modifiers as md
 import numpy as np
-import ovito.io as io #import import_file
+import ovito.io as io 
 from ovito.vis import Viewport, TachyonRenderer, RenderSettings
 from ovito.data import CutoffNeighborFinder
 import math
@@ -223,6 +223,13 @@ if AnalysisType == 3:
 
 if AnalysisType == 5: 
     io.export_file( pipeline, '%s.*'%OutputFile, "ca",
+                     start_frame = 0,
+#                     end_frame = pipeline.source.num_frames,
+                     every_nth_frame = nevery,
+                    multiple_frames=True 
+                  )   
+    io.export_file( pipeline, '%s.xyz'%OutputFile, "lammps_dump",
+                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z","Structure Type",],
                      start_frame = 0,
 #                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
