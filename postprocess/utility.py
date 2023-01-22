@@ -20,9 +20,12 @@ from sklearn import linear_model, mixture
 import sklearn.mixture as skm
 from scipy import optimize
 import scipy
+from scipy import ndimage
+from scipy.ndimage import gaussian_filter
 import re
 from functools import reduce
 import time
+import LammpsPostProcess2nd as lp
 #
 warnings.filterwarnings('ignore')
 
@@ -1333,6 +1336,22 @@ def FilterDataFrame(df,key='id',val=[1,2,3]): #,out='C66'):
     tmp0 = df.set_index(key,drop=True,append=False).loc[val]
     return tmp0.reset_index() #.reindex(range(len(tmp0)))
 
+def Get2dSlice( value, zlin, zc, nzll=[0] ):
+        #--- get xy plane
+#    zc=0.5*(zlin[0]+zlin[-1])
+    dz = zlin[-1]-zlin[-2]
+    lz = zlin[-1]-zlin[0]
+    nz = len(zlin)
+    #
+    zz = zc #zlin[-1] #zc #zlin[-1] #--- arbitrary plane
+    nzz=int(nz*(zz-zlin[0])/lz)
+#    print(nzz,nz)
+    if nzz == nz: nzz -= 1
+    val = value[:,:,nzz].copy()
+    #
+    nzll[0] = nzz
+    return val
+
 def Intrp( d2min, box0, attr, Plot = None, title = 'test.png',**kwargs ):
     #--- mean dist between atoms 
     natoms = len( d2min.x ) 
@@ -1362,7 +1381,8 @@ def Intrp( d2min, box0, attr, Plot = None, title = 'test.png',**kwargs ):
     points = np.c_[d2exp.xm,d2exp.ym,d2exp.zm] #--- unstructured points
     values = np.array(d2exp[attr]) #(np.array(d2exp.C66)+np.array(d2exp.C55)+np.array(d2exp.C44))/3.0 #np.c_[-(np.array(d2exp.sxx)+np.array(d2exp.syy)+np.array(d2exp.szz))/3.0/np.array(d2exp.AtomicVolume)] #--- corresponding values
 #    pdb.set_trace()
-    grid_z = scp_int.griddata(points, values, xi, method='linear')
+    method = kwargs['method'] if 'method' in kwargs else 'linear'
+    grid_z = scp_int.griddata(points, values, xi, method=method)
     assert not np.any(np.isnan(grid_z.flatten())), 'increase ev!'
 
     #--- make an object
@@ -1397,4 +1417,152 @@ def Intrp( d2min, box0, attr, Plot = None, title = 'test.png',**kwargs ):
 
 #    return (xlin, ylin, zlin), (xv[:,:,nzz], yv[:,:,nzz], zv[:,:,nzz]), d2intrp
     return (xlin, ylin, zlin), (xv, yv, zv), d2intrp
+
+def PltBinary(xlin,ylin,zlin, 
+              val,
+              box0,
+              thresh = 0.0,
+              **kwargs
+             ):
+    #--- reshape value
+    (nx,ny,nz) = len(xlin), len(ylin),len(zlin) 
+    value = np.c_[val].reshape(((ny,nx,nz)))
+
+    #--- mean & variance
+
+    #--- xy plane
+    #--- 2d slice
+    nzl=[0]
+    value2d = Get2dSlice( value, zlin, 
+                        zlin[-1], nzll=nzl  )
+
+    #--- square bitmap
+    lx=np.min([xlin[-1]-xlin[0],ylin[-1]-ylin[0]])
+    xc = 0.5*(xlin[-1]+xlin[0])
+    yc = 0.5*(ylin[-1]+ylin[0])                  
+    
+    #--- plot
+    CellVectorOrtho, VectorNorm = lp.GetOrthogonalBasis( box0.CellVector ) #--- box length
+    Plot = True if not 'Plot' in kwargs else kwargs['Plot']
+    if Plot:
+        PltBitmap(value2d<thresh, 
+#              xlim=VectorNorm[0]*np.array([-0.5,0.5]),ylim=VectorNorm[1]*np.array([-0.5,0.5]),
+              xlim=np.array([xc-0.5*lx,xc+0.5*lx]),ylim=np.array([yc-0.5*lx,yc+0.5*lx]),
+              frac = 1.0, #--- plot a patch
+              **kwargs
+            )
+    return value
+
+class Stats:
+    #--------------------------
+    #--- cluster statistics
+    #--------------------------
+    def __init__( self, mask, xlin, ylin, zlin,
+              verbose = False ):
+        self.mask = mask
+        self.xlin = xlin
+        self.ylin = ylin
+        self.zlin = zlin
+#        if verbose:
+#            print('p=%s\npinf=%s\nsmean=%s\nsi_sq=%s'%(p,pinf,smean,crltnl_sq))
+        
+    def GetProbInf(self):
+#        percCount = self.stats[self.stats['percTrue']==True].shape[0]
+#        self.pinf0 = 1.0*percCount/self.stats.shape[0]
+        
+        self.pinf = (self.stats['percTrue'] * self.stats['size']).sum()/self.stats['size'].sum()
+#        print(self.pinf0,self.pinf)
+    #--- p
+    def GetProb(self):
+        (ny,nx,nz) = self.mask.shape
+        nsize = nx*ny*nz
+        self.p = 1.0*self.mask.sum()/nsize #--- occupation prob.
+
+    #--- <s^2>/<s>
+    def GetSmean(self):
+        self.smean = (self.stats['size']*self.stats['size']).sum()/self.stats['size'].sum()
+    #--- correlation length
+    def GetCrltnLenSq(self):
+        self.si_sq = 2*(self.stats['rg_sq']*self.stats['size'] * self.stats['size']).sum()/\
+                  (self.stats['size'] * self.stats['size']).sum()       
+
+    def isPercolating(self,sliceX,sliceY,sliceZ,size):
+        (ny,nx,nz)=size
+        #
+        xlo = sliceX.start
+        xhi = sliceX.stop
+        assert xhi - xlo <= nx
+        #    
+        ylo = sliceY.start
+        yhi = sliceY.stop
+        assert yhi - ylo <= ny
+        #    
+        zlo = sliceZ.start
+        zhi = sliceZ.stop
+        assert zhi - zlo <= nz
+        #
+        return xhi - xlo == nx or yhi - ylo == ny or zhi - zlo == nz
+
+    def GetSize(self):
+        #--- clusters
+        label_im, nb_labels = ndimage.label(self.mask)
+        self.label_im = label_im
+        #--- cluster bounds
+        sliced=ndimage.find_objects(label_im,max_label=0)
+    #    sliceX = sliced[0][1]
+    #    sliceY = sliced[0][0]
+    #    sliceZ = sliced[0][2]
+    #    isPercolating(sliceX,sliceY,sliceZ,mask.shape)
+    #
+        #--- percolation
+        percTrue = list(map(lambda x:self.isPercolating(x[1],x[0],x[2],self.mask.shape),sliced))    
+        assert len( percTrue ) == nb_labels
+
+        #--- geometry
+        xc = ndimage.measurements.center_of_mass(self.mask, label_im,np.arange(1, nb_labels+1)) #--- (yc,xc,zc)
+
+        (ny,nx,nz) = self.mask.shape
+        xv,yv,zv=np.meshgrid(range(nx),range(ny),range(nz))
+        xc=ndimage.mean(xv, label_im, np.arange(1, nb_labels+1))
+        yc=ndimage.mean(yv, label_im, np.arange(1, nb_labels+1))
+        zc=ndimage.mean(zv, label_im, np.arange(1, nb_labels+1))
+        varx=ndimage.variance(xv, label_im, np.arange(1, nb_labels+1))
+        vary=ndimage.variance(yv, label_im, np.arange(1, nb_labels+1))
+        varz=ndimage.variance(zv, label_im, np.arange(1, nb_labels+1))
+        #---
+        dx = self.xlin[1]-self.xlin[0]
+        dy = self.ylin[1]-self.ylin[0]
+        dz = self.zlin[1]-self.zlin[0]
+        radg_sq = varx * dx * dx + vary * dy * dy + varz * dz * dz
+        #
+        ones = np.ones(nx*ny*nz).reshape(ny,nx,nz)
+        size=ndimage.sum(ones, label_im, np.arange(1, nb_labels+1)) * dx * dy * dz
+
+
+        #--- postprocess
+        df=pd.DataFrame(np.c_[label_im.flatten()],columns=['id'])
+        sdict=df.groupby(by='id').groups
+
+    #    pdb.set_trace()
+        df_cls = pd.DataFrame(np.c_[list(sdict.keys()),
+    #                                list(map(lambda x:len(sdict[x]),sdict.keys()))
+                                   ],columns=['cls_id'])
+
+        #--- sort based on id
+        df_cls.sort_values('cls_id',ascending=True,inplace=True)
+        df_cls = df_cls.iloc[1:] #--- remove label 0
+
+        #--- append percTrue
+#        df_cls=pd.DataFrame(np.concatenate((np.c_[df_cls],np.c_[size],np.c_[radg_sq],np.c_[percTrue]),axis=1, dtype=np.object), columns=['cls_id','size','rg_sq','percTrue'])
+        df_cls=pd.DataFrame(np.concatenate((np.c_[df_cls],np.c_[size],np.c_[radg_sq],np.c_[percTrue]),axis=1), columns=['cls_id','size','rg_sq','percTrue'])
+#        pdb.set_trace()
+        #---
+        #--- sort based on size
+        df_cls.sort_values('size',ascending=False,inplace=True)
+
+
+        self.stats = df_cls
+
+    def Print(self,xpath,filee,x, header):
+            os.system('mkdir -p %s'%xpath)
 
