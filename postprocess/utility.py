@@ -1333,3 +1333,68 @@ def FilterDataFrame(df,key='id',val=[1,2,3]): #,out='C66'):
     tmp0 = df.set_index(key,drop=True,append=False).loc[val]
     return tmp0.reset_index() #.reindex(range(len(tmp0)))
 
+def Intrp( d2min, box0, attr, Plot = None, title = 'test.png',**kwargs ):
+    #--- mean dist between atoms 
+    natoms = len( d2min.x ) 
+    CellVectorOrtho, VectorNorm = lp.GetOrthogonalBasis( box0.CellVector )
+    volume = np.linalg.det( CellVectorOrtho )
+    dmean = 0.5*( volume / natoms ) ** (1.0/3.0) 
+
+
+    #--- grid tiling mapped box with original size
+    #--- values are interpolated onto this grid
+    (xlin, ylin, zlin), (xv, yv, zv) = lp.GetCubicGrid( box0.CellOrigin, 
+                                                     box0.CellVector, 
+                                                     dmean,
+                                                     margin = 0.0 * dmean )
+    xi = np.array(list(zip(xv.flatten(), yv.flatten(), zv.flatten())))
+
+    #--- expand the original box
+        #--- map to square box
+    mapp = lp.Map( d2min, box0 ) 
+    mapp.ChangeBasis()
+    mapp.Set( d2min ) #--- atoms: add mapped xyz
+
+    cptmp = lp.Copy(d2min, box0) #--- important: must be reference frame!!
+    cptmp.Expand( epsilon = 0.2, mode = 'isotropic' )
+    d2exp = cptmp.Get()
+
+    points = np.c_[d2exp.xm,d2exp.ym,d2exp.zm] #--- unstructured points
+    values = np.array(d2exp[attr]) #(np.array(d2exp.C66)+np.array(d2exp.C55)+np.array(d2exp.C44))/3.0 #np.c_[-(np.array(d2exp.sxx)+np.array(d2exp.syy)+np.array(d2exp.szz))/3.0/np.array(d2exp.AtomicVolume)] #--- corresponding values
+#    pdb.set_trace()
+    grid_z = scp_int.griddata(points, values, xi, method='linear')
+    assert not np.any(np.isnan(grid_z.flatten())), 'increase ev!'
+
+    #--- make an object
+    d2intrp = lp.Atoms(**pd.DataFrame(np.c_[xi,grid_z],columns=['x','y','z',attr]).to_dict(orient='series'))
+
+    #--- reshape value
+    nx,ny,nz = len(xlin), len(ylin),len(zlin) 
+    value = np.c_[d2intrp[attr]].reshape(((ny,nx,nz)))
+
+    CellVectorOrtho, VectorNorm = lp.GetOrthogonalBasis( box0.CellVector ) #--- box length
+
+    #--- xy plane
+    #--- 2d slice
+    nzl=[0]
+    val = Get2dSlice( value, zlin, 
+                        zlin[-1], nzll=nzl  )
+    nzz=nzl[0]
+        #
+    #--- square bitmap
+    lx=np.min([xlin[-1]-xlin[0],ylin[-1]-ylin[0]])
+    xc = 0.5*(xlin[-1]+xlin[0])
+    yc = 0.5*(ylin[-1]+ylin[0])
+
+    if Plot:
+        PltBitmap(val, 
+#                  xlim=VectorNorm[0]*np.array([-0.5,0.5]),ylim=VectorNorm[1]*np.array([-0.5,0.5]),
+                  xlim=np.array([xc-0.5*lx,xc+0.5*lx]),ylim=np.array([yc-0.5*lx,yc+0.5*lx]),
+                  frac = 1.0, #--- plot a patch
+                  title = title,
+                  **kwargs
+                )
+
+#    return (xlin, ylin, zlin), (xv[:,:,nzz], yv[:,:,nzz], zv[:,:,nzz]), d2intrp
+    return (xlin, ylin, zlin), (xv, yv, zv), d2intrp
+
