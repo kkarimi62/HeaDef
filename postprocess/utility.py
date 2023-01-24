@@ -455,6 +455,13 @@ def PltErr( xdata, ydata,
     #
     if 'legend' in kwargs:
         plt.legend(**kwargs['legend'])
+	#
+    if 'halfopen' in kwargs and kwargs['halfopen']:
+        ax.spines['right'].set_visible(False) #--- half open
+        ax.spines['top'].set_visible(False)
+        ax.xaxis.set_ticks_position('bottom')
+        ax.yaxis.set_ticks_position('left')
+
     if 'title' in kwargs: #Plot:
         plt.savefig(kwargs['title'],dpi=300 if not 'dpi' in kwargs else kwargs['dpi'],bbox_inches='tight', 
                     pad_inches=0.0)
