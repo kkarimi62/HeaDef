@@ -1573,3 +1573,13 @@ class Stats:
     def Print(self,xpath,filee,x, header):
             os.system('mkdir -p %s'%xpath)
 
+
+
+def SetDataFrameByValue(df, key='id', key_vals=[1,2,3], value='StructureType', value_vals=[1,1,1]):
+    df_0 = utl.FilterDataFrame(df, key=key, val=key_vals)
+    df_0[value] = value_vals
+#    pdb.set_trace()
+    other_vals = set(df.id) - set(key_vals)
+    df_1 = utl.FilterDataFrame(df, key=key, val=list(other_vals))
+    df_merge = np.concatenate([df_0,df_1])
+    return pd.DataFrame(np.c_[df_merge],columns=list(df_0.keys()))
