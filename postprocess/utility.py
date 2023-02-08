@@ -1364,7 +1364,7 @@ def Intrp( d2min, box0, attr, Plot = None, title = 'test.png',**kwargs ):
     natoms = len( d2min.x ) 
     CellVectorOrtho, VectorNorm = lp.GetOrthogonalBasis( box0.CellVector )
     volume = np.linalg.det( CellVectorOrtho )
-    dmean = 0.5*( volume / natoms ) ** (1.0/3.0) 
+    dmean = 0.5*( volume / natoms ) ** (1.0/3.0) if not 'dx' in kwargs else kwargs['dx']
 
 
     #--- grid tiling mapped box with original size
@@ -1510,10 +1510,63 @@ class Stats:
         #
         return xhi - xlo == nx or yhi - ylo == ny or zhi - zlo == nz
 
+    def covarianceMat(self):
+        '''
+        returns co-variance matrix corresponding to each cluster
+        '''
+        (ny,nx,nz) = self.mask.shape
+        self.xv,self.yv,self.zv=np.meshgrid(range(nx),range(ny),range(nz))
+
+
+        labels = np.arange(1, self.nb_labels+1)
+        covar_mat = np.c_[list(map(lambda x:self.GetcoVar(x),labels))]
+        self.covar_mat = pd.DataFrame(np.c_[labels,covar_mat],columns='label xx xy xz yy yz zz'.split())
+    #        xc=ndimage.mean(xv, label_im, np.arange(1, nb_labels+1))
+    #        yc=ndimage.mean(yv, label_im, np.arange(1, nb_labels+1))
+    #        zc=ndimage.mean(zv, label_im, np.arange(1, nb_labels+1))
+
+    def GetcoVar(self,cls_label):
+    #		cls_label = 1
+        filtr = self.label_im == cls_label
+
+        count = np.sum(filtr)
+
+        xmean = np.mean(self.xv[filtr])
+        ymean = np.mean(self.yv[filtr])
+        zmean = np.mean(self.zv[filtr])
+
+        varxy = np.sum((self.xv[filtr] - xmean)*(self.yv[filtr] - ymean)) / count
+        varxz = np.sum((self.xv[filtr] - xmean)*(self.zv[filtr] - zmean)) / count
+        varyz = np.sum((self.yv[filtr] - ymean)*(self.zv[filtr] - zmean)) / count
+
+        varxx = np.var(self.xv[filtr].flatten())
+        varyy = np.var(self.yv[filtr].flatten())
+        varzz = np.var(self.zv[filtr].flatten())
+
+        return np.array([varxx,varxy,varxz,varyy,varyz,varzz])
+
+    def Orientation(self):
+        '''
+        returns cluster orientation
+        '''
+        ans = np.c_[list(map(lambda x:Stats.Diagonalize(self.covar_mat.iloc[x]),range(self.nb_labels)))]
+        labels = np.c_[list(map(lambda x:self.covar_mat.iloc[x]['label'],range(self.nb_labels)))] 
+        self.orientation = pd.DataFrame(np.c_[labels,ans],columns='label nx ny nz'.split())
+		
+
+    @staticmethod
+    def Diagonalize(a):
+        amat = np.array([[a.xx,a.xy,a.xz],[a.xy,a.yy,a.yz],[a.xz,a.yz,a.zz]])
+        w, v = np.linalg.eigh(amat)
+        assert w[0] <= w[1] and w[0] <= w[2], 'not sorted!'
+        return v[:, 0]
+
     def GetSize(self):
         #--- clusters
         label_im, nb_labels = ndimage.label(self.mask)
+#        assert nb_labels > 1, 'nb_labels == 0!'
         self.label_im = label_im
+        self.nb_labels = nb_labels
         #--- cluster bounds
         sliced=ndimage.find_objects(label_im,max_label=0)
     #    sliceX = sliced[0][1]
@@ -1544,24 +1597,28 @@ class Stats:
         #
         ones = np.ones(nx*ny*nz).reshape(ny,nx,nz)
         size=ndimage.sum(ones, label_im, np.arange(1, nb_labels+1)) * dx * dy * dz
+		#--- orientation
+        self.covarianceMat()
+        self.Orientation()
 
 
         #--- postprocess
-        df=pd.DataFrame(np.c_[label_im.flatten()],columns=['id'])
-        sdict=df.groupby(by='id').groups
+#        df=pd.DataFrame(np.c_[label_im.flatten()],columns=['id'])
+#        sdict=df.groupby(by='id').groups
 
     #    pdb.set_trace()
-        df_cls = pd.DataFrame(np.c_[list(sdict.keys()),
+#        df_cls = pd.DataFrame(np.c_[list(sdict.keys()),
     #                                list(map(lambda x:len(sdict[x]),sdict.keys()))
-                                   ],columns=['cls_id'])
+ #                                  ],columns=['cls_id'])
 
         #--- sort based on id
-        df_cls.sort_values('cls_id',ascending=True,inplace=True)
-        df_cls = df_cls.iloc[1:] #--- remove label 0
+#        df_cls.sort_values('cls_id',ascending=True,inplace=True)
+#        df_cls = df_cls.iloc[1:] #--- remove label 0
 
         #--- append percTrue
 #        df_cls=pd.DataFrame(np.concatenate((np.c_[df_cls],np.c_[size],np.c_[radg_sq],np.c_[percTrue]),axis=1, dtype=np.object), columns=['cls_id','size','rg_sq','percTrue'])
-        df_cls=pd.DataFrame(np.concatenate((np.c_[df_cls],np.c_[size],np.c_[radg_sq],np.c_[percTrue]),axis=1), columns=['cls_id','size','rg_sq','percTrue'])
+#        df_cls=pd.DataFrame(np.concatenate((np.c_[df_cls],np.c_[size],np.c_[radg_sq],np.c_[percTrue]),axis=1), columns=['cls_id','size','rg_sq','percTrue'])
+        df_cls=pd.DataFrame(np.c_[np.arange(1, nb_labels+1),size,radg_sq,percTrue,self.orientation[['nx','ny','nz']]], columns='cls_id size rg_sq percTrue nx ny nz'.split())
 #        pdb.set_trace()
         #---
         #--- sort based on size
