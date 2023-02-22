@@ -107,7 +107,6 @@ if AnalysisType == 5:
                                          )
     disl.input_crystal_structure = md.DislocationAnalysisModifier.Lattice.FCC
     pipeline.modifiers.append(disl)
-#    pdb.set_trace()
 
 
 for frame in range(0,pipeline.source.num_frames,nevery):
@@ -222,6 +221,8 @@ if AnalysisType == 3:
                   )   
 
 if AnalysisType == 5: 
+	# data.particle_properties['Cluster'].array
+#    pdb.set_trace()
     io.export_file( pipeline, '%s.*'%OutputFile, "ca",
                      start_frame = 0,
 #                     end_frame = pipeline.source.num_frames,
@@ -229,7 +230,7 @@ if AnalysisType == 5:
                     multiple_frames=True 
                   )   
     io.export_file( pipeline, '%s.xyz'%OutputFile, "lammps_dump",
-                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z","Structure Type",],
+                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z","Structure Type","Cluster"],
                      start_frame = 0,
 #                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
