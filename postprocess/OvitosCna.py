@@ -41,6 +41,8 @@ if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
 #        print(atom_indices)
 if AnalysisType == 7:
 	OutputFile_headers = sys.argv[5] 
+if AnalysisType == 5:
+    pbc_true = bool(sys.argv[5]) 
     
 print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
@@ -59,7 +61,7 @@ if AnalysisType == 0:
     pipeline.modifiers.append(cna)
 
 if AnalysisType == 9:
-    pim = md.ShowPeriodicImagesModifier(adjust_box=True,unique_ids=False,replicate_x=True,replicate_y=True,replicate_z=True)
+    pim = md.ShowPeriodicImagesModifier(adjust_box=True,unique_ids=True,replicate_x=True,replicate_y=True,replicate_z=True)
     pipeline.modifiers.append(pim)
 
 #apply modifier
@@ -105,12 +107,14 @@ if AnalysisType == 4 or AnalysisType == 6:
     sfile = open(OutputFile,'ab')
 
 if AnalysisType == 5:
+#    ovito.data.SimulationCell(pbc=(False,False,False))
     disl = md.DislocationAnalysisModifier(line_coarsening_enabled=False,
                                          line_smoothing_enabled=False,
                                          )
     disl.input_crystal_structure = md.DislocationAnalysisModifier.Lattice.FCC
     pipeline.modifiers.append(disl)
-
+    if not pbc_true:
+        pipeline.source.cell.pbc=(False, False, False)
 
 for frame in range(0,pipeline.source.num_frames,nevery):
     # This loads the input data for the current frame and
@@ -123,7 +127,6 @@ for frame in range(0,pipeline.source.num_frames,nevery):
     except:
         pass
 #    print(itime)
-    
     if AnalysisType == 1:
         sfile.write('#ITIME\n%s\n'%itime)
         np.savetxt(sfile, cnm.rdf, header='r\tg(r)')

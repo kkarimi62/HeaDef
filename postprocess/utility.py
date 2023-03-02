@@ -723,7 +723,7 @@ def PrintOvito( cordc, sfile, footer, attr_list=['x','y','z'] ):
     smat = cordc[attr_list]
     np.savetxt(sfile,[len(smat)],fmt='%s', footer='%s, %s'%(footer,str(attr_list)))
     np.savetxt(sfile,smat,fmt='%s')
-    sfile.close()
+#    sfile.close()
     
 def PltBitmap( value,
               xlabel = 'x', ylabel = 'y',
