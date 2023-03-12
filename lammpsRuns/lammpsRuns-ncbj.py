@@ -124,8 +124,8 @@ if __name__ == '__main__':
 				6:[ 4 ], #--- anneal irradiated
 			  }[6]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
-	Variables = list(map(lambda x:Variable[x], indices))
-	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
+#	Variables = list(map(lambda x:Variable[x], indices))
+	EXEC = list(map(lambda x:np.array(['lmp_g++_openmpi','py','kmc'])[[ type(x) == type(0), type(x) == type(''), type(x) == type(1.0) ]][0], indices))	
 	#
 	EXEC_lmp = ['lmp_g++_openmpi'][0]
 	durtn = ['95:59:59','23:59:59','167:59:59'][ 1 ]
