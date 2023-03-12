@@ -12,8 +12,11 @@ pair_coeff              * * ${PathEam}/NiCoCr.lammps.eam Ni Co Cr
 #pair_coeff                * * ${PathEam}/Cu_u3.eam 
 
 # Setup neighbor style
-neighbor 1.0 nsq
-neigh_modify once no every 1 delay 0 check yes
+#neighbor 1.0 nsq
+#neigh_modify once no every 1 delay 0 check yes
+
+neighbor 2.0 bin
+neigh_modify every 1 delay 0 check yes
 
 # Setup minimization style
 min_style	     cg

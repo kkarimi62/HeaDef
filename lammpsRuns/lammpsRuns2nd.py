@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = [1,4,9][1]
+	nThreads = [1,4,9][9]
 	nNode	 = 1
 	#
 	jobname  = {
@@ -37,7 +37,8 @@ if __name__ == '__main__':
 				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-4Annealed',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
-			   }[1]
+				10:'NiCoCrNatom100KTemp300KAnnealed',
+			   }[10]
 	sourcePath = os.getcwd() +\
 				{	
 					1:'/../postprocess/NiCoCrNatom1K',
@@ -50,7 +51,8 @@ if __name__ == '__main__':
 					8:'/NiCoCrNatom200KTemp600', 
 					9:'/NiNatom1KT0EdgeDisl',
 					10:'/NiCoCrNatom10KT0Elastic',
-				}[4] #--- must be different than sourcePath
+					11:'/JavierData/nicocr/dpa2',
+				}[11] #--- must be different than sourcePath
         #
 	sourceFiles = { 0:False,
 					1:['Equilibrated_300.dat'],
@@ -58,7 +60,8 @@ if __name__ == '__main__':
 					3:['data.txt'], 
 					4:['data_minimized.txt'],
 					5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
-				 }[0] #--- to be copied from the above directory
+					6:['data_irradiated.dat'], 
+				 }[6] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
@@ -92,9 +95,9 @@ if __name__ == '__main__':
 	Variable = {
 				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 				6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.1 -var GammaDot 1.0e-05 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
-				4:' -var T 600.0 -var t_sw 20.0 -var DataFile Equilibrated_600.dat -var nevery 1000 -var ParseData 1 -var WriteData swapped_600.dat', 
+				4:' -var T 300.0 -var t_sw 20.0 -var DataFile data_irradiated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped_300.dat', 
 				5:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
-				7:' -var buff 0.0 -var buffy 5.0 -var T 5.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_5K.dat',
+				7:' -var buff 0.0 -var buffy 0.0 -var T 600.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600K.dat',
 				71:' -var buff 0.0 -var buffy 0.0 -var T 0.1 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
 				11:' -var buff 0.0 -var buffy 5.0 -var T 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_5K.dat',
 				8:' -var buff 0.0 -var buffy 0.0 -var T 5.0 -var sigm 1.0 -var sigmdt 0.0001 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
@@ -113,7 +116,8 @@ if __name__ == '__main__':
 				3:[5,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
 				4:['p2',5,7,4,71,8], #--- put disc. by atomsk, minimize, thermalize, anneal, thermalize, and shear
 				5:['p3', 5, 11, 6], #--- twin boundary by atomsk, minimize, thermalize, and shear
-			  }[5]
+				6:[ 4 ], #--- anneal irradiated
+			  }[6]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
