@@ -95,22 +95,24 @@ if __name__ == '__main__':
 					'p3':'twinBoundaries.py',
 				} 
 	#
-	Variable = {
-				0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
-				6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.1 -var GammaDot 1.0e-05 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
-				4:' -var T 300.0 -var t_sw 20.0 -var DataFile data_irradiated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped_300.dat', 
-				5:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
-				7:' -var buff 0.0 -var buffy 0.0 -var T 600.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600K.dat',
-				71:' -var buff 0.0 -var buffy 0.0 -var T 0.1 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
-				11:' -var buff 0.0 -var buffy 5.0 -var T 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_5K.dat',
-				8:' -var buff 0.0 -var buffy 0.0 -var T 5.0 -var sigm 1.0 -var sigmdt 0.0001 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
-				9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
-				10:' -var ParseData 1 -var DataFile swapped_600.dat',
-				'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
-				'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
-				'p2':' %s 3.52 135.0 67.0 135.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
-				'p3':' %s 3.52 35.0 20.0 20.0 data.txt'%(os.getcwd()+'/../postprocess'),
-				} 
+	def SetVariables():
+		Variable = {
+					0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
+					6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.1 -var GammaDot 1.0e-05 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
+					4:' -var T 300.0 -var t_sw 20.0 -var DataFile data_irradiated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped_300.dat', 
+					5:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
+					7:' -var buff 0.0 -var buffy 0.0 -var T 600.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600K.dat',
+					71:' -var buff 0.0 -var buffy 0.0 -var T 0.1 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
+					11:' -var buff 0.0 -var buffy 5.0 -var T 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_5K.dat',
+					8:' -var buff 0.0 -var buffy 0.0 -var T 5.0 -var sigm 1.0 -var sigmdt 0.0001 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
+					9:' -var natoms 1000 -var cutoff 3.52 -var ParseData 1',
+					10:' -var ParseData 1 -var DataFile swapped_600.dat',
+					'p0':' swapped_600.dat 10.0 %s'%(os.getcwd()+'/../postprocess'),
+					'p1':' swapped_600.dat ElasticConst.txt DumpFileModu.xyz %s'%(os.getcwd()+'/../postprocess'),
+					'p2':' %s 3.52 135.0 67.0 135.0 data.txt 5'%(os.getcwd()+'/../postprocess'),
+					'p3':' %s 3.52 35.0 20.0 20.0 data.txt'%(os.getcwd()+'/../postprocess'),
+					} 
+		return Variable
 	#--- different scripts in a pipeline
 	indices = {
 				0:['p2',5,7,8], #--- put disc. by atomsk, minimize, thermalize, and shear
