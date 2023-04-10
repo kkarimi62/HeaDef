@@ -16,7 +16,10 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv):
 	print('#!/bin/bash\n',file=someFile)
 	print('EXEC_DIR=%s\n'%( EXEC_DIR ),file=someFile)
 #	print >> someFile, 'papermill --prepare-only %s/%s ./output.ipynb %s %s'%(EXEC_DIR,PYFIL,argv,argv2nd) #--- write notebook with a list of passed params
-	print('jupyter nbconvert --execute $EXEC_DIR/%s --to html --ExecutePreprocessor.timeout=-1 --ExecutePreprocessor.allow_errors=True;ls output.html'%(PYFIL), file=someFile)
+	if convert_to_py:
+		print('ipython3 py_script.py\n',file=someFile)
+	else:	 
+		print('jupyter nbconvert --execute $EXEC_DIR/%s --to html --ExecutePreprocessor.timeout=-1 --ExecutePreprocessor.allow_errors=True;ls output.html'%(PYFIL), file=someFile)
 	someFile.close()										  
 #
 if __name__ == '__main__':
@@ -35,12 +38,14 @@ if __name__ == '__main__':
 					9:'NiCoCrNatom1KT0Elastic',
 					10:'FeNiT300Elasticity',
 					11:'NiCoCrNatom100KTemp800sroFarkas',
-				}[11]
+					12:'indentation',
+				}[12]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
 								2:'/../lammpsRuns/AmirData/farkas', #--- source
-							}[2]
+								3:'/../lammpsRuns/AmirData/indentation', #--- source
+							}[3]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
 	mem = '512gb'
@@ -52,10 +57,14 @@ if __name__ == '__main__':
 		3:'pressFluc2nd.ipynb',
 		}
 	keyno = 3
+	convert_to_py = True
 #---
 #---
 	PYFIL = PYFILdic[ keyno ] 
 	#--- update argV
+	if convert_to_py:
+		os.system('jupyter nbconvert --to script %s --output py_script\n'%PYFIL)
+		PYFIL = 'py_script.py'
 	#---
 	if DeleteExistingFolder:
 		os.system( 'rm -rf %s' % jobname ) # --- rm existing

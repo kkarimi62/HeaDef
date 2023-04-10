@@ -42,7 +42,7 @@ if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
 if AnalysisType == 7:
 	OutputFile_headers = sys.argv[5] 
 if AnalysisType == 5:
-    pbc_true = bool(sys.argv[5]) 
+    pbc_false = int(sys.argv[5]) 
     
 print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
@@ -113,7 +113,8 @@ if AnalysisType == 5:
                                          )
     disl.input_crystal_structure = md.DislocationAnalysisModifier.Lattice.FCC
     pipeline.modifiers.append(disl)
-    if not pbc_true:
+    if pbc_false:
+        print('pbc_false')
         pipeline.source.cell.pbc=(False, False, False)
 
 for frame in range(0,pipeline.source.num_frames,nevery):
