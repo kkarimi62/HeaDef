@@ -15,6 +15,7 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv):
 	someFile = open( 'oarScript.sh', 'w' )
 	print('#!/bin/bash\n',file=someFile)
 	print('EXEC_DIR=%s\n'%( EXEC_DIR ),file=someFile)
+	print('module load python/anaconda3-2018.12\nsource /global/software/anaconda/anaconda3-2018.12/etc/profile.d/conda.sh\nconda activate gnnEnv2nd '%( EXEC_DIR ),file=someFile)
 #	print >> someFile, 'papermill --prepare-only %s/%s ./output.ipynb %s %s'%(EXEC_DIR,PYFIL,argv,argv2nd) #--- write notebook with a list of passed params
 	if convert_to_py:
 		print('ipython3 py_script.py\n',file=someFile)
