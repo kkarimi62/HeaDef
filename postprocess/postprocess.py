@@ -41,14 +41,16 @@ if __name__ == '__main__':
 					11:'NiCoCrNatom100KTemp800sroFarkas',
 					12:'indentation2nd',
 					13:'compression',
-				}[13]
+					14:'tension',
+				}[14]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
 								2:'/../lammpsRuns/AmirData/farkas', #--- source
 								3:'/../lammpsRuns/AmirData/indentation', #--- source
 								4:'/../lammpsRuns/AmirData/compression', #--- source
-							}[4]
+								5:'/../lammpsRuns/AmirData/tension', #--- source
+							}[5]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
 	mem = '512gb'
