@@ -41,7 +41,7 @@ if __name__ == '__main__':
 					11:'NiCoCrNatom100KTemp800sroFarkas',
 					12:'indentation2nd',
 					13:'compression',
-					14:'tension',
+					14:'tension2nd',
 				}[14]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
