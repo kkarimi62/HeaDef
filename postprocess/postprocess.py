@@ -46,7 +46,7 @@ if __name__ == '__main__':
 					16:'anneled_before_compression',
 					17:'RSS_before_indentation',
 					18:'RSS_compressed',
-				}[16]
+				}[15]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
@@ -58,7 +58,7 @@ if __name__ == '__main__':
 								16:'/../lammpsRuns/AmirData/anneled_before_compression',
 								17:'/../lammpsRuns/AmirData/RSS_before_indentation',
 								18:'/../lammpsRuns/AmirData/RSS_compressed',
-							}[16]
+							}[15]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
 	mem = '512gb'
