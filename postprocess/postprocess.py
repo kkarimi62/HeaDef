@@ -42,15 +42,23 @@ if __name__ == '__main__':
 					12:'indentation2nd',
 					13:'compression',
 					14:'tension2nd',
-				}[14]
+					15:'Annealed_before_indentation',
+					16:'anneled_before_compression',
+					17:'RSS_before_indentation',
+					18:'RSS_compressed',
+				}[15]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
 								2:'/../lammpsRuns/AmirData/farkas', #--- source
 								3:'/../lammpsRuns/AmirData/indentation', #--- source
 								4:'/../lammpsRuns/AmirData/compression', #--- source
-								5:'/../lammpsRuns/AmirData/tension', #--- source
-							}[5]
+								5:'/../lammpsRuns/AmirData/tension', 
+								15:'/../lammpsRuns/AmirData/Annealed_before_indentation',
+								16:'/../lammpsRuns/AmirData/anneled_before_compression',
+								17:'/../lammpsRuns/AmirData/RSS_before_indentation',
+								18:'/../lammpsRuns/AmirData/RSS_compressed',
+							}[15]
 	EXEC_DIR = '.'     #--- path for executable file
 	durtn = '23:59:59'
 	mem = '512gb'
