@@ -8,6 +8,8 @@ include ${INC}/CreateBox.mod
 # ---------- Define Interatomic Potential --------------------- 
 include ${INC}/potential.mod
 
+change_box all ortho
+
 #------------------------------- Random number generator --------------------------------#
 
   # Initializes random number generator
