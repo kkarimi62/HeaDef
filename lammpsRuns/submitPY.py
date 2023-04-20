@@ -24,8 +24,8 @@ if __name__ == '__main__':
 	#---
 	count = 0
 	for keys_t in Temps:
-		temp = Temps[keys_t]
-			#--- write to
+					temp = Temps[keys_t]
+					#--- write to
 					inums = lnums[ 0 ] - 1
 					string[ inums ] = "\t\'3\':\'%snicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp%s\',\n"%(alloy,keys_t) #--- change job name
 
