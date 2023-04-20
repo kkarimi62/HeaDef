@@ -4,7 +4,7 @@ if __name__ == '__main__':
 	import numpy as np
 	#---
 	string=open('lammpsRuns-ncbj.py').readlines() #--- python script
-	lnums = [ 42, 103, 106   ]
+	lnums = [ 42, 103] #, 106   ]
 	#---
 
 	Temps  = {
@@ -27,13 +27,13 @@ if __name__ == '__main__':
 					temp = Temps[keys_t]
 					#--- write to
 					inums = lnums[ 0 ] - 1
-					string[ inums ] = "\t11:\'%snicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp%s\',\n"%(alloy,keys_t) #--- change job name
+					string[ inums ] = "\t11:\'%snicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp%s\',\n"%(alloy,keys_t) #--- change job name
 
 					inums = lnums[ 1 ] - 1
-					string[ inums ] = "\t4:\' -var T %s -var t_sw 20.0 -var DataFile Equilibrated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped.dat -var DUMP_FILE swapped.dump',\n"%(temp)					
+					string[ inums ] = "\t4:\' -var T %s -var t_sw 20.0 -var DataFile data_irradiated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped.dat -var DUMP_FILE swapped.dump',\n"%(temp)					
 
-					inums = lnums[ 2 ] - 1
-					string[ inums ] = "\t7:\' -var buff 0.0 -var buffy 0.0 -var T %s -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated.dat\',\n"%(temp)
+#					inums = lnums[ 2 ] - 1
+#					string[ inums ] = "\t7:\' -var buff 0.0 -var buffy 0.0 -var T %s -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated.dat\',\n"%(temp)
 
 			#---	read from
 #					inums = lnums[ 1 ] - 1
