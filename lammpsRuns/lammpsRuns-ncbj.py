@@ -135,7 +135,7 @@ if __name__ == '__main__':
 	mem = '16gb' #'22gb'
 	partition = ['INTEL_PHI'][0]
 	#---
-	DeleteExistingFolder = True
+	DeleteExistingFolder = False
 	if DeleteExistingFolder:
 		os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
