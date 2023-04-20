@@ -133,7 +133,7 @@ if __name__ == '__main__':
 	counter = 0
 	for irun in xrange( nruns ):
 #               cutoff = cutoffs[ irun ]
-		print ' i = %s' % counter
+		print(' i = %s' % counter)
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
 		if irun == 0: #--- cp to directory
