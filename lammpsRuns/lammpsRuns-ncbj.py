@@ -39,14 +39,14 @@ if __name__ == '__main__':
 				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-4Annealed',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
-				11:'nicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp0',
+				11:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
 			   }[11]
 	sourcePath = os.getcwd() +\
 				{	
+					0:'/junk',
 					1:'/../postprocess/NiCoCrNatom1K',
 					2:'/NiCoCrNatom100K',
 					3:'/NiCoCrNatom100KTemp300',
-					4:'/junk',
 					5:'/../postprocess/NiNatom1KEdgeDisl',
 					6:'/../postprocess/NiCoCrNatom1K', 
 					7:'/../postprocess/NiCoCrNatom1000K', 
@@ -54,7 +54,7 @@ if __name__ == '__main__':
 					9:'/NiNatom1KT0EdgeDisl',
 					10:'/NiCoCrNatom10KT0Elastic',
 					11:'/JavierData/nicocr/dpa2',
-				}[11] #--- must be different than sourcePath
+				}[0] #--- must be different than sourcePath
         #
 	sourceFiles = { 0:False,
 					1:['Equilibrated_300.dat'],
@@ -62,8 +62,8 @@ if __name__ == '__main__':
 					3:['data.txt'], 
 					4:['data_minimized.txt'],
 					5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
-					6:['data_irradiated.dat'], 
-				 }[6] #--- to be copied from the above directory
+					11:['data_irradiated.dat'], 
+				 }[0] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/mnt/home/kkarimi/Project/git/lammps-27May2021/src' #--- path for executable file
 	kmc_exec = '/mnt/home/kkarimi/Project/git/kart-master/src/KMCART_exec'
@@ -85,6 +85,7 @@ if __name__ == '__main__':
 					11:'in.thermalizeNVT', 
 					4:'in.vsgc', 
 					5:'in.minimization', 
+					51:'in.minimization', 
 					6:'in.shearDispTemp', 
 					8:'in.shearLoadTemp',
 					9:'in.elastic',
@@ -99,9 +100,10 @@ if __name__ == '__main__':
 		Variable = {
 					0:' -var natoms 100000 -var cutoff 3.52 -var ParseData 0  -var DumpFile dumpInit.xyz -var WriteData data_init.txt',
 					6:' -var buff 0.0  -var buffy 5.0 -var T 5.0 -var GammaXY 0.1 -var GammaDot 1.0e-05 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_5K.dat -var DumpFile dumpSheared.xyz',
-					4:' -var T 300.0 -var t_sw 20.0 -var DataFile data_irradiated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped.dat -var DUMP_FILE swapped.dump', 
-					5:' -var buff 0.0 -var buffy 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data.txt -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
-					7:' -var buff 0.0 -var buffy 0.0 -var T 600.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_600K.dat',
+					4:' -var T 300.0 -var t_sw 20.0 -var DataFile Equilibrated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped.dat -var DUMP_FILE swapped.dump', 
+					5:' -var buff 0.0 -var nevery 1000 -var ParseData 0 -var natoms 237120 -var ntype 3 -var cutoff 3.54  -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt -var seed0 %s -var seed1 %s -var seed2 %s -var seed3 %s'%tuple(np.random.randint(1001,9999,size=4)),
+					51:' -var buff 0.0 -var buffy 0.0 -var nevery 1000 -var ParseData 0 -var DumpFile dumpMin.xyz -var WriteData data_minimized.txt', 
+					7:' -var buff 0.0 -var buffy 0.0 -var T 300.0 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated.dat',
 					71:' -var buff 0.0 -var buffy 0.0 -var T 0.1 -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile swapped_600.dat -var DumpFile dumpThermalized2.xyz -var WriteData Equilibrated_0.dat',
 					11:' -var buff 0.0 -var buffy 5.0 -var T 5.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated_5K.dat',
 					8:' -var buff 0.0 -var buffy 0.0 -var T 5.0 -var sigm 1.0 -var sigmdt 0.0001 -var ndump 100 -var ParseData 1 -var DataFile Equilibrated_0.dat -var DumpFile dumpSheared.xyz',
@@ -122,7 +124,8 @@ if __name__ == '__main__':
 				4:['p2',5,7,4,71,8], #--- put disc. by atomsk, minimize, thermalize, anneal, thermalize, and shear
 				5:['p3', 5, 11, 6], #--- twin boundary by atomsk, minimize, thermalize, and shear
 				6:[ 4 ], #--- anneal irradiated
-			  }[6]
+				7:[ 5, 7, 4 ], #--- anneal irradiated
+			  }[7]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 #	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:np.array(['lmp_g++_openmpi','py','kmc'])[[ type(x) == type(0), type(x) == type(''), type(x) == type(1.0) ]][0], indices))	
