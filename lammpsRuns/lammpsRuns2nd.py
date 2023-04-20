@@ -131,7 +131,7 @@ if __name__ == '__main__':
 	os.system( 'rm jobID.txt' )
 	# --- loop for submitting multiple jobs
 	counter = 0
-	for irun in xrange( nruns ):
+	for irun in range( nruns ):
 #               cutoff = cutoffs[ irun ]
 		print(' i = %s' % counter)
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
