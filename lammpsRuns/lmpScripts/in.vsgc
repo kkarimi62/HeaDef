@@ -69,7 +69,7 @@ include ${INC}/potential.mod
 #--- compute & dump variables
 #-----------------------------
 compute     1 all stress/atom NULL pair
-dump        11 all custom ${n_sw} ${OUT_PATH}/Swapped_${T}.dump id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
+dump        11 all custom ${n_sw} ${OUT_PATH}/${DUMP_FILE} id type x y z fx fy fz c_1[1] c_1[2] c_1[3] c_1[4] c_1[5] c_1[6]
 dump_modify 11 flush yes format line "%d %d %5.4e %5.4e %5.4e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e %4.3e"
 
 #  dump            mydump all custom 1000 Swapped_${T}.dump id type x y z
