@@ -3,8 +3,8 @@ if __name__ == '__main__':
 	import os
 	import numpy as np
 	#---
-	string=open('lammpsRuns2nd.py').readlines() #--- python script
-	lnums = [ 40, 98 ]
+	string=open('lammpsRuns-ncbj.py').readlines() #--- python script
+	lnums = [ 42, 102 ]
 	#---
 
 	Temps  = {
