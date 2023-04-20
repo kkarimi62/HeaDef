@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
 
 	alloy = 'nicocr'
-	
+	py = 'python'
 	#---
 	count = 0
 	for keys_t in Temps:
@@ -38,6 +38,6 @@ if __name__ == '__main__':
 
 			#
 					sfile=open('junk%s.py'%count,'w');sfile.writelines(string);sfile.close()
-					os.system( 'python3 junk%s.py'%count )
+					os.system( '%s junk%s.py'%(py,count ))
 					os.system( 'rm junk%s.py'%count )
 					count += 1
