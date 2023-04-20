@@ -3,25 +3,41 @@ if __name__ == '__main__':
 	import os
 	import numpy as np
 	#---
-	lnums = [ 38, 97 ]
 	string=open('lammpsRuns2nd.py').readlines() #--- python script
+	lnums = [ 40, 98 ]
 	#---
-	PHI = [23.1142383485014, 11.5571191742507, 7.704746116167133, 5.136497410778088] #, 3.302034049785914] #range(1331) #np.logspace(np.log10(0.1),np.log10(0.9),8)
-	nphi = len(PHI)
+
+	Temps  = {
+				0:300,
+				1:400,
+				2:500,
+				3:600,
+				4:700,
+				5:800,
+				6:900,
+				7:1000,
+			}
+
+
+	alloy = 'nicocr'
+	
 	#---
-	for iphi in range( nphi ):
-		#---	
-		inums = lnums[ 0 ] - 1
-#		string[ inums ] = "\tjobname=\'NiCoCrNatom1KT0Elastic2nd%s\'\n" % (iphi) #--- change job name
-		string[ inums ] = "\t9:\'NiCoCrNatom100KAnnealedT600Elastic%s\',\n" % (iphi) #--- change job name
-		#---	densities
-#		inums = lnums[ 1 ] - 1
-#		string[ inums ] = "\t5:[\'data_init.txt\',\'ScriptGroup.%s.txt\'],\n" % (iphi) #--- change job name
-#		string[ inums ] = "\tsourcePath = os.getcwd() +\'/../postprocess/HeaNiCoCrNatom10KTakeOneOutFreezeFract%s\'\n" % (iphi) #--- change job name
-		#---	densities
-		inums = lnums[ 1 ] - 1
-		string[ inums ] = "\t\'p0\':\' swapped_600.dat %s"%PHI[iphi]+" %s\'%(os.getcwd()+\'/../postprocess\'),\n" #--- change job name
-		
-		sfile=open('junk%s.py'%iphi,'w');sfile.writelines(string);sfile.close()
-		os.system( 'python junk%s.py'%iphi )
-		os.system( 'rm junk%s.py'%iphi )
+	count = 0
+	for keys_t in Temps:
+		temp = Temps[keys_t]
+			#--- write to
+					inums = lnums[ 0 ] - 1
+					string[ inums ] = "\t\'3\':\'%snicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp%s\',\n"%(alloy,keys_t) #--- change job name
+
+					inums = lnums[ 0 ] - 2
+					string[ inums ] = "\t4:\' -var T %s -var t_sw 20.0 -var DataFile data_irradiated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped.dat',\n"%(temp)					
+
+			#---	read from
+#					inums = lnums[ 1 ] - 1
+#					string[ inums ] = "\t\'3\':\'/../simulations/%sNatom10KTemp300KMultipleRates/Rate%s\',\n"%(alloy,keys_r)
+
+			#
+					sfile=open('junk%s.py'%count,'w');sfile.writelines(string);sfile.close()
+					os.system( 'python3 junk%s.py'%count )
+					os.system( 'rm junk%s.py'%count )
+					count += 1
