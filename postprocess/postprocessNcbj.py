@@ -41,7 +41,6 @@ if __name__ == '__main__':
 	EXEC_DIR = '.'     #--- path for executable file
 	home_directory = os.path.expanduser( '~' )
 	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
-	print(py_library_directory)
 	durtn = '23:59:59'
 	mem = '32gb'
 	partition = ['INTEL_PHI','INTEL_HASWELL'][0] 
