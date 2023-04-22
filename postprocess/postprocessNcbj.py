@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	partition = ['INTEL_PHI','INTEL_HASWELL'][0] 
 	argv = "%s"%(readPath) #--- don't change! 
 	PYFILdic = { 
-		0:'avalancheAnalysis.ipynb',
+		0:'pressFluc2nd.ipynb',
 		}
 	keyno = 0
 	convert_to_py = True
