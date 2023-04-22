@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
 
 	alloy = 'nicocr'
-	py = 'python'
+	py = 'python3'
 	#---
 	count = 0
 	for keys_t in Temps:
