@@ -7,7 +7,8 @@ def makeOAR( EXEC_DIR, node, core, tpartitionime, PYFIL, argv):
 	#--- set parameters
 	confParser.set('parameters','temperature','800')
 	confParser.set('parameters','load','450')
-	confParser.set('input files','path',argv)
+	confParser.set('input files','path',argv.split()[1])
+	confParser.set('py library path','py_lib',argv.split()[0])
 	#--- write
 	confParser.write(open('configuration.ini','w'))	
 	#--- set environment variables
@@ -60,9 +61,11 @@ if __name__ == '__main__':
 								18:'/../lammpsRuns/AmirData/RSS_compressed',
 							}[15]
 	EXEC_DIR = '.'     #--- path for executable file
+	py_library_directory = '$HOME/Project/git/HeaDef/postprocess' 
 	durtn = '23:59:59'
 	mem = '512gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
+	argv = "%s %s"%(py_library_directory,readPath) #--- don't change! 
 	PYFILdic = { 
 		0:'pressFluc.ipynb',
 		1:'partition.ipynb',
@@ -89,7 +92,7 @@ if __name__ == '__main__':
 		writPath = os.getcwd() + '/%s/Run%s' % ( jobname, counter ) # --- curr. dir
 		os.system( 'mkdir -p %s' % ( writPath ) ) # --- create folder
 		os.system( 'cp configuration.ini LammpsPostProcess*.py OvitosCna.py utility*.py %s' % ( writPath ) ) #--- cp python module
-		makeOAR( writPath, 1, 1, durtn, PYFIL, readPath+"/Run%s"%init) # --- make oar script
+		makeOAR( writPath, 1, 1, durtn, PYFIL, argv+"/Run%s"%init) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; cp oarScript.sh configuration.ini %s; cp %s/%s %s' % ( writPath, EXEC_DIR, PYFIL, writPath ) ) # --- create folder & mv oar scrip & cp executable
 		os.system( 'sbatch --partition=%s --mem=%s --time=%s --job-name %s.%s --output %s.%s.out --error %s.%s.err \
 						    --chdir %s -c %s -n %s %s/oarScript.sh'\

@@ -7,7 +7,8 @@ def makeOAR( EXEC_DIR, node, core, partitionime, PYFIL, argv):
 	#--- set parameters
 	confParser.set('parameters','temperature','600')
 	confParser.set('parameters','load','600')
-	confParser.set('input files','path',argv)
+	confParser.set('input files','path',argv.split()[1])
+	confParser.set('py library path','py_lib',argv.split()[0])
 	#--- write
 	confParser.write(open('configuration.ini','w'))	
 	#---
@@ -30,18 +31,18 @@ if __name__ == '__main__':
 	nNode    = 1
 	nThreads = 1
 	jobname  = {
-				'1':'nicocrnicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-				}['1']
+				1:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
+				}[1]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
-								'1':'/../simulations/nicocrnicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
- 							}['1'] #--- source
+								1:'/../simulations/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
+ 							}[1] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
-#	py_library_directory = '$HOME/Project/git/HeaDef/postprocess' 
+	py_library_directory = '$HOME/Project/git/HeaDef/postprocess' 
 	durtn = '23:59:59'
 	mem = '32gb'
 	partition = ['INTEL_PHI','INTEL_HASWELL'][0] 
-	argv = "%s"%(readPath) #--- don't change! 
+	argv = "%s %s"%(py_library_directory,readPath) #--- don't change! 
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
 		}
