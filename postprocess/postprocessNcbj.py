@@ -26,6 +26,7 @@ def makeOAR( EXEC_DIR, node, core, partitionime, PYFIL, argv):
 #
 if __name__ == '__main__':
 	import os
+	import pdb
 #
 	runs	 = range(1)
 	nNode    = 1
@@ -38,7 +39,9 @@ if __name__ == '__main__':
 								1:'/../simulations/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
  							}[1] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
-	py_library_directory = '$HOME/Project/git/HeaDef/postprocess' 
+	home_directory = os.path.expanduser( '~' )
+	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
+	print(py_library_directory)
 	durtn = '23:59:59'
 	mem = '32gb'
 	partition = ['INTEL_PHI','INTEL_HASWELL'][0] 

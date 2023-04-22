@@ -61,7 +61,8 @@ if __name__ == '__main__':
 								18:'/../lammpsRuns/AmirData/RSS_compressed',
 							}[15]
 	EXEC_DIR = '.'     #--- path for executable file
-	py_library_directory = '$HOME/Project/git/HeaDef/postprocess' 
+	home_directory = os.path.expanduser( '~' )
+	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
 	durtn = '23:59:59'
 	mem = '512gb'
 	partition = ['cpu2019','bigmem','parallel','single'][1]
