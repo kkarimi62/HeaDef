@@ -36,7 +36,7 @@ if __name__ == '__main__':
 				}[1]
 	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
-								1:'/../simulations/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
+								1:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
  							}[1] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	home_directory = os.path.expanduser( '~' )

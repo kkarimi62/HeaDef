@@ -30,7 +30,7 @@ if __name__ == '__main__':
 					string[ inums ] = "\t1:\'%sNatom100KMultipleTempIrradiatedAnneal/benchmark/temp%s\',\n"%(alloy,keys_t) #--- change job name
 
 					inums = lnums[ 1 ] - 1
-					string[ inums ] =  "\t1:\'/../simulations/%sNatom100KMultipleTempIrradiatedAnneal/benchmark/temp%s\',\n"%(alloy,keys_t)
+					string[ inums ] =  "\t1:\'/../lammpsRuns/%sNatom100KMultipleTempIrradiatedAnneal/benchmark/temp%s\',\n"%(alloy,keys_t)
 
 #					inums = lnums[ 2 ] - 1
 #					string[ inums ] = "\t7:\' -var buff 0.0 -var buffy 0.0 -var T %s -var P 0.0 -var nevery 1000 -var ParseData 1 -var DataFile data_minimized.txt -var DumpFile dumpThermalized.xyz -var WriteData Equilibrated.dat\',\n"%(temp)
