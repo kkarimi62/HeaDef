@@ -4,7 +4,7 @@ if __name__ == '__main__':
 	import numpy as np
 	#---
 	string=open('postprocessNcbj.py').readlines() #--- python script
-	lnums = [ 33, 37] 
+	lnums = [ 35, 39] 
 	#---
 
 	Temps  = {
