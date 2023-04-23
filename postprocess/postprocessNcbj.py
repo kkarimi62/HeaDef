@@ -42,7 +42,7 @@ if __name__ == '__main__':
 	home_directory = os.path.expanduser( '~' )
 	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
 	durtn = '23:59:59'
-	mem = '128gb'
+	mem = '192gb'
 	partition = ['INTEL_PHI','INTEL_HASWELL'][0] 
 	argv = "%s %s"%(py_library_directory,readPath) #--- don't change! 
 	PYFILdic = { 
