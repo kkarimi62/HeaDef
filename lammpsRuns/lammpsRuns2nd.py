@@ -60,8 +60,8 @@ if __name__ == '__main__':
 					3:['data.txt'], 
 					4:['data_minimized.txt'],
 					5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
-					6:['data_irradiated.dat'], 
-				 }[6] #--- to be copied from the above directory
+					11:['data_irradiated.dat'], 
+				 }[11] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
 	#
