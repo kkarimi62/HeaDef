@@ -171,7 +171,6 @@ class ReadDumpFile:
         self.BoxBounds[ itime ] = cell_vector
 #         print(self.coord_atoms_broken[ itime ])
 
-
 ############################################################
 #######  class WriteDumpFile writes LAMMPS dump files 
 ############################################################    
@@ -180,27 +179,34 @@ class WriteDumpFile:
         self.atom = atomm
         self.box = boxx
         
-    def Write(self, outpt, attrs=['id', 'type', 'x', 'y', 'z' ]):
+    def Write(self, outpt, itime=0,attrs=['id', 'type', 'x', 'y', 'z' ], fmt = '%i %i %15.14e %15.14e %15.14e' ):
         natom = len(self.atom.x)
-        (xlo,xhi,xy)=self.box.BoxBounds[0,:]
-        (ylo,yhi,junk)=self.box.BoxBounds[1,:]
-        (zlo,zhi,junk)=self.box.BoxBounds[2,:]
-        sfile=open(outpt,'w')
-        sfile.write('ITEM: TIMESTEP\n%s\nITEM: NUMBER OF ATOMS\n%s\nITEM: BOX BOUNDS xy xz yz pp pp pp\n\
-                     %s %s %s\n%s\t%s\t%s\n%s\t%s\t%s\nITEM: ATOMS %s\n'\
-                     %(0,natom,xlo,xhi,xy,ylo,yhi,0.0,zlo,zhi,0.0," ".join(map(str,attrs))))
+        (xlo,xhi,xy)=list(map(float,self.box.BoxBounds[0,:]))
+        (ylo,yhi,junk)=list(map(float,self.box.BoxBounds[1,:]))
+        (zlo,zhi,junk)=list(map(float,self.box.BoxBounds[2,:]))
+        if type(outpt) == type(' '):
+            sfile=open(outpt,'w')
+        else:
+            sfile = outpt
+        sfile.write('ITEM: TIMESTEP\n%d\nITEM: NUMBER OF ATOMS\n%d\nITEM: BOX BOUNDS xy xz yz pp pp pp\n\
+                     %15.14e %15.14e %15.14e\n%15.14e\t%15.14e\t%15.14e\n%15.14e\t%15.14e\t%15.14e\nITEM: ATOMS %s\n'\
+                     %(itime,natom,xlo,xhi,xy,ylo,yhi,0.0,zlo,zhi,0.0," ".join(map(str,attrs))))
 
 #                     %s %s %s\n%s\t%s\t%s\n%s\t%s\t%s\nITEM: ATOMS id type x y z\n'\
 
+        np.savetxt(sfile,np.c_[pd.DataFrame(self.atom.__dict__)[attrs]],
+                   fmt=fmt )
 
-        for row in np.c_[pd.DataFrame(self.atom.__dict__)[attrs]]:
-            for col in row:
-                sfile.write('%4.3e\t'%col)
-            sfile.write('\n')
+#        for row in :
+#            for col in row:
+#                sfile.write('%4.3e\t'%col)
+#            sfile.write('\n')
 #        for idd, typee, x, y, z in zip(self.atom.id, self.atom.type, self.atom.x, self.atom.y, self.atom.z ):
 #            sfile.write('%s %s %s %s %s\n'%(int(idd),int(typee),x,y,z))
-            
-        sfile.close()
+		  
+        if type(outpt) == type(' '):
+            sfile.close()
+
         
 ############################################################
 #######  class WriteDumpFile writes LAMMPS data files 
@@ -243,122 +249,8 @@ class WriteDataFile:
 class Atoms:
     def __init__(self,**kwargs):
 #        print 'hello from Atoms const' 
-        if 'x' in kwargs:
-            self.x = kwargs['x']
-        if 'y' in kwargs:
-            self.y = kwargs['y']
-        if 'z' in kwargs:
-            self.z = kwargs['z']
-        if 'xu' in kwargs:
-            self.x = kwargs['xu']
-        if 'yu' in kwargs:
-            self.y = kwargs['yu']
-        if 'zu' in kwargs:
-            self.z = kwargs['zu']
-        if 'id' in kwargs:
-            self.id = kwargs['id']
-        if 'type' in kwargs:
-            self.type = kwargs['type']
-        if 'xm' in kwargs:
-            self.xm = kwargs['xm']
-        if 'ym' in kwargs:
-            self.ym = kwargs['ym']
-        if 'zm' in kwargs:
-            self.zm = kwargs['zm']
-        if 'dx' in kwargs:
-            self.dx = kwargs['dx']
-        if 'dy' in kwargs:
-            self.dy = kwargs['dy']
-        if 'dz' in kwargs:
-            self.dz = kwargs['dz']
-        if 'exy' in kwargs:
-            self.exy = kwargs['exy']
-        if 'sxx' in kwargs:
-            self.sxx = kwargs['sxx']
-        if 'syy' in kwargs:
-            self.syy = kwargs['syy']
-        if 'szz' in kwargs:
-            self.szz = kwargs['szz']
-        if 'sxy' in kwargs:
-            self.sxy = kwargs['sxy']
-        if 'sxz' in kwargs:
-            self.sxz = kwargs['sxz']
-        if 'syz' in kwargs:
-            self.syz = kwargs['syz']
-        if 'StructureType' in kwargs:
-            self.StructureType = kwargs['StructureType']
-        if 'd2min' in kwargs:
-            self.d2min = kwargs['d2min']
-        if 'VoronoiIndex1' in kwargs:
-            self.VoronoiIndex1=kwargs['VoronoiIndex1']
-        if 'VoronoiIndex2' in kwargs: 
-            self.VoronoiIndex2=kwargs['VoronoiIndex2']
-        if 'VoronoiIndex3' in kwargs: 
-            self.VoronoiIndex3=kwargs['VoronoiIndex3']
-        if 'VoronoiIndex4' in kwargs: 
-            self.VoronoiIndex4=kwargs['VoronoiIndex4']
-        if 'VoronoiIndex5' in kwargs: 
-            self.VoronoiIndex5=kwargs['VoronoiIndex5']
-        if 'VoronoiIndex6' in kwargs: 
-            self.VoronoiIndex6=kwargs['VoronoiIndex6']
-        if 'VoronoiIndex7' in kwargs: 
-            self.VoronoiIndex7=kwargs['VoronoiIndex7']
-        if 'VoronoiIndex8' in kwargs: 
-            self.VoronoiIndex8=kwargs['VoronoiIndex8']
-        if 'VoronoiIndex9' in kwargs:
-            self.VoronoiIndex9=kwargs['VoronoiIndex9']
-        if 'AtomicVolume' in kwargs:
-            self.AtomicVolume=kwargs['AtomicVolume']
-        if 'rad' in kwargs:
-            self.rad=kwargs['rad']
-        if 'ux' in kwargs:
-            self.ux = kwargs['ux']
-        if 'uy' in kwargs:
-            self.uy = kwargs['uy']
-        if 'uz' in kwargs:
-            self.uz = kwargs['uz']
-        if 'C11' in kwargs:
-        	self.C11 = kwargs['C11']
-        if 'C12' in kwargs:
-        	self.C12 = kwargs['C12']
-        if 'C13' in kwargs:
-        	self.C13 = kwargs['C13']
-        if 'C14' in kwargs:
-        	self.C14 = kwargs['C14']
-        if 'C15' in kwargs:
-        	self.C15 = kwargs['C15']
-        if 'C16' in kwargs:
-        	self.C16 = kwargs['C16']
-        if 'C22' in kwargs:
-        	self.C22 = kwargs['C22']
-        if 'C23' in kwargs:
-        	self.C23 = kwargs['C23']
-        if 'C24' in kwargs:
-        	self.C24 = kwargs['C24']
-        if 'C25' in kwargs:
-        	self.C25 = kwargs['C25']
-        if 'C26' in kwargs:
-        	self.C26 = kwargs['C26']
-        if 'C33' in kwargs:
-        	self.C33 = kwargs['C33']
-        if 'C34' in kwargs:
-        	self.C34 = kwargs['C34']
-        if 'C35' in kwargs:
-        	self.C35 = kwargs['C35']
-        if 'C36' in kwargs:
-        	self.C36 = kwargs['C36']
-        if 'C44' in kwargs:
-        	self.C44 = kwargs['C44']
-        if 'C45' in kwargs:
-        	self.C45 = kwargs['C45']
-        if 'C46' in kwargs:
-        	self.C46 = kwargs['C46']
-        if 'C55' in kwargs:
-        	self.C55 = kwargs['C55']
-        if 'C56' in kwargs:
-        	self.C56 = kwargs['C56']
-        if 'C66' in kwargs:
-        	self.C66 = kwargs['C66']            
+        for attr in kwargs:
+            setattr(self,attr, kwargs[attr])
     def __getitem__(self,key):
         return self.__dict__[key]
 
@@ -932,6 +824,33 @@ class ComputeRdf( Compute, Wrap ):
         nij = self.count.copy()
         
         return self.rmean, nij/ntot, (1.0/nij**0.5-1.0/ntot**0.5)*nij/ntot
+
+    @staticmethod 
+    def sroPerAtom(center_atom_id,sdict,neigh_list,Typej):
+        indices = sdict[ center_atom_id ]
+        neigh_filtrd = neigh_list.iloc[indices]
+        ntot = len(neigh_filtrd)
+
+        #--- filter based on pair ij
+        nij = np.zeros(len(Typej))
+        for typej,indx in zip(Typej,range(len(Typej))):
+            filtr_ij = neigh_filtrd['Jtype'].astype(int)==typej
+            nij[indx] = len(neigh_filtrd[filtr_ij])
+
+        return nij/ntot if ntot != 0 else np.nan
+
+
+    def AtomWiseSro(self,neigh_list,typej):
+        '''
+           atom-wise Warren-Cowley order parameter
+        '''
+
+        sdict = neigh_list.groupby('id').groups
+        keys = list(sdict.keys())
+        keys.sort()
+        sro = list(map(lambda x: ComputeRdf.sroPerAtom(x,sdict,neigh_list,typej),keys))
+
+        return pd.DataFrame(np.c_[keys,sro],columns=('id %s %s %s'%tuple(typej)).split())
 
     def Get( self ):
         return self.rmean, self.hist, self.err
