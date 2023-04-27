@@ -29,7 +29,7 @@ if __name__ == '__main__':
 					temp = Temps[keys_t]
 					#--- write to
 					inums = lnums[ 0 ] - 1
-					string[ inums ] = "\t11:\'%snicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp%s\',\n"%(alloy,keys_t) #--- change job name
+					string[ inums ] = "\t11:\'%sNatom100KMultipleTempIrradiatedAnneal/dpa2/temp%s\',\n"%(alloy,keys_t) #--- change job name
 
 					inums = lnums[ 1 ] - 1
 					string[ inums ] = "\t4:\' -var T %s -var t_sw 20.0 -var DataFile data_irradiated.dat -var nevery 100 -var ParseData 1 -var WriteData swapped.dat -var DUMP_FILE swapped.dump',\n"%(temp)					
