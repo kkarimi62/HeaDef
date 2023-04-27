@@ -47,8 +47,9 @@ if __name__ == '__main__':
 					16:'anneled_before_compression',
 					17:'RSS_before_indentation',
 					18:'RSS_compressed',
-				}[15]
-	DeleteExistingFolder = True
+					19:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
+				}[19]
+	DeleteExistingFolder = False
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
 								2:'/../lammpsRuns/AmirData/farkas', #--- source
@@ -59,7 +60,8 @@ if __name__ == '__main__':
 								16:'/../lammpsRuns/AmirData/anneled_before_compression',
 								17:'/../lammpsRuns/AmirData/RSS_before_indentation',
 								18:'/../lammpsRuns/AmirData/RSS_compressed',
-							}[15]
+								19:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
+							}[19]
 	EXEC_DIR = '.'     #--- path for executable file
 	home_directory = os.path.expanduser( '~' )
 	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
