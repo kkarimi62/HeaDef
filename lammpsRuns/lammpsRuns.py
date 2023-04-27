@@ -127,7 +127,9 @@ if __name__ == '__main__':
 	mem = '8gb'
 	partition = ['gpu-v100','parallel','cpu2019','single'][1]
 	#---
-	os.system( 'rm -rf %s' % jobname ) #--- rm existing
+	DeleteExistingFolder = False
+	if DeleteExistingFolder:
+		os.system( 'rm -rf %s' % jobname ) #--- rm existing
 	os.system( 'rm jobID.txt' )
 	# --- loop for submitting multiple jobs
 	counter = 0
