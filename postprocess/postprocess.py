@@ -49,7 +49,7 @@ if __name__ == '__main__':
 					18:'RSS_compressed',
 					19:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
 				}[19]
-	DeleteExistingFolder = False
+	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
 								2:'/../lammpsRuns/AmirData/farkas', #--- source
