@@ -37,7 +37,7 @@ if __name__ == '__main__':
 				7:'NiCoCrNatom10KT1E-2EdgeDislSdt1E-4Annealed',
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
-				11:'nicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp0',
+				11:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
 			   }[11]
 	sourcePath = os.getcwd() +\
 				{	
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 					3:['data.txt'], 
 					4:['data_minimized.txt'],
 					5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
-					11:['data_irradiated.dat'], 
+					11:['data_unirradiated.dat'], 
 				 }[11] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/home/kamran.karimi1/Project/git/lammps2nd/lammps/src' #--- path for executable file
@@ -116,8 +116,8 @@ if __name__ == '__main__':
 				3:[5,7,4,'p0',10,'p1'],	   #--- local elastic constants (annealed)
 				4:['p2',5,7,4,71,8], #--- put disc. by atomsk, minimize, thermalize, anneal, thermalize, and shear
 				5:['p3', 5, 11, 6], #--- twin boundary by atomsk, minimize, thermalize, and shear
-				6:[ 4 ], #--- anneal irradiated
-			  }[6]
+				11:[ 4 ], #--- anneal irradiated
+			  }[11]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 	Variables = list(map(lambda x:Variable[x], indices))
 	EXEC = list(map(lambda x:'lmp' if type(x) == type(0) else 'py', indices))	
