@@ -738,6 +738,7 @@ def PltBitmap( value,
              ):
         
     val = value.copy()
+#    pdb.set_trace()
     #--- z-score
     if zscore:
         val -= np.mean(val)
