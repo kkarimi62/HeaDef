@@ -28,6 +28,7 @@ InputFile = sys.argv[1] #--- input lammps file
 OutputFile = sys.argv[2] #--- output
 nevery = int(sys.argv[3]) #--- process. frequency
 AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements, 9: Periodic Image
+print('AnalysisType=',AnalysisType)
 if AnalysisType == 8: 
     RefFile = sys.argv[5]
 if AnalysisType == 3: #--- voronoi analysis
@@ -35,7 +36,9 @@ if AnalysisType == 3: #--- voronoi analysis
 if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
     cutoff = float(sys.argv[5])
     if AnalysisType == 4:
-        natoms = int(sys.argv[6])
+#        natoms = int(sys.argv[6])
+        natoms = np.loadtxt(sys.argv[6],dtype=int)
+#        print('str=',natoms)
     elif AnalysisType == 6:
         atom_indices = np.array(list(map(int,sys.argv[6:])))
 #        print(atom_indices)
@@ -140,7 +143,7 @@ for frame in range(0,pipeline.source.num_frames,nevery):
         type_property = pipeline.source.particle_properties.particle_type
         finder = CutoffNeighborFinder(cutoff, data)
         if AnalysisType == 4:
-            atom_indices = range(natoms)
+            atom_indices = natoms #range(natoms)
 #        elif AnalysisType == 6:
 #            atom_indices = np.arange(data.number_of_particles)[filtr_atoms]
         neighList = list(map(lambda x: finder.find(x) , atom_indices )) #range(data.number_of_particles) ))
