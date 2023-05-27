@@ -48,7 +48,7 @@ if __name__ == '__main__':
 					17:'RSS_before_indentation',
 					18:'RSS_compressed',
 					19:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-					20:'AmirData/NiAl/Swapped_300',
+					20:'AmirData/NiAl/Atoms_dyn',
 				}[20]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 								17:'/../lammpsRuns/AmirData/RSS_before_indentation',
 								18:'/../lammpsRuns/AmirData/RSS_compressed',
 								19:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-								20:'/../lammpsRuns/AmirData/NiAl/Swapped_300',
+								20:'/../lammpsRuns/AmirData/NiAl/Atoms_dyn',
 							}[20]
 	EXEC_DIR = '.'     #--- path for executable file
 	home_directory = os.path.expanduser( '~' )
