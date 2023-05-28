@@ -48,7 +48,7 @@ if __name__ == '__main__':
 					17:'RSS_before_indentation',
 					18:'RSS_compressed',
 					19:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-					20:'AmirData/NiAl/Swapped_300',
+					20:'AmirData/NiAl/Swapped_300_2nd',
 					21:'AmirData/indentation',
 				}[20]
 	DeleteExistingFolder = True
