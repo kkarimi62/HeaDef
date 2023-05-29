@@ -28,16 +28,18 @@ if __name__ == '__main__':
 	import os
 	import pdb
 #
-	runs	 = range(1)
+	runs	 = range(5)
 	nNode    = 1
 	nThreads = 1
 	jobname  = {
 				1:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-				}[1]
-	DeleteExistingFolder = False
+				2:'qinqinData/aplane',
+				}[2]
+	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
- 							}[1] #--- source
+								2:'/../lammpsRuns/qinqinData/aplane',
+ 							}[2] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	home_directory = os.path.expanduser( '~' )
 	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
