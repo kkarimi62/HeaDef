@@ -1,4 +1,5 @@
-from backports import configparser
+#from backports 
+import configparser
 
 def makeOAR( EXEC_DIR, node, core, partitionime, PYFIL, argv):
 	#--- parse conf. file
