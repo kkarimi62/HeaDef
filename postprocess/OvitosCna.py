@@ -27,7 +27,7 @@ def GetPairAttrs(data, neigh,iatom):
 InputFile = sys.argv[1] #--- input lammps file 
 OutputFile = sys.argv[2] #--- output
 nevery = int(sys.argv[3]) #--- process. frequency
-AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements, 9: Periodic Image
+AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements, 9: Periodic Image 10: nearest neighbor finder
 print('AnalysisType=',AnalysisType)
 if AnalysisType == 8: 
     RefFile = sys.argv[5]
@@ -46,6 +46,8 @@ if AnalysisType == 7:
 	OutputFile_headers = sys.argv[5] 
 if AnalysisType == 5:
     pbc_false = int(sys.argv[5]) 
+if AnalysisType == 10:
+	xyz_coords = np.array(list(map(int,sys.argv[6:])))
     
 print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
@@ -138,6 +140,13 @@ for frame in range(0,pipeline.source.num_frames,nevery):
         
     
         
+    #--- compute nearest neighbor
+    if AnalysisType == 10:
+        finder = NearestNeighborFinder(12, data)
+		for neigh in finder.find_at(xyz_coords):
+    		print(neigh.index, neigh.distance, neigh.delta)
+
+
     #--- compute neighbor list
     if AnalysisType == 4 or AnalysisType == 6:
         type_property = pipeline.source.particle_properties.particle_type
