@@ -85,7 +85,7 @@ class ReadDumpFile:
         self.coord_atoms_broken = {}
         self.BoxBounds = {}
     
-    def GetCords( self, ncount = 1, columns = {} ):
+    def GetCords( self, ncount = 1, sort = True, columns = {} ):
         slist = open( self.path )    
         count = 0
         try:
@@ -99,11 +99,12 @@ class ReadDumpFile:
                 self.coord_atoms_broken[ itime ]['id'] = list(map(int,self.coord_atoms_broken[ itime ]['id'].tolist()))[:]
                 self.coord_atoms_broken[ itime ]['type'] = list(map(int,self.coord_atoms_broken[ itime ]['type'].tolist()))[:]
 
+                if sort:
                 #--- sort
-                self.coord_atoms_broken[ itime ].sort_values( by = 'id', inplace = True )
+                    self.coord_atoms_broken[ itime ].sort_values( by = 'id', inplace = True )
 
                 #--- reset index
-                self.coord_atoms_broken[ itime ].reset_index( drop=True, inplace=True )
+                    self.coord_atoms_broken[ itime ].reset_index( drop=True, inplace=True )
                 
                 #---
                 if len(columns) > 0: #--- change column name

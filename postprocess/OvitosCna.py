@@ -4,10 +4,10 @@ import ovito.modifiers as md
 import numpy as np
 import ovito.io as io 
 from ovito.vis import Viewport, TachyonRenderer, RenderSettings
-from ovito.data import CutoffNeighborFinder
+from ovito.data import CutoffNeighborFinder, NearestNeighborFinder
 import math
 import pdb
-
+import json
 
 
 def GetNpairs(data, finder):        
@@ -43,16 +43,17 @@ if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
         atom_indices = np.array(list(map(int,sys.argv[6:])))
 #        print(atom_indices)
 if AnalysisType == 7:
-	OutputFile_headers = sys.argv[5] 
+    OutputFile_headers = sys.argv[5] 
 if AnalysisType == 5:
     pbc_false = int(sys.argv[5]) 
 if AnalysisType == 10:
-	xyz_coords = np.array(list(map(int,sys.argv[6:])))
+    with open(sys.argv[5],'r') as fp:
+        dataa =json.load(fp)
     
 print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
 if AnalysisType == 7:
-	pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
+    pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
 							 columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
 else:
 	pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
@@ -108,7 +109,7 @@ if AnalysisType == 3:
     pipeline.modifiers.append(voro)
 
 #--- neighbor list
-if AnalysisType == 4 or AnalysisType == 6:
+if AnalysisType == 4 or AnalysisType == 6 or AnalysisType == 10:
     sfile = open(OutputFile,'ab')
 
 if AnalysisType == 5:
@@ -122,14 +123,14 @@ if AnalysisType == 5:
         print('pbc_false')
         pipeline.source.cell.pbc=(False, False, False)
 
-for frame in range(0,pipeline.source.num_frames,nevery):
+for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipeline.source.num_frames)):
     # This loads the input data for the current frame and
     # evaluates the applied modifiers:
     print('frame=%s'%frame)
 #    pipeline.compute(frame)
     data = pipeline.compute(frame)
     try:
-	    itime = pipeline.source.attributes['Timestep']
+        itime = pipeline.source.attributes['Timestep']
     except:
         pass
 #    print(itime)
@@ -142,10 +143,21 @@ for frame in range(0,pipeline.source.num_frames,nevery):
         
     #--- compute nearest neighbor
     if AnalysisType == 10:
-        finder = NearestNeighborFinder(12, data)
-		for neigh in finder.find_at(xyz_coords):
-    		print(neigh.index, neigh.distance, neigh.delta)
-
+        finder = NearestNeighborFinder(1, data)
+        xyz_coords = dataa['query'][counter] #--- only if nevry==1
+        nquery = int(len(xyz_coords)/3)
+        xyz_coords = np.array(xyz_coords).reshape((nquery,3))
+#        print(xyz_coords.shape)
+#        pdb.set_trace()
+#        print(dir(finder.find_at(xyz_coords[0]))
+        if counter == 0:
+            nearestAtoms = []
+        nearestAtoms += [list(map(lambda x:[item.index for item in finder.find_at(x)],xyz_coords))]
+#        for xyz in xyz_coords: 
+#            for neigh in finder.find_at(xyz):
+#            print(neigh.index, neigh.distance, neigh.delta)
+#            sfile.write(b'ITIME: TIMESTEP\n%d\n'%itime)
+                
 
     #--- compute neighbor list
     if AnalysisType == 4 or AnalysisType == 6:
@@ -194,6 +206,11 @@ for frame in range(0,pipeline.source.num_frames,nevery):
 #         voro_indices = pipeline.output.particle_properties['Voronoi Index'].array
     
 #    pdb.set_trace()
+if AnalysisType == 10:
+    with open(OutputFile,'w') as fp:
+        #--- output as json
+        dictionary={'frameIndex':list(range(len(nearestAtoms))),'nearestAtoms':nearestAtoms}
+        json.dump(dictionary, fp)
 
 
 if AnalysisType == 1 or AnalysisType == 4:
