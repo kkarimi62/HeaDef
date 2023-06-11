@@ -47,10 +47,10 @@ if __name__ == '__main__':
 					16:'anneled_before_compression',
 					17:'RSS_before_indentation',
 					18:'RSS_compressed',
-					19:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
+					19:'nicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp0',
 					20:'AmirData/NiAl/annealing',
 					21:'AmirData/indentation',
-				}[20]
+				}[19]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/AmirData/shengAnnealed/Temp800', #--- source
@@ -62,10 +62,10 @@ if __name__ == '__main__':
 								16:'/../lammpsRuns/AmirData/anneled_before_compression',
 								17:'/../lammpsRuns/AmirData/RSS_before_indentation',
 								18:'/../lammpsRuns/AmirData/RSS_compressed',
-								19:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
+								19:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp0',
 								20:'/../lammpsRuns/AmirData/NiAl/annealing',
 								21:'/../lammpsRuns/AmirData/indentation',
-							}[20]
+							}[19]
 	EXEC_DIR = '.'     #--- path for executable file
 	home_directory = os.path.expanduser( '~' )
 	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
