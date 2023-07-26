@@ -80,10 +80,11 @@ def SqError( xdata, ydata):
 #######  class ReadDumpFile Reads LAMMPS dump files 
 ############################################################    
 class ReadDumpFile:
-    def __init__( self, path ):
+    def __init__( self, path, verbose = False ):
         self.path = path
         self.coord_atoms_broken = {}
         self.BoxBounds = {}
+        self.verbose = verbose
     
     def GetCords( self, ncount = 1, sort = True, columns = {} ):
         slist = open( self.path )    
@@ -114,7 +115,8 @@ class ReadDumpFile:
 
                 count += 1
         except:
-            print('reached end of file!')
+            if self.verbose:
+                print('reached end of file!')
 #            traceback.print_exc()
             pass
 

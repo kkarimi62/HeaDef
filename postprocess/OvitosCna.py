@@ -28,7 +28,7 @@ InputFile = sys.argv[1] #--- input lammps file
 OutputFile = sys.argv[2] #--- output
 nevery = int(sys.argv[3]) #--- process. frequency
 AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements, 9: Periodic Image 10: nearest neighbor finder
-print('AnalysisType=',AnalysisType)
+#print('AnalysisType=',AnalysisType)
 if AnalysisType == 8: 
     RefFile = sys.argv[5]
 if AnalysisType == 3: #--- voronoi analysis
@@ -49,8 +49,10 @@ if AnalysisType == 5:
 if AnalysisType == 10:
     with open(sys.argv[5],'r') as fp:
         dataa =json.load(fp)
+verbose = False
     
-print('InputFile=',InputFile)
+if verbose:
+	print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
 if AnalysisType == 7:
     pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
@@ -59,7 +61,8 @@ else:
 	pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
 
 #pdb.set_trace()	
-print('num_frames=',pipeline.source.num_frames)
+if verbose:
+	print('num_frames=',pipeline.source.num_frames)
 
 # Calculate per-particle displacements with respect to initial simulation frame
 if AnalysisType == 0:
@@ -126,7 +129,8 @@ if AnalysisType == 5:
 for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipeline.source.num_frames)):
     # This loads the input data for the current frame and
     # evaluates the applied modifiers:
-    print('frame=%s'%frame)
+    if verbose:
+        print('frame=%s'%frame)
 #    pipeline.compute(frame)
     data = pipeline.compute(frame)
     try:
