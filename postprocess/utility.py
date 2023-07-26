@@ -1,4 +1,5 @@
-
+import json
+from json import JSONEncoder
 import pdb
 import pandas as pd
 import numpy as np
@@ -1650,3 +1651,38 @@ def SetDataFrameByValue(df, key='id', key_vals=[1,2,3], value='StructureType', v
     df_1 = utl.FilterDataFrame(df, key=key, val=list(other_vals))
     df_merge = np.concatenate([df_0,df_1])
     return pd.DataFrame(np.c_[df_merge],columns=list(df_0.keys()))
+
+class NumpyArrayEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return JSONEncoder.default(self, obj)
+
+    
+class ReadWriteJson:
+    def __init__(self):
+        pass
+        
+    
+    def Write( self, data, fout, **kwargs ):
+        self.data = data
+        assert type(self.data) == type([]), 'data must be a list of dicts.'
+        for x in self.data:
+            assert type(x) == type({}), 'elements of data must be dictionaries!'
+        
+        
+        with open(fout, "w") as fp:
+            keys = kwargs.keys()
+            for x in keys:
+                assert type(kwargs[x]) == type([]), '%s must be a list!'%x
+                assert len(kwargs[x]) == len(self.data), 'len(%s) must be equal to data'%x
+            #
+            for item,indx in zip(self.data,range(len(self.data))):
+                values = list(map(lambda x:kwargs[x][indx],keys))
+                dictionary={**item, **dict(zip(keys,values))}
+                json.dump( dictionary, fp, cls=NumpyArrayEncoder )
+                fp.write('\n')
+
+    def Read(self, finp):
+        with open(finp, 'r') as inpfile:
+            return list(map(lambda x:json.loads(x),inpfile))
