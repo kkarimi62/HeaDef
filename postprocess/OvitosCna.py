@@ -27,8 +27,10 @@ def GetPairAttrs(data, neigh,iatom):
 InputFile = sys.argv[1] #--- input lammps file 
 OutputFile = sys.argv[2] #--- output
 nevery = int(sys.argv[3]) #--- process. frequency
-AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements, 9: Periodic Image 10: nearest neighbor finder
+AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements, 9: Periodic Image 10: nearest neighbor finder 11: Wigner-Seitz algorithm 
 #print('AnalysisType=',AnalysisType)
+if AnalysisType == 11: 
+    RefFile = sys.argv[5]
 if AnalysisType == 8: 
     RefFile = sys.argv[5]
 if AnalysisType == 3: #--- voronoi analysis
@@ -54,7 +56,7 @@ verbose = False
 if verbose:
 	print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
-if AnalysisType == 7:
+if AnalysisType == 7 or AnalysisType == 11:
     pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
 							 columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
 else:
@@ -125,6 +127,12 @@ if AnalysisType == 5:
     if pbc_false:
         print('pbc_false')
         pipeline.source.cell.pbc=(False, False, False)
+
+if AnalysisType == 11:
+    wsModifier = md.WignerSeitzAnalysisModifier(eliminate_cell_deformation=True,
+                                         )
+    wsModifier.reference.load(RefFile)
+    pipeline.modifiers.append(wsModifier)
 
 for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipeline.source.num_frames)):
     # This loads the input data for the current frame and
@@ -299,6 +307,15 @@ if AnalysisType == 7:
     	columns=list(pipeline.source.attributes.keys()
 	))
 # Export the computed RDF data to a text file.
+
+if AnalysisType == 11: 
+    io.export_file( pipeline, OutputFile, "lammps_dump",\
+                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z","Occupancy"],
+                     start_frame = 0,
+#                     end_frame = pipeline.source.num_frames-1,
+                     every_nth_frame = nevery,
+                    multiple_frames=True 
+                  )   
 
 '''
 pipeline.dataset.anim.frames_per_second = 60
