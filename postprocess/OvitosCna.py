@@ -1,3 +1,4 @@
+import os
 import sys
 import ovito
 import ovito.modifiers as md
@@ -21,8 +22,9 @@ def GetNpairs(data, finder):
 def GetPairAttrs(data, neigh,iatom):
 #    return list(map(lambda x:data.particle_properties.particle_identifier.array[x.index],neigh))
     return list(map(lambda x:(iatom,x.index,x.distance,x.delta[0],x.delta[1],x.delta[2], x.pbc_shift[0],x.pbc_shift[1],x.pbc_shift[2]),neigh))
-        
-        
+
+start_frame = 0
+
 #--- command-line args
 InputFile = sys.argv[1] #--- input lammps file 
 OutputFile = sys.argv[2] #--- output
@@ -33,6 +35,13 @@ if AnalysisType == 11:
     RefFile = sys.argv[5]
 if AnalysisType == 8: 
     RefFile = sys.argv[5]
+    use_frame_offset = False
+    try:
+        use_frame_offset = eval(sys.argv[6])
+    except:
+        pass
+    if use_frame_offset:
+       start_frame = 1
 if AnalysisType == 3: #--- voronoi analysis
     radii=list(map(float,sys.argv[5:]))
 if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
@@ -52,19 +61,19 @@ if AnalysisType == 10:
     with open(sys.argv[5],'r') as fp:
         dataa =json.load(fp)
 verbose = False
-    
+
 if verbose:
-	print('InputFile=',InputFile)
+    print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
 if AnalysisType == 7 or AnalysisType == 11:
     pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
-							 columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
+                             columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
 else:
-	pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
+    pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
 
 #pdb.set_trace()	
 if verbose:
-	print('num_frames=',pipeline.source.num_frames)
+    print('num_frames=',pipeline.source.num_frames)
 
 # Calculate per-particle displacements with respect to initial simulation frame
 if AnalysisType == 0:
@@ -91,7 +100,8 @@ if AnalysisType == 2:
     pipeline.modifiers.append(d2min)
 
 if AnalysisType == 8:
-    disp = md.CalculateDisplacementsModifier(
+    disp = md.CalculateDisplacementsModifier( use_frame_offset = use_frame_offset,
+
                                    )
     disp.reference.load(RefFile, multiple_frames = True)
     pipeline.modifiers.append(disp)
@@ -134,7 +144,7 @@ if AnalysisType == 11:
     wsModifier.reference.load(RefFile)
     pipeline.modifiers.append(wsModifier)
 
-for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipeline.source.num_frames)):
+for frame, counter in zip(range(start_frame,pipeline.source.num_frames,nevery),range(pipeline.source.num_frames)):
     # This loads the input data for the current frame and
     # evaluates the applied modifiers:
     if verbose:
@@ -149,10 +159,10 @@ for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipel
     if AnalysisType == 1:
         sfile.write('#ITIME\n%s\n'%itime)
         np.savetxt(sfile, cnm.rdf, header='r\tg(r)')
-        
-        
-    
-        
+
+
+
+
     #--- compute nearest neighbor
     if AnalysisType == 10:
         finder = NearestNeighborFinder(1, data)
@@ -169,7 +179,7 @@ for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipel
 #            for neigh in finder.find_at(xyz):
 #            print(neigh.index, neigh.distance, neigh.delta)
 #            sfile.write(b'ITIME: TIMESTEP\n%d\n'%itime)
-                
+
 
     #--- compute neighbor list
     if AnalysisType == 4 or AnalysisType == 6:
@@ -197,7 +207,7 @@ for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipel
 #        pdb.set_trace()
         np.savetxt(sfile,np.c_[ atomi_id, atomi_type, atomj_id, atomj_type, pairij[:,2:]],
                    fmt='%i %i %i %i %7.6e %7.6e %7.6e %7.6e %i %i %i' )
-                    
+
 #         for index in range(data.number_of_particles):
 #             atomi_id = data.particle_properties.particle_identifier.array[index]
 #             atomi_type = type_property.array[index]
@@ -216,7 +226,7 @@ for frame, counter in zip(range(0,pipeline.source.num_frames,nevery),range(pipel
     # This is an (N)x(edge_count) array.
 #     if AnalysisType == 3:
 #         voro_indices = pipeline.output.particle_properties['Voronoi Index'].array
-    
+
 #    pdb.set_trace()
 if AnalysisType == 10:
     with open(OutputFile,'w') as fp:
@@ -227,7 +237,7 @@ if AnalysisType == 10:
 
 if AnalysisType == 1 or AnalysisType == 4:
     sfile.close()
-    
+
 #--- export data
 if AnalysisType == 0:
     io.export_file( pipeline, OutputFile, "lammps_dump",\
@@ -247,13 +257,25 @@ if AnalysisType == 2:
                      multiple_frames=True )
 
 if AnalysisType == 8:
-    io.export_file( pipeline, OutputFile, "lammps_dump",\
+    if not use_frame_offset:
+        io.export_file( pipeline, OutputFile, "lammps_dump",\
                     columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
                                "Displacement.X","Displacement.Y","Displacement.Z"],
-                     start_frame = 0,
+                     start_frame = start_frame,
 #                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
                      multiple_frames=True )
+
+    else:
+        xstr = ''
+        for frame, counter in zip(range(start_frame,pipeline.source.num_frames,nevery),range(pipeline.source.num_frames)):
+            io.export_file( pipeline, '%s*'%OutputFile, "lammps_dump",\
+                    columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z",\
+                               "Displacement.X","Displacement.Y","Displacement.Z"],
+                     frame=frame )
+            xstr += ' %s%s'%(OutputFile,frame)
+        os.system('cat %s > %s'%(xstr,OutputFile))
+        os.system('rm %s'%xstr)
 
 if AnalysisType == 3: 
     io.export_file( pipeline, OutputFile, "lammps_dump",\
@@ -264,12 +286,12 @@ if AnalysisType == 3:
                      start_frame = 0,
 #                     end_frame = pipeline.source.num_frames,
                      every_nth_frame = nevery,
-                    
+
                     multiple_frames=True 
                   )   
 
 if AnalysisType == 5: 
-	# data.particle_properties['Cluster'].array
+    # data.particle_properties['Cluster'].array
 #    pdb.set_trace()
 #    print('OutputFile=',OutputFile)
     io.export_file( pipeline, '%s.*'%OutputFile, "ca",
@@ -304,8 +326,8 @@ if AnalysisType == 7:
                   )   
     io.export_file(pipeline, OutputFile_headers, "txt", multiple_frames=True,
 #         columns = ["Frame", "SelectExpression.num_selected"])
-    	columns=list(pipeline.source.attributes.keys()
-	))
+        columns=list(pipeline.source.attributes.keys()
+    ))
 # Export the computed RDF data to a text file.
 
 if AnalysisType == 11: 
