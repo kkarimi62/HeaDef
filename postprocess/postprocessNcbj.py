@@ -34,7 +34,7 @@ if __name__ == '__main__':
     nThreads = 1
     jobname  = {
                 1:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-                2:'qinqinData2nd/aplane/r_slip',
+                2:'qinqinData2nd/aplane/pyramidal, #r_slip',
                 }[2]
     DeleteExistingFolder = True
     readPath = os.getcwd() + {
