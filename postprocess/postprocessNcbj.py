@@ -34,12 +34,12 @@ if __name__ == '__main__':
     nThreads = 1
     jobname  = {
                 1:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-                2:'qinqinData2nd/cplane/r_slip',
+                2:'qinqinData2nd/aplane/r_slip',
                 }[2]
     DeleteExistingFolder = True
     readPath = os.getcwd() + {
                                 1:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-                                2:'/../lammpsRuns/qinqinData/cplane',
+                                2:'/../lammpsRuns/qinqinData/aplane',
                             }[2] #--- source
     EXEC_DIR = '.'     #--- path for executable file
     home_directory = os.path.expanduser( '~' )
