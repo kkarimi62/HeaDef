@@ -34,19 +34,19 @@ if __name__ == '__main__':
 	nThreads = 1
 	jobname  = {
 				1:'nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-				2:'qinqinData/aplane',
+				2:'qinqinData2nd/cplane/basal_slip',
 				}[2]
 	DeleteExistingFolder = True
 	readPath = os.getcwd() + {
 								1:'/../lammpsRuns/nicocrNatom100KMultipleTempIrradiatedAnneal/benchmark/temp0',
-								2:'/../lammpsRuns/qinqinData/aplane',
+								2:'/../lammpsRuns/qinqinData/cplane',
  							}[2] #--- source
 	EXEC_DIR = '.'     #--- path for executable file
 	home_directory = os.path.expanduser( '~' )
 	py_library_directory = '%s/Project/git/HeaDef/postprocess'%home_directory 
 	durtn = '23:59:59'
 	mem = '128gb'
-	partition = ['INTEL_PHI','INTEL_HASWELL'][0] 
+	partition = ['INTEL_PHI','INTEL_HASWELL'][1] 
 	argv = "%s %s"%(py_library_directory,readPath) #--- don't change! 
 	PYFILdic = { 
 		0:'pressFluc2nd.ipynb',
