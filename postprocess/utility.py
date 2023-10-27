@@ -817,21 +817,21 @@ def PltBitmap( value,
         ax.set_yticks(list(map(float,kwargs['yticks'][1])))
         ax.set_yticklabels(list(map(lambda x:'$%s$'%x,kwargs['yticks'][0])))
 
+    plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
 	
 #    if 'title' in kwargs: #Plot:
 #        plt.savefig(kwargs['title'],dpi=300 if not 'dpi' in kwargs else kwargs['dpi'],bbox_inches='tight', 
 #                    pad_inches=0.0)
-#    if Plot:
-#     plt.show()
+    if 'Plot' in kwargs and kwargs['Plot']:
+         plt.show()
 
 #    plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
 #    plt.show()
 #    return ax
 
 
-    plt.savefig(title,dpi=2*75,bbox_inches='tight',pad_inches=0.0)
-    plt.show()
-    
+   
+    return ax 
     
 def PltCrltn( value,
               xlabel = 'x', ylabel = 'y',
