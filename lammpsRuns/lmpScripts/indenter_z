@@ -1,0 +1,104 @@
+# Energy vs Volume input file (Inter-atomic potential)
+# Simulation settings
+# Energy: eV; Distance: Angstrom; Mass: grams/mole; Time: picosecond.
+# velocity: angs/picosec: force= ev/A
+units          metal
+### Sample #####
+boundary       p p m
+atom_style     charge
+############################################################
+read_data     samplez.dat
+##########################################################
+neigh_modify    delay   0
+pair_style      comb3 polar_off
+pair_coeff	* * ffield.comb3 O Al
+neighbor 0.2 bin
+neigh_modify delay 0 every 1 check yes
+
+# ----------------------- BLOCKS AND GROUPS DEFINITION ----------------------
+variable z0 equal 287.3808042
+variable x0 equal "lx"
+variable y0 equal "ly"
+
+variable bz_0 equal 0.01*${z0}
+variable bz_1 equal 0.05*${z0}
+
+
+region          1 block INF INF INF INF  0 ${bz_0} units box
+region          2 block INF INF INF INF ${bz_0} ${bz_1} units box
+region          3 block INF INF INF INF ${bz_1} INF units box
+
+group bottom region 1
+group middle region 2
+group top region 3
+
+
+variable T     equal  300.22046
+variable zmaxS equal ${z0}
+  
+##### Indenter ##
+variable xi    equal ${x0}/2
+variable yi    equal ${y0}/2
+variable radI  equal 100.0
+variable fi    equal 936.0427 # indenter force
+variable gap   equal 1.0
+variable zs    equal ${zmaxS}+${gap}+${radI}
+
+
+thermo_modify lost ignore flush yes
+#############################################################
+# Dynamics
+#############################################################
+# NVE integration to update position and velocity for atoms in the group each timestep.
+variable zz equal "v_zs - step*dt*1.0"
+
+fix ind top indent ${fi} sphere ${xi} ${yi} v_zz ${radI} side out
+fix  frozen bottom setforce 0.0 0.0 0.0
+fix  freee  top nve
+#fix  lang1 middle langevin $T $T 0.01 543221 tally yes 
+#fix  lang2 middle nve 
+compute spatom top stress/atom NULL #virial
+
+#Saving data to analyze
+variable Temperature equal temp
+variable Tenergy equal etotal
+variable kenergy equal ke
+variable depthI  equal -(v_zz-${zmaxS}-${radI})*0.1
+timestep 0.001
+variable fint    equal sqrt(f_ind[1]*f_ind[1]+f_ind[2]*f_ind[2]+f_ind[3]*f_ind[3])
+
+dump        3 all custom 1000  Atoms_dyn_vacuum.dat id type x y z vx vy vz c_spatom[*]
+
+thermo_style custom step elapsed ke etotal temp v_zz v_depthI v_fint f_ind[*] press
+thermo   100
+run      1000
+
+undump 3
+dump        3 all custom 2000  Atoms_dyn_1nm.dat id type x y z vx vy vz c_spatom[*]
+run  10000
+
+undump 3
+dump        3 all custom 2000  Atoms_dyn_2nm.dat id type x y z vx vy vz c_spatom[*]
+run  10000
+
+undump 3
+dump        3 all custom 2000  Atoms_dyn_3nm.dat id type x y z vx vy vz c_spatom[*]
+run  10000
+
+#----------- unloading
+unfix ind
+variable uzf  equal  ${zz}
+variable ustep equal 31000
+variable uzz equal "v_uzf + (step-v_ustep)*dt*1.0"
+variable udepthI  equal -(v_uzz-${zmaxS}-${radI})*0.1
+fix ind top indent ${fi} sphere ${xi} ${yi} v_uzz ${radI} side out
+thermo_style custom step elapsed ke etotal temp v_uzz v_udepthI v_fint f_ind[*] press v_uzf v_ustep
+
+undump 3
+dump   3 all custom 30000  Atoms_dyn_nm_u.dat id type x y z vx vy vz c_spatom[*]
+run  30000
+
+
+undump 3
+dump   3 all custom 1000  Atoms_dyn_vacuum_u.dat id type x y z vx vy vz c_spatom[*]
+run  1000

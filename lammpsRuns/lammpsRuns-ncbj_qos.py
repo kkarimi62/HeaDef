@@ -9,7 +9,7 @@ def makeOAR( EXEC_DIR, node, core, time ):
 	#--- run python script 
 	for script,var,indx, execc in zip(Pipeline,Variables,range(100),EXEC):
 		if execc == 'lmp_g++_openmpi': #_mpi' or EXEC == 'lmp_serial':
-			print >> someFile, "srun $EXEC_DIR/%s < %s -echo screen -var OUT_PATH \'%s\' -var PathEam %s -var INC \'%s\' %s\n"%(execc,script, OUT_PATH, '${MEAM_library_DIR}', SCRPT_DIR, var)
+			print >> someFile, "srun --qos=normal $EXEC_DIR/%s < %s -echo screen -var OUT_PATH \'%s\' -var PathEam %s -var INC \'%s\' %s\n"%(execc,script, OUT_PATH, '${MEAM_library_DIR}', SCRPT_DIR, var)
 		elif execc == 'py':
 			print >> someFile, "python3 --version\npython3 %s %s\n"%(script, var)
 		elif execc == 'kmc':
@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
 	nruns	 = 1
 	#
-	nThreads = [1,4,9,40][-1]
+	nThreads = [1,4,9,40,24][3]
 	nNode	 = 3
 	#
 	jobname  = {
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 				8:'NiCoCrNatom10KT0Elastic',
 				9:'NiCoCrNatom100KAnnealedT600Elastic',
 				11:'nicocrNatom100KMultipleTempIrradiatedAnneal/dpa2/temp0',
-				12:'qinqin_newruns/COMB/Xdir',
+				12:'qinqin_newruns/COMB/Ydir',
 			   }[12]
 	sourcePath = os.getcwd() +\
 				{	
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 					9:'/NiNatom1KT0EdgeDisl',
 					10:'/NiCoCrNatom10KT0Elastic',
 					11:'/JavierData/nicocr/dpa2',
-					12:'/qinqinData/COMB/Xdir',
+					12:'/qinqinData/COMB/Ydir',
 				}[12] #--- must be different than sourcePath
         #
 	sourceFiles = { 0:False,
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 					4:['data_minimized.txt'],
 					5:['data_init.txt','ScriptGroup.0.txt'], #--- only one partition! for multiple ones, use 'submit.py'
 					11:['data_irradiated.dat'], 
-					12:['samplex.dat','ffield.comb3'], 
+					12:['sampley.dat','ffield.comb3'], 
 				 }[12] #--- to be copied from the above directory
 	#
 	EXEC_DIR = '/mnt/home/kkarimi/Project/git/lammps-27May2021/src' #--- path for executable file
@@ -134,7 +134,7 @@ if __name__ == '__main__':
 				5:['p3', 5, 11, 6], #--- twin boundary by atomsk, minimize, thermalize, and shear
 				6:[ 4 ], #--- anneal irradiated
 				7:[ 5, 7, 4 ], #--- annealed
-				8:[ 12 ], #--- annealed
+				8:[ 13 ], #--- annealed
 			  }[8]
 	Pipeline = list(map(lambda x:LmpScript[x],indices))
 #	Variables = list(map(lambda x:Variable[x], indices))
@@ -143,7 +143,7 @@ if __name__ == '__main__':
 	EXEC_lmp = ['lmp_g++_openmpi'][0]
 	durtn = ['95:59:59','23:59:59','167:59:59','335:59:50'][ 3 ]
 	mem = '16gb' #'22gb'
-	partition = ['INTEL_PHI','INTEL_CASCADE','INTEL_SKYLAKE','INTEL_IVY','INTEL_HASWELL'][2]
+	partition = ['INTEL_PHI','INTEL_CASCADE','INTEL_SKYLAKE','INTEL_IVY','INTEL_HASWELL'][1]
 
 	#---
 	DeleteExistingFolder = True
@@ -172,9 +172,9 @@ if __name__ == '__main__':
 		makeOAR( path, 1, nThreads, durtn) # --- make oar script
 		os.system( 'chmod +x oarScript.sh; mv oarScript.sh %s' % ( writPath) ) # --- create folder & mv oar scrip & cp executable
 		jobname0 = jobname.split('/')[0] #--- remove slash
-		os.system( 'sbatch --partition=%s --mem=%s --time=%s --job-name %s.%s --output %s.%s.out --error %s.%s.err \
+		os.system( 'sbatch --partition=%s --mem=%s  --job-name %s.%s --output %s.%s.out --error %s.%s.err \
 							--chdir %s --ntasks-per-node=%s --nodes=%s %s/oarScript.sh >> jobID.txt'\
-					   % ( partition, mem, durtn, jobname0, counter, jobname0, counter, jobname0, counter \
+					   % ( partition, mem, jobname0, counter, jobname0, counter, jobname0, counter \
 					       , writPath, nThreads, nNode, writPath ) ) # --- runs oarScript.sh! 
 		counter += 1
 										 
