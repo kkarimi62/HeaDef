@@ -464,6 +464,8 @@ def PltErr( xdata, ydata,
         ax.xaxis.set_ticks_position('bottom')
         ax.yaxis.set_ticks_position('left')
 
+    if 'set_title' in kwargs: #Plot:
+		ax.set_title(kwargs['set_title'],fontsize=fontsize )
     if 'title' in kwargs: #Plot:
         plt.savefig(kwargs['title'],dpi=300 if not 'dpi' in kwargs else kwargs['dpi'],bbox_inches='tight', 
                     pad_inches=0.0)
