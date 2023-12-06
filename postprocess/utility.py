@@ -1671,7 +1671,7 @@ class ReadWriteJson:
             assert type(x) == type({}), 'elements of data must be dictionaries!'
         
         
-        with open(fout, "w") as fp:
+        with open(fout, "a" if 'append' in kwargs and kwargs['append'] else 'w') as fp:
             keys = kwargs.keys()
             for x in keys:
                 assert type(kwargs[x]) == type([]), '%s must be a list!'%x
