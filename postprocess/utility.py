@@ -1660,7 +1660,8 @@ class NumpyArrayEncoder(JSONEncoder):
 
     
 class ReadWriteJson:
-    def __init__(self):
+    def __init__(self, append=False):
+        self.append = append
         pass
         
     
@@ -1671,7 +1672,7 @@ class ReadWriteJson:
             assert type(x) == type({}), 'elements of data must be dictionaries!'
         
         
-        with open(fout, "a" if 'append' in kwargs and kwargs['append'] else 'w') as fp:
+        with open(fout, "a" if self.append else 'w') as fp:
             keys = kwargs.keys()
             for x in keys:
                 assert type(kwargs[x]) == type([]), '%s must be a list!'%x
