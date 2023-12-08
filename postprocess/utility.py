@@ -1667,24 +1667,24 @@ class ReadWriteJson:
         pass
         
     
-    def Write( self, data, fout, **kwargs ):
+    def Write( self, data, fp, **kwargs ):
         self.data = data
         assert type(self.data) == type([]), 'data must be a list of dicts.'
         for x in self.data:
             assert type(x) == type({}), 'elements of data must be dictionaries!'
         
         
-        with open(fout, "a" if self.append else 'w') as fp:
-            keys = kwargs.keys()
-            for x in keys:
-                assert type(kwargs[x]) == type([]), '%s must be a list!'%x
-                assert len(kwargs[x]) == len(self.data), 'len(%s) must be equal to data'%x
-            #
-            for item,indx in zip(self.data,range(len(self.data))):
-                values = list(map(lambda x:kwargs[x][indx],keys))
-                dictionary={**item, **dict(zip(keys,values))}
-                json.dump( dictionary, fp, cls=NumpyArrayEncoder )
-                fp.write('\n')
+#        with open(fout, "a" if self.append else 'w') as fp:
+        keys = kwargs.keys()
+        for x in keys:
+            assert type(kwargs[x]) == type([]), '%s must be a list!'%x
+            assert len(kwargs[x]) == len(self.data), 'len(%s) must be equal to data'%x
+        #
+        for item,indx in zip(self.data,range(len(self.data))):
+            values = list(map(lambda x:kwargs[x][indx],keys))
+            dictionary={**item, **dict(zip(keys,values))}
+            json.dump( dictionary, fp, cls=NumpyArrayEncoder )
+            fp.write('\n')
 
     def Read(self, finp):
         with open(finp, 'r') as inpfile:
