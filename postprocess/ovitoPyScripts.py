@@ -330,6 +330,7 @@ if AnalysisType == 7:
                   )   
     io.export_file(pipeline, OutputFile_headers, "txt", multiple_frames=True,
                    start_frame = 0, end_frame = frame,
+                     every_nth_frame = nevery,
 #         columns = ["Frame", "SelectExpression.num_selected"])
         columns=list(pipeline.source.attributes.keys()
     ))
