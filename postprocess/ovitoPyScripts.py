@@ -61,7 +61,7 @@ if 'pbc_false' in kwargs:
 if verbose:
     print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
-if AnalysisType == 7 or AnalysisType == 11:
+if AnalysisType == 7: # or AnalysisType == 11:
     pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
                              columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
 else:
