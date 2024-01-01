@@ -11,7 +11,7 @@ import pdb
 import json
 
 def concat( xstr, OutputFile ):
-    pdb.set_trace()
+#    pdb.set_trace()
     batch_size = 1000
     slist = xstr.split()
     nn = len(slist)
@@ -289,9 +289,9 @@ if AnalysisType == 8:
                                "Displacement.X","Displacement.Y","Displacement.Z"],
                      frame=frame )
             xstr += ' %s%s'%(OutputFile,frame)
-        concat( xstr, OutputFile)
-#        os.system('cat %s > %s'%(xstr,OutputFile))
-#        os.system('rm %s'%xstr)
+#        concat( xstr, OutputFile)
+        os.system('cat %s > %s'%(xstr,OutputFile))
+        os.system('rm %s'%xstr)
 
 
 if AnalysisType == 3: 
