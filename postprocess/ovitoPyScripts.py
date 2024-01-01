@@ -10,6 +10,18 @@ import math
 import pdb
 import json
 
+def concat( xstr, OutputFile ):
+    batch_size = 1000
+    slist = xstr.split()
+    nn = len(slist)
+    indx0 = 0
+    for ii in range( nn / batch_size ):
+        strr = ' '.join(slist[indx0:indx0+batch_size])
+        os.system('cat %s >> %s'%(sstr,OutputFile))
+        indx0 += batch_size
+    strr = ' '.join(slist[indx0:indx0+nn%batch_size])     
+    os.system('cat %s >> %s'%(xstr,OutputFile))
+    os.system('rm %s'%xstr)
 
 def GetNpairs(data, finder):        
     Npairs = 0 #---
@@ -276,8 +288,10 @@ if AnalysisType == 8:
                                "Displacement.X","Displacement.Y","Displacement.Z"],
                      frame=frame )
             xstr += ' %s%s'%(OutputFile,frame)
-        os.system('cat %s > %s'%(xstr,OutputFile))
-        os.system('rm %s'%xstr)
+        concat( xstr, OutputFile)
+#        os.system('cat %s > %s'%(xstr,OutputFile))
+#        os.system('rm %s'%xstr)
+
 
 if AnalysisType == 3: 
     io.export_file( pipeline, OutputFile, "lammps_dump",\
