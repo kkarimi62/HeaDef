@@ -11,16 +11,17 @@ import pdb
 import json
 
 def concat( xstr, OutputFile ):
+    pdb.set_trace()
     batch_size = 1000
     slist = xstr.split()
     nn = len(slist)
     indx0 = 0
-    for ii in range( nn / batch_size ):
+    for ii in range( int(nn / batch_size) ):
         strr = ' '.join(slist[indx0:indx0+batch_size])
-        os.system('cat %s >> %s'%(sstr,OutputFile))
+        os.system('cat %s >> %s'%(strr,OutputFile))
         indx0 += batch_size
     strr = ' '.join(slist[indx0:indx0+nn%batch_size])     
-    os.system('cat %s >> %s'%(xstr,OutputFile))
+    os.system('cat %s >> %s'%(strr,OutputFile))
     os.system('rm %s'%xstr)
 
 def GetNpairs(data, finder):        
