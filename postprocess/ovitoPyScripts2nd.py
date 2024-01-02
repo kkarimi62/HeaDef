@@ -51,7 +51,7 @@ def main():
 	OutputFile_headers = kwargs['OutputFile_headers'] 
 	WignerSeitz        = eval( kwargs['WignerSeitz'] ) 
 	CalculateDisplacements = eval( kwargs['CalculateDisplacements'] ) 
-	ExportCoords           == eval( kwargs['ExportCoords'] ) 
+	ExportCoords           = eval( kwargs['ExportCoords'] ) 
 	nevery             = int(kwargs['nevery']) 
 	verbose            = eval(kwargs['verbose']) if 'verbose' in kwargs else False
 	use_frame_offset   = eval(kwargs['use_frame_offset'])
@@ -69,6 +69,17 @@ def main():
 	if verbose:
 		print('nframes=',nframes)
 
+	if ExportCoords:
+		last_frame = Loop( start_frame, nframes, nevery, pipeline, verbose)
+		os.system( 'mkdir coords' )
+		io.export_file( pipeline, 'coords/%s'%OutputFile, "lammps_dump",\
+					columns = ["Particle Identifier", "Particle Type", "Position.X","Position.Y","Position.Z"],
+					 start_frame = start_frame,
+					 end_frame = last_frame,
+					 every_nth_frame = nevery,
+					 multiple_frames=True )
+		
+
 	#--- displacements
 	if CalculateDisplacements:
 		if verbose:
@@ -82,7 +93,8 @@ def main():
 			print('output in folder disp')
 
 	#--- print headers
-	io.export_file(pipeline, 'disp/%s'%OutputFile_headers, "txt", multiple_frames=True,
+	os.system( 'mkdir headers' )
+	io.export_file(pipeline, 'headers/%s'%OutputFile_headers, "txt", multiple_frames=True,
                    start_frame = 0, end_frame = last_frame,
                    columns=list(pipeline.source.attributes.keys()))
 
