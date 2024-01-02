@@ -50,6 +50,8 @@ def main():
 	OutputFile         = kwargs['OutputFile'] 
 	OutputFile_headers = kwargs['OutputFile_headers'] 
 	WignerSeitz        = eval( kwargs['WignerSeitz'] ) 
+	CalculateDisplacements = eval( kwargs['CalculateDisplacements'] ) 
+	ExportCoords           == eval( kwargs['ExportCoords'] ) 
 	nevery             = int(kwargs['nevery']) 
 	verbose            = eval(kwargs['verbose']) if 'verbose' in kwargs else False
 	use_frame_offset   = eval(kwargs['use_frame_offset'])
@@ -68,15 +70,16 @@ def main():
 		print('nframes=',nframes)
 
 	#--- displacements
-	if verbose:
-		print('compute displacements ...')
-	disp = md.CalculateDisplacementsModifier( use_frame_offset = use_frame_offset )
-	disp.reference.load( RefFileDisp, multiple_frames = True)
-	pipeline.modifiers.append( disp )
-	last_frame = Loop( start_frame, nframes, nevery, pipeline, verbose)
-	PrintDisp(pipeline,OutputFile,start_frame,last_frame,nevery,use_frame_offset)
-	if verbose:
-		print('output in folder disp')
+	if CalculateDisplacements:
+		if verbose:
+			print('compute displacements ...')
+		disp = md.CalculateDisplacementsModifier( use_frame_offset = use_frame_offset )
+		disp.reference.load( RefFileDisp, multiple_frames = True)
+		pipeline.modifiers.append( disp )
+		last_frame = Loop( start_frame, nframes, nevery, pipeline, verbose)
+		PrintDisp(pipeline,OutputFile,start_frame,last_frame,nevery,use_frame_offset)
+		if verbose:
+			print('output in folder disp')
 
 	#--- print headers
 	io.export_file(pipeline, 'disp/%s'%OutputFile_headers, "txt", multiple_frames=True,
