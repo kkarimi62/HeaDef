@@ -60,7 +60,7 @@ if AnalysisType == 5:
 if AnalysisType == 10:
     with open(sys.argv[5],'r') as fp:
         dataa =json.load(fp)
-verbose = False
+verbose = True
 
 if verbose:
     print('InputFile=',InputFile)
@@ -154,6 +154,7 @@ for frame, counter in zip(range(start_frame,pipeline.source.num_frames,nevery),r
     try:
         itime = pipeline.source.attributes['Timestep']
     except:
+        itime = frame
         pass
 #    print(itime)
     if AnalysisType == 1:
