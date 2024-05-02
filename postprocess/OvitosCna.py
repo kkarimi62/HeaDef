@@ -60,7 +60,7 @@ if AnalysisType == 5:
 if AnalysisType == 10:
     with open(sys.argv[5],'r') as fp:
         dataa =json.load(fp)
-verbose = True
+verbose = False
 
 if verbose:
     print('InputFile=',InputFile)
