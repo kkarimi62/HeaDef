@@ -31,6 +31,7 @@ OutputFile = sys.argv[2] #--- output
 nevery = int(sys.argv[3]) #--- process. frequency
 AnalysisType = int(sys.argv[4]) #--- 0:CommonNeighborAnalysis, 1:g(r), 2:d2min, 3:voronoi analysis, 4 & 6: neighbor list, 5: dislocation analysis, 7: convert to dump, 8: displacements, 9: Periodic Image 10: nearest neighbor finder 11: Wigner-Seitz algorithm 
 #print('AnalysisType=',AnalysisType)
+multiple_frames = True
 if AnalysisType == 11: 
     RefFile = sys.argv[5]
 if AnalysisType == 8: 
@@ -55,6 +56,7 @@ if AnalysisType == 4 or AnalysisType == 6: #--- neighbor lists
 #        print(atom_indices)
 if AnalysisType == 7:
     OutputFile_headers = sys.argv[5] 
+    multiple_frames    = eval(sys.argv[6])
 if AnalysisType == 5:
     pbc_false = int(sys.argv[5]) 
 if AnalysisType == 10:
@@ -66,7 +68,7 @@ if verbose:
     print('InputFile=',InputFile)
 # Load input data and create a data pipeline.
 if AnalysisType == 7 or AnalysisType == 11:
-    pipeline = io.import_file('%s'%(InputFile), multiple_frames = True, 
+    pipeline = io.import_file('%s'%(InputFile), multiple_frames = multiple_frames, 
                              columns = ["Particle Type", "Position.X", "Position.Y", "Position.Z","Particle Identifier"])
 else:
     pipeline = io.import_file('%s'%(InputFile), multiple_frames = True)
