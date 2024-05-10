@@ -85,7 +85,8 @@ def main():
 		if verbose:
 			print('compute displacements ...')
 		disp = md.CalculateDisplacementsModifier( use_frame_offset = use_frame_offset )
-		disp.reference.load( RefFileDisp, multiple_frames = True)
+#		disp.reference.load( RefFileDisp, multiple_frames = True)
+		disp.reference.load( 'coords/%s'%OutputFile, multiple_frames = True)
 		pipeline.modifiers.append( disp )
 		last_frame = Loop( start_frame, nframes, nevery, pipeline, verbose)
 		PrintDisp(pipeline,OutputFile,start_frame,last_frame,nevery,use_frame_offset)
