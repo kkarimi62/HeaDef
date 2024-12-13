@@ -328,6 +328,7 @@ class Wrap():
     ###########################################################    
         self.GetDimensionlessCords() #--- updates self.beta
         self.beta = self.beta % 1.0
+        self.beta = self.beta % 1.0 #--- handle roundoff errors
         self.GetXYZ() #--- updates self.xyz
         indices = self.isInside()
         assert np.all( indices ), 'not all atoms are inside!'
